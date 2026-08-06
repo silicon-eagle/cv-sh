@@ -62,6 +62,7 @@ Use standard Next.js App Router routes:
 - /skills
 - /contact
 - /snake
+- /help
 
 ---
 
@@ -120,13 +121,9 @@ Store the selected theme in localStorage.
 ---
 
 # Easter Eggs
-
-- `snake`
 - `fortune`
-- `coffee`
 - `clear`
-- `sudo hire tim`
-
+- to be added.
 ---
 
 # Tech Stack
