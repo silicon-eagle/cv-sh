@@ -1,0 +1,34 @@
+.prompt {
+  margin-bottom: 1.25rem;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.user {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.command {
+  color: var(--text);
+}
+
+.eyebrow {
+  margin-bottom: 0.5rem;
+  color: var(--path-accent);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.title {
+  color: var(--text);
+  font-size: clamp(1.875rem, 5vw, 3rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+
+@media (min-width: 640px) {
+  .prompt { font-size: 1rem; }
+}

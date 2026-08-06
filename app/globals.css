@@ -1,26 +1,111 @@
-@import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+:root,
+:root[data-theme="catppuccin"] {
+  --background: #11111b;
+  --panel: #181825;
+  --text: #cdd6f4;
+  --muted: #a6adc8;
+  --accent: #a6e3a1;
+  --border: #313244;
+  --shadow: rgb(0 0 0 / 38%);
+  --path-accent: #89b4fa;
+  --home-accent: #a6e3a1;
+  --about-accent: #89b4fa;
+  --help-accent: #cba6f7;
+  --experience-accent: #cba6f7;
+  --projects-accent: #89dceb;
+  --skills-accent: #f9e2af;
+  --contact-accent: #f38ba8;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+:root[data-theme="tokyo-night"] {
+  --background: #16161e;
+  --panel: #1a1b26;
+  --text: #c0caf5;
+  --muted: #9aa5ce;
+  --accent: #7aa2f7;
+  --border: #343b58;
+  --shadow: rgb(3 5 12 / 52%);
+  --path-accent: #bb9af7;
+  --home-accent: #9ece6a;
+  --about-accent: #7aa2f7;
+  --help-accent: #bb9af7;
+  --experience-accent: #bb9af7;
+  --projects-accent: #7dcfff;
+  --skills-accent: #e0af68;
+  --contact-accent: #f7768e;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root[data-theme="gruvbox"] {
+  --background: #1d2021;
+  --panel: #282828;
+  --text: #ebdbb2;
+  --muted: #bdae93;
+  --accent: #b8bb26;
+  --border: #504945;
+  --shadow: rgb(20 16 14 / 50%);
+  --path-accent: #83a598;
+  --home-accent: #b8bb26;
+  --about-accent: #83a598;
+  --help-accent: #d3869b;
+  --experience-accent: #d3869b;
+  --projects-accent: #8ec07c;
+  --skills-accent: #fabd2f;
+  --contact-accent: #fb4934;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+p,
+dl,
+dd {
+  margin: 0;
+}
+
+html {
+  min-width: 320px;
+  background: var(--background);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100svh;
+  margin: 0;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at 50% -15%, color-mix(in srgb, var(--accent) 9%, transparent), transparent 40%),
+    var(--background);
+  color: var(--text);
+  font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Consolas, monospace;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+::selection {
+  color: var(--background);
+  background: var(--accent);
+}
+
+@keyframes terminal-blink {
+  0%, 46% { opacity: 1; }
+  47%, 100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }

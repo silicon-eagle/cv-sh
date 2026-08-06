@@ -1,0 +1,27 @@
+.intro {
+  max-width: 42rem;
+  margin-top: 1rem;
+  color: var(--muted);
+  font-size: 0.875rem;
+  line-height: 1.75rem;
+}
+
+.hint {
+  margin-top: 1.75rem;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.accent { color: var(--accent); }
+
+.commands {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .intro { font-size: 1rem; }
+  .commands { grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+}
