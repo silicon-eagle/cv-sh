@@ -31,6 +31,14 @@ describe("portfolio routes", () => {
     expect(screen.getByRole("button", { name: /themes/i })).toBeInTheDocument();
   });
 
+  it("assigns each home command its theme-aware color class", () => {
+    renderRoute(<HomePage />);
+
+    expect(screen.getByRole("button", { name: /about/i }).className).toContain("about");
+    expect(screen.getByRole("button", { name: /help/i }).className).toContain("help");
+    expect(screen.getByRole("button", { name: /themes/i }).className).toContain("themes");
+  });
+
   it("shows neutral placeholder copy on the about page", () => {
     renderRoute(<AboutPage />);
     expect(screen.getByRole("heading", { name: "About" })).toBeInTheDocument();

@@ -17,15 +17,15 @@
 .symbol { color: var(--text); }
 
 .inputWrap {
+  position: relative;
   min-width: 0;
   flex: 1;
-  display: flex;
-  align-items: center;
 }
 
 .input {
+  width: 100%;
   min-width: 0;
-  flex: 1;
+  padding: 0;
   color: var(--text);
   caret-color: transparent;
   background: transparent;
@@ -33,18 +33,44 @@
   outline: 0;
 }
 
+.cursorLayer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  pointer-events: none;
+  white-space: pre;
+}
+
+.cursorText {
+  flex-shrink: 0;
+  visibility: hidden;
+}
+
 .cursor {
   width: 0.55em;
-  height: 1.15em;
   flex-shrink: 0;
+}
+
+.cursor[data-blinking="false"] {
+  height: 0.12em;
+  align-self: flex-end;
+  margin-bottom: 0.12em;
   background: var(--accent);
-  animation: terminal-blink 1.05s steps(1, end) infinite;
+}
+
+.cursor[data-blinking="true"] {
+  height: 1.15em;
+  background: var(--accent);
+  animation: terminalBlink 1s step-end infinite;
+}
+
+@keyframes terminalBlink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
 }
 
 @media (min-width: 640px) {
   .line { font-size: 1rem; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .cursor { animation: none; }
 }

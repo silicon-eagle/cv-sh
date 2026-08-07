@@ -36,7 +36,32 @@ describe("terminal interaction", () => {
   it("renders the current prompt and blinking cursor", () => {
     render(<Harness />);
     expect(screen.getByTestId("terminal-prompt")).toHaveTextContent("tim@kelch:~$");
-    expect(screen.getByTestId("terminal-cursor")).toHaveClass("terminal-cursor");
+    const cursor = screen.getByTestId("terminal-cursor");
+    expect(cursor).toHaveClass("terminal-cursor");
+    expect(screen.getByTestId("terminal-cursor-text")).toHaveTextContent("");
+  });
+
+  it("moves the block cursor after the typed command", async () => {
+    const user = userEvent.setup();
+    render(<Harness />);
+
+    await user.type(screen.getByLabelText("Terminal command"), "help");
+
+    const cursorText = screen.getByTestId("terminal-cursor-text");
+    expect(cursorText).toHaveTextContent("help");
+    expect(cursorText.nextElementSibling).toBe(screen.getByTestId("terminal-cursor"));
+  });
+
+  it("blinks the block cursor only while the command input is focused", () => {
+    render(<Harness />);
+    const input = screen.getByLabelText("Terminal command");
+    const cursor = screen.getByTestId("terminal-cursor");
+
+    expect(cursor).toHaveAttribute("data-blinking", "false");
+    fireEvent.focus(input);
+    expect(cursor).toHaveAttribute("data-blinking", "true");
+    fireEvent.blur(input);
+    expect(cursor).toHaveAttribute("data-blinking", "false");
   });
 
   it("routes clicked and typed navigation commands through the executor", async () => {

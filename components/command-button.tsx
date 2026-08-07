@@ -11,6 +11,7 @@ type CommandButtonProps = {
   description?: string;
   icon?: ReactNode;
   compact?: boolean;
+  color?: "about" | "help" | "themes";
 };
 
 export function CommandButton({
@@ -19,15 +20,19 @@ export function CommandButton({
   description,
   icon,
   compact = false,
+  color,
 }: CommandButtonProps) {
   const { execute } = useTerminal();
+  const className = [compact ? styles.compact : styles.button, color ? styles[color] : null]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <button
       type="button"
       onClick={() => execute(command)}
       aria-label={[label, description].filter(Boolean).join(" ")}
-      className={compact ? styles.compact : styles.button}
+      className={className}
     >
       <span className={styles.command}>
         {icon ?? <span>$ {command}</span>}

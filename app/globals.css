@@ -11,6 +11,7 @@
   --home-accent: #a6e3a1;
   --about-accent: #89b4fa;
   --help-accent: #cba6f7;
+  --themes-accent: #f9e2af;
   --experience-accent: #cba6f7;
   --projects-accent: #89dceb;
   --skills-accent: #f9e2af;
@@ -29,6 +30,7 @@
   --home-accent: #9ece6a;
   --about-accent: #7aa2f7;
   --help-accent: #bb9af7;
+  --themes-accent: #e0af68;
   --experience-accent: #bb9af7;
   --projects-accent: #7dcfff;
   --skills-accent: #e0af68;
@@ -47,6 +49,7 @@
   --home-accent: #b8bb26;
   --about-accent: #83a598;
   --help-accent: #d3869b;
+  --themes-accent: #fabd2f;
   --experience-accent: #d3869b;
   --projects-accent: #8ec07c;
   --skills-accent: #fabd2f;
@@ -94,11 +97,6 @@ button {
 ::selection {
   color: var(--background);
   background: var(--accent);
-}
-
-@keyframes terminal-blink {
-  0%, 46% { opacity: 1; }
-  47%, 100% { opacity: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {

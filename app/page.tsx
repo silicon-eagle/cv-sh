@@ -14,9 +14,9 @@ export default function HomePage() {
       </p>
 
       <div className={styles.commands}>
-        <CommandButton command="about" label="About" description="A short introduction" />
-        <CommandButton command="help" label="Help" description="Commands and shortcuts" />
-        <CommandButton command="theme" label="Themes" description="Change the terminal palette" />
+        <CommandButton command="about" label="About" description="A short introduction" color="about" />
+        <CommandButton command="help" label="Help" description="Commands and shortcuts" color="help" />
+        <CommandButton command="theme" label="Themes" description="Change the terminal palette" color="themes" />
       </div>
     </div>
   );
