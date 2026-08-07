@@ -16,7 +16,7 @@ export type NavigationCommand = {
   button: {
     label: string;
     description: string;
-    color?: "about" | "help" | "themes";
+    color: string;
   };
 };
 
@@ -39,18 +39,43 @@ export const terminalCommands: readonly TerminalCommand[] = [
     button: {
       label: "Home",
       description: "Return to the start",
+      color: "var(--home-accent)",
     },
   },
   {
     name: "about",
     autocomplete: ["about"],
-    help: [{ usage: "about", description: "Read a short introduction" }],
+    help: [{ usage: "about", description: "Find out about who am I" }],
     action: "navigate",
     path: "/about",
     button: {
       label: "About",
       description: "A short introduction",
-      color: "about",
+      color: "var(--about-accent)",
+    },
+  },
+  {
+    name: "experience",
+    autocomplete: ["experience"],
+    help: [{ usage: "experience", description: "Find out about the things I do" }],
+    action: "navigate",
+    path: "/experience",
+    button: {
+      label: "Experience",
+      description: "What did I do?",
+      color: "var(--experience-accent)",
+    },
+  },
+  {
+    name: "projects",
+    autocomplete: ["projects"],
+    help: [{ usage: "projects", description: "Find out about the things I make" }],
+    action: "navigate",
+    path: "/projects",
+    button: {
+      label: "Projects",
+      description: "What did I build?",
+      color: "var(--projects-accent)",
     },
   },
   {
@@ -62,7 +87,7 @@ export const terminalCommands: readonly TerminalCommand[] = [
     button: {
       label: "Help",
       description: "Commands and shortcuts",
-      color: "help",
+      color: "var(--help-accent)",
     },
   },
   {

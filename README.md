@@ -63,13 +63,17 @@ shared test setup.
      button: {
        label: "Projects",
        description: "Selected work",
+       color: "var(--projects-accent)",
      },
    }
    ```
 
-3. Render `<PageCommandButtons />` on the new page. It automatically lists every
+3. Define the referenced accent variable for every theme in `app/globals.css` if
+   it does not already exist. The required `button.color` field ensures a page
+   command cannot be added without choosing its color.
+4. Render `<PageCommandButtons />` on the new page. It automatically lists every
    other page command and excludes the current route.
-4. Add the page behavior to `app/routes.test.tsx` and update the expected command
+5. Add the page behavior to `app/routes.test.tsx` and update the expected command
    list in `lib/commands.test.ts`.
 
 No separate changes are required for command execution, autocomplete, or the help

@@ -34,12 +34,19 @@ describe("portfolio routes", () => {
     expect(screen.queryByRole("button", { name: /home/i })).not.toBeInTheDocument();
   });
 
-  it("assigns page commands their theme-aware color classes", () => {
+  it("assigns page commands their theme-aware colors", () => {
     pathname = "/";
     renderRoute(<HomePage />);
 
-    expect(screen.getByRole("button", { name: /about/i }).className).toContain("about");
-    expect(screen.getByRole("button", { name: /help/i }).className).toContain("help");
+    expect(screen.getByRole("button", { name: /about/i })).toHaveStyle({
+      "--command-color": "var(--about-accent)",
+    });
+    expect(screen.getByRole("button", { name: /experience/i })).toHaveStyle({
+      "--command-color": "var(--experience-accent)",
+    });
+    expect(screen.getByRole("button", { name: /help/i })).toHaveStyle({
+      "--command-color": "var(--help-accent)",
+    });
   });
 
   it("shows every page command except the current about page", () => {
@@ -56,7 +63,7 @@ describe("portfolio routes", () => {
     pathname = "/help";
     renderRoute(<HelpPage />);
     const commands = screen.getByLabelText("Supported commands");
-    for (const command of ["home", "about", "help", "theme", "clear"]) {
+    for (const command of ["home", "about", "experience", "help", "theme", "clear"]) {
       expect(within(commands).getByText(command)).toBeInTheDocument();
     }
     expect(within(commands).queryByText("projects")).not.toBeInTheDocument();

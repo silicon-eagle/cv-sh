@@ -1,14 +1,12 @@
 .commands {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(min(12rem, 100%), 1fr));
   gap: 0.75rem;
   margin-top: 2rem;
 }
 
 @media (min-width: 640px) {
   .commands {
-    max-width: 28rem;
-    grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
   }
 }

@@ -11,6 +11,7 @@ describe("terminal command registry", () => {
     expect(supportedCommands).toEqual([
       "home",
       "about",
+      "experience",
       "help",
       "theme",
       "theme catppuccin",
