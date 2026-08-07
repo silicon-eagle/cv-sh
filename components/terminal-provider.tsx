@@ -11,7 +11,12 @@ import {
   useState,
 } from "react";
 
-import { isThemeName, parseCommand, themeNames } from "@/lib/terminal";
+import {
+  findTerminalCommand,
+  isThemeName,
+  themeNames,
+} from "@/lib/commands";
+import { parseCommand } from "@/lib/terminal";
 import { useTheme } from "@/components/theme-provider";
 
 export type TerminalOutput = {
@@ -50,23 +55,19 @@ export function TerminalProvider({ children }: { children: ReactNode }) {
 
     setHistory((current) => [...current, command.normalized]);
 
-    const routes: Record<string, string> = {
-      home: "/",
-      about: "/about",
-      help: "/help",
-    };
+    const definition = findTerminalCommand(command.name);
 
-    if (routes[command.name] && !command.argument) {
-      router.push(routes[command.name]);
+    if (definition?.action === "navigate" && !command.argument) {
+      router.push(definition.path);
       return;
     }
 
-    if (command.name === "clear" && !command.argument) {
+    if (definition?.action === "clear" && !command.argument) {
       clear();
       return;
     }
 
-    if (command.name === "theme") {
+    if (definition?.action === "theme") {
       if (!command.argument) {
         appendOutput({ command: command.normalized, kind: "themes" });
         return;

@@ -1,7 +1,7 @@
 "use client";
 
 import { CommandButton } from "@/components/command-button";
-import { themeNames } from "@/lib/terminal";
+import { themeNames } from "@/lib/commands";
 import styles from "./theme-picker.module.css";
 
 const labels = {

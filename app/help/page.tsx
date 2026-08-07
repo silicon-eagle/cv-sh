@@ -1,15 +1,7 @@
-import { CommandButton } from "@/components/command-button";
+import { PageCommandButtons } from "@/components/page-command-buttons";
 import { PageHeading } from "@/components/page-heading";
+import { commandHelp } from "@/lib/commands";
 import styles from "./help.module.css";
-
-const commands = [
-  ["home", "Return to the welcome screen"],
-  ["about", "Read a short introduction"],
-  ["help", "Show commands and keyboard controls"],
-  ["theme", "List the available color themes"],
-  ["theme <name>", "Apply catppuccin, tokyo-night, or gruvbox"],
-  ["clear", "Clear command output"],
-] as const;
 
 const shortcuts = [
   ["Enter", "Run the current command"],
@@ -27,9 +19,9 @@ export default function HelpPage() {
         <section aria-label="Supported commands">
           <h2 className={styles.sectionTitle}>Commands</h2>
           <dl className={styles.commandList}>
-            {commands.map(([command, description]) => (
-              <div key={command} className={styles.commandRow}>
-                <dt className={styles.commandName}>{command}</dt>
+            {commandHelp.map(({ usage, description }) => (
+              <div key={usage} className={styles.commandRow}>
+                <dt className={styles.commandName}>{usage}</dt>
                 <dd className={styles.description}>{description}</dd>
               </div>
             ))}
@@ -51,9 +43,7 @@ export default function HelpPage() {
         </section>
       </div>
 
-      <div className={styles.home}>
-        <CommandButton command="home" label="Home" description="Return to the start" />
-      </div>
+      <PageCommandButtons />
     </div>
   );
 }

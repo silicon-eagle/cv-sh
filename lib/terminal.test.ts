@@ -4,23 +4,9 @@ import {
   autocompleteCommand,
   parseCommand,
   promptPath,
-  supportedCommands,
 } from "@/lib/terminal";
 
-describe("terminal command utilities", () => {
-  it("advertises only implemented commands", () => {
-    expect(supportedCommands).toEqual([
-      "home",
-      "about",
-      "help",
-      "theme",
-      "theme catppuccin",
-      "theme tokyo-night",
-      "theme gruvbox",
-      "clear",
-    ]);
-  });
-
+describe("terminal utilities", () => {
   it("normalizes whitespace and parses a command", () => {
     expect(parseCommand("  theme   tokyo-night ")).toEqual({
       name: "theme",

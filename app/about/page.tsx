@@ -1,4 +1,4 @@
-import { CommandButton } from "@/components/command-button";
+import { PageCommandButtons } from "@/components/page-command-buttons";
 import { PageHeading } from "@/components/page-heading";
 import styles from "./about.module.css";
 
@@ -15,10 +15,7 @@ export default function AboutPage() {
         </p>
       </div>
 
-      <div className={styles.commands}>
-        <CommandButton command="home" label="Home" description="Return to the start" />
-        <CommandButton command="help" label="Help" description="View all commands" />
-      </div>
+      <PageCommandButtons />
     </div>
   );
 }
