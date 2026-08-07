@@ -1,0 +1,13 @@
+.copy {
+  max-width: 42rem;
+  margin-top: 1.25rem;
+  color: var(--muted);
+  font-size: 0.875rem;
+  line-height: 1.75rem;
+}
+
+.copy p + p { margin-top: 1rem; }
+
+@media (min-width: 640px) {
+  .copy { font-size: 1rem; }
+}

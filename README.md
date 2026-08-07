@@ -45,6 +45,34 @@ execution, and page-navigation buttons update from the same entry.
 Tests are colocated with the code they cover. Vitest uses `vitest.setup.ts` for
 shared test setup.
 
+## Adding a page
+
+1. Create the route at `app/<page>/page.tsx` and add route-specific styles beside
+   it when needed.
+2. Add one `navigate` entry to `terminalCommands` in `lib/commands.ts`:
+
+   ```ts
+   {
+     name: "projects",
+     autocomplete: ["projects"],
+     help: [{ usage: "projects", description: "View selected projects" }],
+     action: "navigate",
+     path: "/projects",
+     button: {
+       label: "Projects",
+       description: "Selected work",
+     },
+   }
+   ```
+
+3. Render `<PageCommandButtons />` on the new page. It automatically lists every
+   other page command and excludes the current route.
+4. Add the page behavior to `app/routes.test.tsx` and update the expected command
+   list in `lib/commands.test.ts`.
+
+No separate changes are required for command execution, autocomplete, or the help
+page; they are generated from the command registry.
+
 ## Commands
 
 ```bash
