@@ -49,7 +49,9 @@ shared test setup.
 
 1. Create the route at `app/<page>/page.tsx` and add route-specific styles beside
    it when needed.
-2. Add one `navigate` entry to `terminalCommands` in `lib/commands.ts`:
+2. Add one `navigate` entry to `terminalCommands` in `lib/commands.ts`. The
+   entry is type-checked against `NavigationCommand`, which requires the route
+   path and button metadata:
 
    ```ts
    {
@@ -71,7 +73,9 @@ shared test setup.
    list in `lib/commands.test.ts`.
 
 No separate changes are required for command execution, autocomplete, or the help
-page; they are generated from the command registry.
+page; they are generated from the command registry. Do not modify
+`NavigationCommand` when adding a page unless the metadata required for every
+navigation command is changing.
 
 ## Commands
 

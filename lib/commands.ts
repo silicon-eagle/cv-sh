@@ -7,7 +7,6 @@ type CommandHelp = {
   description: string;
 };
 
-
 export type NavigationCommand = {
   name: string;
   autocomplete: readonly string[];

@@ -3,10 +3,11 @@
 import { usePathname } from "next/navigation";
 
 import { CommandButton } from "@/components/command-button";
-import { navigationCommands } from "@/lib/commands";
+import {
+  navigationCommands,
+  type NavigationCommand,
+} from "@/lib/commands";
 import styles from "./page-command-buttons.module.css";
-
-type NavigationCommand = (typeof navigationCommands)[number];
 
 export function PageCommandButtons() {
   const pathname = usePathname();
