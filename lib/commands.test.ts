@@ -14,6 +14,7 @@ describe("terminal command registry", () => {
       "experience",
       "projects",
       "help",
+      "nav",
       "theme",
       "theme catppuccin",
       "theme tokyo-night",

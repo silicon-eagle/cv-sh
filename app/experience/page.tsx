@@ -1,13 +1,10 @@
 import { ExperienceTimeline } from "@/components/experience-timeline";
-import { PageCommandButtons } from "@/components/page-command-buttons";
-import { PageHeading } from "@/components/page-heading";
+import { PageLayout } from "@/components/page-layout";
 
 export default function ExperiencePage() {
   return (
-    <div>
-      <PageHeading command="experience" title="Experience" eyebrow="What did I do?" />
-      <PageCommandButtons />
+    <PageLayout command="experience" title="Experience" eyebrow="What did I do?">
       <ExperienceTimeline />
-    </div>
+    </PageLayout>
   );
 }

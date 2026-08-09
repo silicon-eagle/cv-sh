@@ -8,15 +8,9 @@ describe("terminal shell styles", () => {
     "utf8",
   );
 
-  it("keeps the terminal area at a fixed height", () => {
+  it("fills the available viewport height", () => {
     expect(css).toMatch(
-      /\.terminalArea\s*{[\s\S]*?height:\s*12rem;[\s\S]*?flex:\s*0 0 12rem;/,
-    );
-  });
-
-  it("scrolls command history independently", () => {
-    expect(css).toMatch(
-      /\.output\s*{[\s\S]*?overflow-y:\s*auto;/,
+      /\.terminal\s*{[\s\S]*?min-height:\s*calc\(100svh - 1\.5rem\);/,
     );
   });
 });

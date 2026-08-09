@@ -36,7 +36,7 @@ type TerminalCommand =
       name: string;
       autocomplete: readonly string[];
       help: readonly CommandHelp[];
-      action: "clear" | "theme";
+      action: "clear" | "nav" | "theme";
     };
 
 export const terminalCommands: readonly TerminalCommand[] = [
@@ -104,6 +104,12 @@ export const terminalCommands: readonly TerminalCommand[] = [
       color: "var(--help-accent)",
       icon: CircleHelp,
     },
+  },
+  {
+    name: "nav",
+    autocomplete: ["nav"],
+    help: [{ usage: "nav", description: "Show or hide page navigation" }],
+    action: "nav",
   },
   {
     name: "theme",

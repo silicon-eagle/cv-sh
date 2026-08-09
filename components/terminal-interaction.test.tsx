@@ -4,6 +4,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { CommandButton } from "@/components/command-button";
 import { TerminalProvider } from "@/components/terminal-provider";
+import { TerminalPanel } from "@/components/terminal-panel";
 import { TerminalShell } from "@/components/terminal-shell";
 import { ThemeProvider } from "@/components/theme-provider";
 
@@ -21,6 +22,7 @@ function Harness() {
       <TerminalProvider>
         <TerminalShell>
           <CommandButton command="about" label="About" description="Read more" />
+          <TerminalPanel />
         </TerminalShell>
       </TerminalProvider>
     </ThemeProvider>

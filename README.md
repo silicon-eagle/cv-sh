@@ -75,8 +75,8 @@ shared test setup.
 3. Define the referenced accent variable for every theme in `app/globals.css` if
    it does not already exist. The required `button.color` field ensures a page
    command cannot be added without choosing its color.
-4. Render `<PageCommandButtons />` on the new page. It automatically lists every
-   other page command and excludes the current route.
+4. Wrap the route content in `<PageLayout>`. It provides the shared heading,
+   `nav`-controlled page buttons, terminal panel, and content spacing.
 5. Add the page behavior to `app/routes.test.tsx` and update the expected command
    list in `lib/commands.test.ts`.
 
@@ -84,6 +84,9 @@ No separate changes are required for command execution, autocomplete, or the hel
 page; they are generated from the command registry. Do not modify
 `NavigationCommand` when adding a page unless the metadata required for every
 navigation command is changing.
+
+Page navigation is hidden by default. Run `nav` in the terminal to show or hide
+the generated page buttons.
 
 ## Commands
 

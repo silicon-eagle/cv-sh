@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
 import AboutPage from "@/app/about/page";
@@ -24,10 +24,17 @@ function renderRoute(route: React.ReactNode) {
   );
 }
 
+function toggleNavigation() {
+  const input = screen.getByLabelText("Terminal command");
+  fireEvent.change(input, { target: { value: "nav" } });
+  fireEvent.keyDown(input, { key: "Enter" });
+}
+
 describe("portfolio routes", () => {
   it("shows links to every other page command on the home page", () => {
     pathname = "/";
     renderRoute(<HomePage />);
+    toggleNavigation();
     expect(screen.getByRole("heading", { name: /welcome/i })).toBeInTheDocument();
     expect(screen.getByText(/software developer focused on thoughtful/i)).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /about/i })).toBeInTheDocument();
@@ -38,6 +45,7 @@ describe("portfolio routes", () => {
   it("assigns page commands their theme-aware colors", () => {
     pathname = "/";
     renderRoute(<HomePage />);
+    toggleNavigation();
 
     expect(screen.getByRole("button", { name: /about/i })).toHaveStyle({
       "--command-color": "var(--about-accent)",
@@ -53,6 +61,7 @@ describe("portfolio routes", () => {
   it("renders the registered icons in page headings and command buttons", () => {
     pathname = "/about";
     const { container } = renderRoute(<AboutPage />);
+    toggleNavigation();
 
     expect(container.querySelector("header svg")).toBeInTheDocument();
     for (const button of screen.getAllByRole("button")) {
@@ -63,8 +72,14 @@ describe("portfolio routes", () => {
   it("shows every page command except the current about page", () => {
     pathname = "/about";
     renderRoute(<AboutPage />);
+    toggleNavigation();
     expect(screen.getByRole("heading", { name: "About" })).toBeInTheDocument();
-    expect(screen.getByText(/placeholder introduction/i)).toBeInTheDocument();
+    expect(
+      screen.getByRole("img", { name: "Portrait of Tim Kelch" }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "About Me" })).toBeInTheDocument();
+    expect(screen.getByText("Tilburg, NL")).toBeInTheDocument();
+    expect(screen.getByText("Backend, DevOps, Systems")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /home/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /help/i })).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /about/i })).not.toBeInTheDocument();
@@ -73,6 +88,7 @@ describe("portfolio routes", () => {
   it("renders the experience timeline and technology cards", () => {
     pathname = "/experience";
     renderRoute(<ExperiencePage />);
+    toggleNavigation();
 
     expect(
       screen.getByRole("region", { name: "Work experience timeline" }),
@@ -86,6 +102,7 @@ describe("portfolio routes", () => {
   it("documents only implemented commands and keyboard controls", () => {
     pathname = "/help";
     renderRoute(<HelpPage />);
+    toggleNavigation();
     const commands = screen.getByLabelText("Supported commands");
     for (const command of [
       "home",
@@ -93,6 +110,7 @@ describe("portfolio routes", () => {
       "experience",
       "projects",
       "help",
+      "nav",
       "theme",
       "clear",
     ]) {
@@ -102,6 +120,19 @@ describe("portfolio routes", () => {
     expect(screen.getByRole("button", { name: /home/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /about/i })).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /help/i })).not.toBeInTheDocument();
+  });
+
+  it("hides page buttons until the nav command toggles them", () => {
+    pathname = "/";
+    renderRoute(<HomePage />);
+
+    expect(screen.queryByLabelText("Page commands")).not.toBeInTheDocument();
+    toggleNavigation();
+    expect(screen.getByLabelText("Page commands")).toBeInTheDocument();
+    expect(screen.getByText("Navigation shown.")).toBeInTheDocument();
+    toggleNavigation();
+    expect(screen.queryByLabelText("Page commands")).not.toBeInTheDocument();
+    expect(screen.getByText("Navigation hidden.")).toBeInTheDocument();
   });
 
   it("renders the exact footer and responsive terminal frame", () => {
@@ -118,6 +149,8 @@ describe("portfolio routes", () => {
       "data-responsive-terminal",
       "true",
     );
-    expect(screen.getByRole("separator")).toBeInTheDocument();
+    expect(
+      screen.getByRole("region", { name: "Interactive terminal" }),
+    ).toBeInTheDocument();
   });
 });

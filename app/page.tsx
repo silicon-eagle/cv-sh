@@ -1,20 +1,16 @@
-import { PageCommandButtons } from "@/components/page-command-buttons";
-import { PageHeading } from "@/components/page-heading";
+import { PageLayout } from "@/components/page-layout";
 import styles from "./home.module.css";
 
 export default function HomePage() {
   return (
-    <div>
-      <PageHeading command="home" title="Welcome." eyebrow="Portfolio terminal" />
-      <PageCommandButtons />
-
+    <PageLayout command="home" title="Welcome." eyebrow="Portfolio terminal">
       <p className={styles.intro}>
         A software developer focused on thoughtful, reliable digital experiences.
       </p>
       <p className={styles.hint}>
-        Choose a command below, or type <span className={styles.accent}>help</span> to begin.
+        Type <span className={styles.accent}>nav</span> to show page shortcuts, or{" "}
+        <span className={styles.accent}>help</span> to list every command.
       </p>
-
-    </div>
+    </PageLayout>
   );
 }

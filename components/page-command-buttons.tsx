@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 
 import { CommandButton } from "@/components/command-button";
+import { useTerminal } from "@/components/terminal-provider";
 import {
   navigationCommands,
   type NavigationCommand,
@@ -11,9 +12,12 @@ import styles from "./page-command-buttons.module.css";
 
 export function PageCommandButtons() {
   const pathname = usePathname();
+  const { navigationVisible } = useTerminal();
   const commands = navigationCommands.filter(
     (command: NavigationCommand) => command.path !== pathname,
   );
+
+  if (!navigationVisible) return null;
 
   return (
     <nav aria-label="Page commands" className={styles.commands}>

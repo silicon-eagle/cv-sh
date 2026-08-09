@@ -1,7 +1,6 @@
 .columns {
   display: grid;
   gap: 2rem;
-  margin-top: 1.75rem;
 }
 
 .sectionTitle {

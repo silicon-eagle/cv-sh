@@ -3,7 +3,6 @@
   display: grid;
   gap: 1.25rem;
   max-width: 48rem;
-  margin-top: 2rem;
 }
 
 .timeline::before {
