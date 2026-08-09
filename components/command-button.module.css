@@ -22,10 +22,6 @@
   box-shadow: 0 0.75rem 1.875rem color-mix(in srgb, var(--command-color) 10%, transparent);
 }
 
-.about { --command-color: var(--about-accent); }
-.help { --command-color: var(--help-accent); }
-.themes { --command-color: var(--themes-accent); }
-
 .button:focus-visible,
 .compact:focus-visible {
   outline: 2px solid var(--accent);

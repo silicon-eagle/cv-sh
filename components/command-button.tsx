@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
 import { useTerminal } from "@/components/terminal-provider";
 import styles from "./command-button.module.css";
@@ -11,7 +11,11 @@ type CommandButtonProps = {
   description?: string;
   icon?: ReactNode;
   compact?: boolean;
-  color?: "about" | "help" | "themes";
+  color?: string;
+};
+
+type CommandButtonStyle = CSSProperties & {
+  "--command-color"?: string;
 };
 
 export function CommandButton({
@@ -23,16 +27,17 @@ export function CommandButton({
   color,
 }: CommandButtonProps) {
   const { execute } = useTerminal();
-  const className = [compact ? styles.compact : styles.button, color ? styles[color] : null]
-    .filter(Boolean)
-    .join(" ");
+  const style: CommandButtonStyle | undefined = color
+    ? { "--command-color": color }
+    : undefined;
 
   return (
     <button
       type="button"
       onClick={() => execute(command)}
       aria-label={[label, description].filter(Boolean).join(" ")}
-      className={className}
+      className={compact ? styles.compact : styles.button}
+      style={style}
     >
       <span className={styles.command}>
         {icon ?? <span>$ {command}</span>}

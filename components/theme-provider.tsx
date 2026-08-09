@@ -9,7 +9,7 @@ import {
   useState,
 } from "react";
 
-import { isThemeName, type ThemeName } from "@/lib/terminal";
+import { isThemeName, type ThemeName } from "@/lib/commands";
 
 const STORAGE_KEY = "cv-sh-theme";
 const DEFAULT_THEME: ThemeName = "catppuccin";

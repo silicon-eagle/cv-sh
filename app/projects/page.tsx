@@ -5,7 +5,7 @@ import styles from "./about.module.css";
 export default function AboutPage() {
   return (
     <div>
-      <PageHeading command="about" title="About" eyebrow="Who am I?" />
+      <PageHeading command="projects" title="Projects" eyebrow="What did I build?" />
       <div className={styles.copy}>
         <p>
           This is a placeholder introduction for Tim. It will become a concise story about his work, approach, and the problems he enjoys solving.

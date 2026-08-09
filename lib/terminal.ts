@@ -1,15 +1,4 @@
-export const themeNames = ["catppuccin", "tokyo-night", "gruvbox"] as const;
-
-export type ThemeName = (typeof themeNames)[number];
-
-export const supportedCommands = [
-  "home",
-  "about",
-  "help",
-  "theme",
-  ...themeNames.map((theme) => `theme ${theme}`),
-  "clear",
-] as const;
+import { supportedCommands } from "@/lib/commands";
 
 export type ParsedCommand = {
   name: string;
@@ -46,8 +35,4 @@ export function autocompleteCommand(input: string): string {
   if (matches.length === 0) return input;
   if (matches.length === 1) return matches[0];
   return commonPrefix(matches);
-}
-
-export function isThemeName(value: string | undefined): value is ThemeName {
-  return themeNames.includes(value as ThemeName);
 }

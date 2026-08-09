@@ -1,36 +1,92 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# cv.sh
 
-## Getting Started
+A terminal-inspired portfolio built with Next.js.
 
-First, run the development server:
+## Getting started
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Code structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```text
+app/
+├── layout.tsx             # Root providers and terminal shell
+├── page.tsx               # Home page
+├── about/                 # About route and route-specific styles
+├── help/                  # Help route generated from the command registry
+└── routes.test.tsx        # Route-level tests
 
-## Learn More
+components/
+├── command-button.*       # Reusable terminal command button
+├── page-command-buttons.* # Navigation buttons generated from page commands
+├── terminal-line.*        # Prompt, input, autocomplete, and history controls
+├── terminal-provider.tsx  # Command execution and terminal output state
+├── terminal-shell.*       # Shared terminal frame
+├── theme-picker.*         # Available theme controls
+├── theme-provider.*       # Theme state and persistence
+└── *.test.ts(x)           # Colocated component tests
 
-To learn more about Next.js, take a look at the following resources:
+lib/
+├── commands.ts            # Central command registry and theme names
+├── commands.test.ts       # Command registry tests
+├── terminal.ts            # Parsing, autocomplete, and prompt utilities
+└── terminal.test.ts       # Terminal utility tests
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+`lib/commands.ts` is the single source of truth for supported commands. Navigation
+commands include their route and button metadata, so the help page, autocomplete,
+execution, and page-navigation buttons update from the same entry.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Tests are colocated with the code they cover. Vitest uses `vitest.setup.ts` for
+shared test setup.
 
-## Deploy on Vercel
+## Adding a page
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Create the route at `app/<page>/page.tsx` and add route-specific styles beside
+   it when needed.
+2. Add one `navigate` entry to `terminalCommands` in `lib/commands.ts`. The
+   entry is type-checked against `NavigationCommand`, which requires the route
+   path and button metadata:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   ```ts
+   {
+     name: "projects",
+     autocomplete: ["projects"],
+     help: [{ usage: "projects", description: "View selected projects" }],
+     action: "navigate",
+     path: "/projects",
+     button: {
+       label: "Projects",
+       description: "Selected work",
+       color: "var(--projects-accent)",
+     },
+   }
+   ```
+
+3. Define the referenced accent variable for every theme in `app/globals.css` if
+   it does not already exist. The required `button.color` field ensures a page
+   command cannot be added without choosing its color.
+4. Render `<PageCommandButtons />` on the new page. It automatically lists every
+   other page command and excludes the current route.
+5. Add the page behavior to `app/routes.test.tsx` and update the expected command
+   list in `lib/commands.test.ts`.
+
+No separate changes are required for command execution, autocomplete, or the help
+page; they are generated from the command registry. Do not modify
+`NavigationCommand` when adding a page unless the metadata required for every
+navigation command is changing.
+
+## Commands
+
+```bash
+pnpm dev       # Start the development server
+pnpm build     # Create a production build
+pnpm lint      # Run ESLint
+pnpm test      # Run Vitest in watch mode
+pnpm test:run  # Run the test suite once
+```
