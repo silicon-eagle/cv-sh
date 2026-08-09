@@ -2,6 +2,7 @@ import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
 import AboutPage from "@/app/about/page";
+import ExperiencePage from "@/app/experience/page";
 import HelpPage from "@/app/help/page";
 import HomePage from "@/app/page";
 import { TerminalProvider } from "@/components/terminal-provider";
@@ -69,6 +70,19 @@ describe("portfolio routes", () => {
     expect(screen.queryByRole("button", { name: /about/i })).not.toBeInTheDocument();
   });
 
+  it("renders the experience timeline and technology cards", () => {
+    pathname = "/experience";
+    renderRoute(<ExperiencePage />);
+
+    expect(
+      screen.getByRole("region", { name: "Work experience timeline" }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /lead python developer/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /software engineer/i })).toBeInTheDocument();
+    expect(screen.getAllByLabelText("Technologies")).toHaveLength(4);
+    expect(screen.queryByRole("button", { name: /experience/i })).not.toBeInTheDocument();
+  });
+
   it("documents only implemented commands and keyboard controls", () => {
     pathname = "/help";
     renderRoute(<HelpPage />);
@@ -104,5 +118,6 @@ describe("portfolio routes", () => {
       "data-responsive-terminal",
       "true",
     );
+    expect(screen.getByRole("separator")).toBeInTheDocument();
   });
 });

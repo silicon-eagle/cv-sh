@@ -6,6 +6,8 @@ export default function ProjectsPage() {
   return (
     <div>
       <PageHeading command="projects" title="Projects" eyebrow="What did I build?" />
+      <PageCommandButtons />
+
       <div className={styles.copy}>
         <p>
           This is a placeholder introduction for Tim. It will become a concise story about his work, approach, and the problems he enjoys solving.
@@ -14,8 +16,6 @@ export default function ProjectsPage() {
           For now, the focus is simple: useful software, careful engineering, and clear experiences.
         </p>
       </div>
-
-      <PageCommandButtons />
     </div>
   );
 }

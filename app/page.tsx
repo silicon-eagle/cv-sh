@@ -6,6 +6,8 @@ export default function HomePage() {
   return (
     <div>
       <PageHeading command="home" title="Welcome." eyebrow="Portfolio terminal" />
+      <PageCommandButtons />
+
       <p className={styles.intro}>
         A software developer focused on thoughtful, reliable digital experiences.
       </p>
@@ -13,7 +15,6 @@ export default function HomePage() {
         Choose a command below, or type <span className={styles.accent}>help</span> to begin.
       </p>
 
-      <PageCommandButtons />
     </div>
   );
 }

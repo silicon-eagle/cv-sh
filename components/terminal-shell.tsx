@@ -1,6 +1,10 @@
 "use client";
 
-import type { ReactNode } from "react";
+import {
+  type ReactNode,
+  useEffect,
+  useRef,
+} from "react";
 
 import { TerminalLine, Prompt } from "@/components/terminal-line";
 import { useTerminal } from "@/components/terminal-provider";
@@ -9,6 +13,13 @@ import styles from "./terminal-shell.module.css";
 
 export function TerminalShell({ children }: { children: ReactNode }) {
   const { output } = useTerminal();
+  const outputRef = useRef<HTMLDivElement>(null);
+  const outputLength = output.length;
+
+  useEffect(() => {
+    const outputElement = outputRef.current;
+    if (outputElement) outputElement.scrollTop = outputElement.scrollHeight;
+  }, [outputLength]);
 
   return (
     <main className={styles.viewport}>
@@ -19,9 +30,10 @@ export function TerminalShell({ children }: { children: ReactNode }) {
       >
         <div className={styles.content}>
           <div className={styles.page}>{children}</div>
+          <hr className={styles.divider} />
 
-          {output.length ? (
-            <div className={styles.output} aria-live="polite">
+          <div className={styles.terminalArea}>
+            <div ref={outputRef} className={styles.output} aria-live="polite">
               {output.map((entry) => (
                 <div key={entry.id} className={styles.outputEntry}>
                   <div className={styles.executedLine}>
@@ -37,9 +49,9 @@ export function TerminalShell({ children }: { children: ReactNode }) {
                 </div>
               ))}
             </div>
-          ) : null}
 
-          <TerminalLine />
+            <TerminalLine />
+          </div>
         </div>
 
         <footer className={styles.footer}>

@@ -6,6 +6,8 @@ export default function AboutPage() {
   return (
     <div>
       <PageHeading command="about" title="About" eyebrow="Who am I?" />
+      <PageCommandButtons />
+
       <div className={styles.copy}>
         <p>
           This is a placeholder introduction for Tim. It will become a concise story about his work, approach, and the problems he enjoys solving.
@@ -14,8 +16,6 @@ export default function AboutPage() {
           For now, the focus is simple: useful software, careful engineering, and clear experiences.
         </p>
       </div>
-
-      <PageCommandButtons />
     </div>
   );
 }

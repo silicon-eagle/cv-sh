@@ -14,6 +14,7 @@ export default function HelpPage() {
   return (
     <div>
       <PageHeading command="help" title="Help" eyebrow="No terminal knowledge required" />
+      <PageCommandButtons />
 
       <div className={styles.columns}>
         <section aria-label="Supported commands">
@@ -43,7 +44,6 @@ export default function HelpPage() {
         </section>
       </div>
 
-      <PageCommandButtons />
     </div>
   );
 }
