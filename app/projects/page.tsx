@@ -2,7 +2,7 @@ import { PageCommandButtons } from "@/components/page-command-buttons";
 import { PageHeading } from "@/components/page-heading";
 import styles from "./about.module.css";
 
-export default function AboutPage() {
+export default function ProjectsPage() {
   return (
     <div>
       <PageHeading command="projects" title="Projects" eyebrow="What did I build?" />

@@ -93,10 +93,10 @@ describe("terminal interaction", () => {
     const user = userEvent.setup();
     render(<Harness />);
     const input = screen.getByLabelText("Terminal command");
-    await user.type(input, "projects{Enter}");
-    expect(screen.getByText("projects: command not found")).toBeInTheDocument();
+    await user.type(input, "unknown{Enter}");
+    expect(screen.getByText("unknown: command not found")).toBeInTheDocument();
     fireEvent.keyDown(input, { key: "l", ctrlKey: true });
-    expect(screen.queryByText("projects: command not found")).not.toBeInTheDocument();
+    expect(screen.queryByText("unknown: command not found")).not.toBeInTheDocument();
   });
 
   it("lists themes and applies a selected theme command", async () => {

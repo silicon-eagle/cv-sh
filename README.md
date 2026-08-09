@@ -49,11 +49,14 @@ shared test setup.
 
 1. Create the route at `app/<page>/page.tsx` and add route-specific styles beside
    it when needed.
-2. Add one `navigate` entry to `terminalCommands` in `lib/commands.ts`. The
+2. Import a relevant Lucide icon in `lib/commands.ts`, then add one `navigate`
+   entry to `terminalCommands`. The
    entry is type-checked against `NavigationCommand`, which requires the route
-   path and button metadata:
+   path, color, icon, and button metadata:
 
    ```ts
+   import { FolderCode } from "lucide-react";
+
    {
      name: "projects",
      autocomplete: ["projects"],
@@ -64,6 +67,7 @@ shared test setup.
        label: "Projects",
        description: "Selected work",
        color: "var(--projects-accent)",
+       icon: FolderCode,
      },
    }
    ```

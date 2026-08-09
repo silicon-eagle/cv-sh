@@ -21,10 +21,10 @@ export function PageCommandButtons() {
         <CommandButton
           key={command.name}
           command={command.name}
-
           label={command.button.label}
           description={command.button.description}
           color={command.button.color}
+          icon={<command.button.icon aria-hidden="true" />}
         />
       ))}
     </nav>

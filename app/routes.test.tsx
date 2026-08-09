@@ -49,6 +49,16 @@ describe("portfolio routes", () => {
     });
   });
 
+  it("renders the registered icons in page headings and command buttons", () => {
+    pathname = "/about";
+    const { container } = renderRoute(<AboutPage />);
+
+    expect(container.querySelector("header svg")).toBeInTheDocument();
+    for (const button of screen.getAllByRole("button")) {
+      expect(button.querySelector("svg")).toBeInTheDocument();
+    }
+  });
+
   it("shows every page command except the current about page", () => {
     pathname = "/about";
     renderRoute(<AboutPage />);
@@ -63,10 +73,17 @@ describe("portfolio routes", () => {
     pathname = "/help";
     renderRoute(<HelpPage />);
     const commands = screen.getByLabelText("Supported commands");
-    for (const command of ["home", "about", "experience", "help", "theme", "clear"]) {
+    for (const command of [
+      "home",
+      "about",
+      "experience",
+      "projects",
+      "help",
+      "theme",
+      "clear",
+    ]) {
       expect(within(commands).getByText(command)).toBeInTheDocument();
     }
-    expect(within(commands).queryByText("projects")).not.toBeInTheDocument();
     expect(screen.getByText("Ctrl+L")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /home/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /about/i })).toBeInTheDocument();

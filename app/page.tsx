@@ -5,7 +5,7 @@ import styles from "./home.module.css";
 export default function HomePage() {
   return (
     <div>
-      <PageHeading command="welcome" title="Welcome." eyebrow="Portfolio terminal" />
+      <PageHeading command="home" title="Welcome." eyebrow="Portfolio terminal" />
       <p className={styles.intro}>
         A software developer focused on thoughtful, reliable digital experiences.
       </p>
