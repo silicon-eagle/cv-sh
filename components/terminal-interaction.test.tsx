@@ -160,9 +160,24 @@ describe("terminal interaction", () => {
     await user.type(screen.getByLabelText("Terminal command"), "philosophy{Enter}");
 
     await waitFor(() => {
-      expect(screen.getByText("— Carl Friedrich Gauß")).toBeInTheDocument();
+      expect(
+        screen.getByText(
+          "-- Carl Friedrich Gauß, Brief an Wolfgang Bolyai (1808)",
+        ),
+      ).toBeInTheDocument();
     });
-    expect(screen.getByText("Brief an Wolfgang Bolyai · 1808")).toBeInTheDocument();
     expect(consoleError).toHaveBeenCalled();
+  });
+
+  it("prints custom cows with supplied and default messages", async () => {
+    const user = userEvent.setup();
+    render(<Harness />);
+    const input = screen.getByLabelText("Terminal command");
+
+    await user.type(input, "cowsay Hello There{Enter}");
+    expect(screen.getByText(/< Hello There >/)).toBeInTheDocument();
+
+    await user.type(input, "cowsay{Enter}");
+    expect(screen.getByText(/< Moo! >/)).toBeInTheDocument();
   });
 });

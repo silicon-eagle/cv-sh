@@ -3,15 +3,19 @@ import { supportedCommands } from "@/lib/commands";
 export type ParsedCommand = {
   name: string;
   argument?: string;
+  rawArgument?: string;
   normalized: string;
 };
 
 export function parseCommand(input: string): ParsedCommand {
-  const normalized = input.trim().replace(/\s+/g, " ").toLowerCase();
+  const compactInput = input.trim().replace(/\s+/g, " ");
+  const normalized = compactInput.toLowerCase();
   const [name = "", ...arguments_] = normalized.split(" ");
+  const [, ...rawArguments] = compactInput.split(" ");
   const argument = arguments_.join(" ") || undefined;
+  const rawArgument = rawArguments.join(" ") || undefined;
 
-  return { name, argument, normalized };
+  return { name, argument, rawArgument, normalized };
 }
 
 export function promptPath(pathname: string): string {

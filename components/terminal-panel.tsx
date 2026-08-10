@@ -51,16 +51,14 @@ export function TerminalPanel() {
               <blockquote className={styles.quote}>
                 <p>{entry.quote.text}</p>
                 <footer>
-                  <span>— {entry.quote.author}</span>
-                  {entry.quote.work || entry.quote.year ? (
-                    <span className={styles.quoteSource}>
-                      {[entry.quote.work, entry.quote.year]
-                        .filter(Boolean)
-                        .join(" · ")}
-                    </span>
-                  ) : null}
+                  -- {entry.quote.author}
+                  {entry.quote.work ? `, ${entry.quote.work}` : ""}
+                  {entry.quote.year ? ` (${entry.quote.year})` : ""}
                 </footer>
               </blockquote>
+            ) : null}
+            {entry.kind === "cow" && entry.cow ? (
+              <pre className={styles.cow}>{entry.cow}</pre>
             ) : null}
           </div>
         ))}

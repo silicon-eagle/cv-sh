@@ -150,6 +150,7 @@ describe("portfolio routes", () => {
       "help",
       "nav",
       "theme",
+      "cowsay [message]",
       "philosophy",
       "clear",
     ]) {

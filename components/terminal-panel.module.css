@@ -7,6 +7,7 @@
   padding: 1.75rem 1.25rem 1.25rem;
   background: var(--background);
   border-block: 1px solid var(--border);
+  font-size: 0.875rem;
 }
 
 .heading {
@@ -51,7 +52,6 @@
 .executedLine {
   display: flex;
   gap: 0.5rem;
-  font-size: 0.875rem;
 }
 
 .executedCommand {
@@ -61,34 +61,35 @@
 
 .message {
   color: var(--muted);
-  font-size: 0.875rem;
   line-height: 1.5rem;
 }
 
 .quote {
   margin: 0;
-  padding-left: 0.875rem;
-  border-left: 2px solid var(--accent);
+}
+
+.quote p,
+.quote footer {
+  color: var(--text);
+  font-size: inherit;
+  line-height: 1.5;
 }
 
 .quote p {
-  color: var(--text);
-  font-size: 0.875rem;
-  line-height: 1.5;
   white-space: pre-line;
 }
 
 .quote footer {
-  display: flex;
-  flex-direction: column;
-  gap: 0.125rem;
-  margin-top: 0.5rem;
-  color: var(--muted);
-  font-size: 0.75rem;
+  margin-top: 0;
 }
 
-.quoteSource {
-  font-size: 0.6875rem;
+.cow {
+  margin: 0;
+  overflow-x: auto;
+  color: var(--text);
+  font: inherit;
+  line-height: 1.25;
+  white-space: pre;
 }
 
 @media (min-width: 640px) {
@@ -96,10 +97,6 @@
     margin-inline: -2rem;
     margin-bottom: -2rem;
     padding-inline: 2rem;
-  }
-
-  .executedLine,
-  .message {
     font-size: 1rem;
   }
 }

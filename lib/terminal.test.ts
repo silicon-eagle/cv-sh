@@ -11,7 +11,16 @@ describe("terminal utilities", () => {
     expect(parseCommand("  theme   tokyo-night ")).toEqual({
       name: "theme",
       argument: "tokyo-night",
+      rawArgument: "tokyo-night",
       normalized: "theme tokyo-night",
+    });
+  });
+
+  it("preserves argument capitalization for commands that print user input", () => {
+    expect(parseCommand("cowsay Hello There")).toMatchObject({
+      name: "cowsay",
+      argument: "hello there",
+      rawArgument: "Hello There",
     });
   });
 

@@ -16,6 +16,7 @@ import {
   isThemeName,
   themeNames,
 } from "@/lib/commands";
+import { cowsay } from "@/lib/cowsay";
 import {
   fallbackQuote,
   isPhilosopherQuote,
@@ -28,8 +29,9 @@ export type TerminalOutput = {
   id: number;
   command: string;
   message?: string;
-  kind?: "quote" | "themes";
+  kind?: "cow" | "quote" | "themes";
   quote?: PhilosopherQuote;
+  cow?: string;
 };
 
 type TerminalContextValue = {
@@ -134,6 +136,17 @@ export function TerminalProvider({ children }: { children: ReactNode }) {
           quote,
         });
       })();
+      return;
+    }
+
+    if (definition?.action === "cowsay") {
+      appendOutput({
+        command: command.rawArgument
+          ? `cowsay ${command.rawArgument}`
+          : "cowsay",
+        kind: "cow",
+        cow: cowsay(command.rawArgument),
+      });
       return;
     }
 
