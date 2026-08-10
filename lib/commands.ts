@@ -2,6 +2,7 @@ import {
   BriefcaseBusiness,
   CircleHelp,
   FolderCode,
+  Gamepad2,
   GraduationCap,
   House,
   UserRound,
@@ -23,12 +24,16 @@ export type NavigationCommand = {
   help: readonly CommandHelp[];
   action: "navigate";
   path: string;
-  button: {
+  icon: LucideIcon;
+  color: string;
+  button?: {
     label: string;
     description: string;
-    color: string;
-    icon: LucideIcon;
   };
+};
+
+export type NavigationButtonCommand = NavigationCommand & {
+  button: NonNullable<NavigationCommand["button"]>;
 };
 
 type TerminalCommand =
@@ -47,11 +52,11 @@ export const terminalCommands: readonly TerminalCommand[] = [
     help: [{ usage: "home", description: "Return to the welcome screen" }],
     action: "navigate",
     path: "/",
+    icon: House,
+    color: "var(--home-accent)",
     button: {
       label: "Home",
       description: "Return to the start",
-      color: "var(--home-accent)",
-      icon: House,
     },
   },
   {
@@ -60,11 +65,11 @@ export const terminalCommands: readonly TerminalCommand[] = [
     help: [{ usage: "about", description: "Find out about who am I" }],
     action: "navigate",
     path: "/about",
+    icon: UserRound,
+    color: "var(--about-accent)",
     button: {
       label: "About",
       description: "A short introduction",
-      color: "var(--about-accent)",
-      icon: UserRound,
     },
   },
   {
@@ -73,11 +78,11 @@ export const terminalCommands: readonly TerminalCommand[] = [
     help: [{ usage: "experience", description: "Find out about the things I do" }],
     action: "navigate",
     path: "/experience",
+    icon: BriefcaseBusiness,
+    color: "var(--experience-accent)",
     button: {
       label: "Experience",
       description: "What did I do?",
-      color: "var(--experience-accent)",
-      icon: BriefcaseBusiness,
     },
   },
   {
@@ -86,11 +91,11 @@ export const terminalCommands: readonly TerminalCommand[] = [
     help: [{ usage: "education", description: "Find out about what I studied" }],
     action: "navigate",
     path: "/education",
+    icon: GraduationCap,
+    color: "var(--education-accent)",
     button: {
       label: "Education",
       description: "What did I study?",
-      color: "var(--education-accent)",
-      icon: GraduationCap,
     },
   },
   {
@@ -99,12 +104,21 @@ export const terminalCommands: readonly TerminalCommand[] = [
     help: [{ usage: "projects", description: "Find out about the things I make" }],
     action: "navigate",
     path: "/projects",
+    icon: FolderCode,
+    color: "var(--projects-accent)",
     button: {
       label: "Projects",
       description: "What did I build?",
-      color: "var(--projects-accent)",
-      icon: FolderCode,
     },
+  },
+  {
+    name: "snake",
+    autocomplete: ["snake"],
+    help: [{ usage: "snake", description: "Play a little game" }],
+    action: "navigate",
+    path: "/snake",
+    icon: Gamepad2,
+    color: "var(--snake-accent)",
   },
   {
     name: "help",
@@ -112,11 +126,11 @@ export const terminalCommands: readonly TerminalCommand[] = [
     help: [{ usage: "help", description: "Show commands and keyboard controls" }],
     action: "navigate",
     path: "/help",
+    icon: CircleHelp,
+    color: "var(--help-accent)",
     button: {
       label: "Help",
       description: "Commands and shortcuts",
-      color: "var(--help-accent)",
-      icon: CircleHelp,
     },
   },
   {
@@ -154,6 +168,11 @@ export const commandHelp = terminalCommands.flatMap((command) => command.help);
 export const navigationCommands: readonly NavigationCommand[] = terminalCommands.filter(
   (command): command is NavigationCommand => command.action === "navigate",
 );
+
+export const navigationButtonCommands: readonly NavigationButtonCommand[] =
+  navigationCommands.filter(
+    (command): command is NavigationButtonCommand => Boolean(command.button),
+  );
 
 export function findTerminalCommand(name: string) {
   return terminalCommands.find((command) => command.name === name);

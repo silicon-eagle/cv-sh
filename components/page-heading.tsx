@@ -9,7 +9,7 @@ type PageHeadingProps = {
 
 export function PageHeading({ command, title, eyebrow }: PageHeadingProps) {
   const navigationCommand = findNavigationCommand(command);
-  const Icon = navigationCommand?.button.icon;
+  const Icon = navigationCommand?.icon;
 
   return (
     <header>
@@ -22,7 +22,7 @@ export function PageHeading({ command, title, eyebrow }: PageHeadingProps) {
         <Icon
           aria-hidden="true"
           className={styles.icon}
-          style={{ color: navigationCommand.button.color }}
+          style={{ color: navigationCommand.color }}
         />
       ) : null}
       {eyebrow ? (

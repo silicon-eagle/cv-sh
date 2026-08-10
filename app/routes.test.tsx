@@ -40,6 +40,7 @@ describe("portfolio routes", () => {
     expect(screen.getByText(/software developer focused on thoughtful/i)).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /about/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /help/i })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /snake/i })).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /home/i })).not.toBeInTheDocument();
   });
 
@@ -129,6 +130,7 @@ describe("portfolio routes", () => {
       "experience",
       "education",
       "projects",
+      "snake",
       "help",
       "nav",
       "theme",

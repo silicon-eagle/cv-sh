@@ -4,13 +4,13 @@ import { usePathname } from "next/navigation";
 
 import { CommandButton } from "@/components/command-button";
 import { useTerminal } from "@/components/terminal-provider";
-import { navigationCommands } from "@/lib/commands";
+import { navigationButtonCommands } from "@/lib/commands";
 import styles from "./page-command-buttons.module.css";
 
 export function PageCommandButtons() {
   const pathname = usePathname();
   const { navigationVisible } = useTerminal();
-  const commands = navigationCommands.filter(
+  const commands = navigationButtonCommands.filter(
     (command) => command.path !== pathname,
   );
 
@@ -19,7 +19,7 @@ export function PageCommandButtons() {
   return (
     <nav aria-label="Page commands" className={styles.commands}>
       {commands.map((command) => {
-        const Icon = command.button.icon;
+        const Icon = command.icon;
 
         return (
           <CommandButton
@@ -27,7 +27,7 @@ export function PageCommandButtons() {
             command={command.name}
             label={command.button.label}
             description={command.button.description}
-            color={command.button.color}
+            color={command.color}
             icon={<Icon aria-hidden="true" />}
           />
         );

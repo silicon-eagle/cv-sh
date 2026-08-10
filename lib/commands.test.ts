@@ -14,6 +14,7 @@ describe("terminal command registry", () => {
       "experience",
       "education",
       "projects",
+      "snake",
       "help",
       "nav",
       "theme",
@@ -30,6 +31,14 @@ describe("terminal command registry", () => {
     );
     expect(commandHelp).toEqual(
       terminalCommands.flatMap((command) => command.help),
+    );
+  });
+
+  it("keeps command-only routes out of button navigation", async () => {
+    const { navigationButtonCommands } = await import("@/lib/commands");
+
+    expect(navigationButtonCommands.map((command) => command.name)).not.toContain(
+      "snake",
     );
   });
 });
