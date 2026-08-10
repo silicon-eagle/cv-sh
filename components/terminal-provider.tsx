@@ -30,6 +30,7 @@ type TerminalContextValue = {
   execute: (input: string) => void;
   clear: () => void;
   history: readonly string[];
+  navigationVisible: boolean;
   output: readonly TerminalOutput[];
 };
 
@@ -39,7 +40,9 @@ export function TerminalProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
   const { setTheme } = useTheme();
   const [history, setHistory] = useState<string[]>([]);
+  const [navigationVisible, setNavigationVisible] = useState(false);
   const [output, setOutput] = useState<TerminalOutput[]>([]);
+  const navigationVisibleRef = useRef(false);
   const outputId = useRef(0);
 
   const appendOutput = useCallback((entry: Omit<TerminalOutput, "id">) => {
@@ -64,6 +67,17 @@ export function TerminalProvider({ children }: { children: ReactNode }) {
 
     if (definition?.action === "clear" && !command.argument) {
       clear();
+      return;
+    }
+
+    if (definition?.action === "nav" && !command.argument) {
+      const nextVisible = !navigationVisibleRef.current;
+      navigationVisibleRef.current = nextVisible;
+      setNavigationVisible(nextVisible);
+      appendOutput({
+        command: command.normalized,
+        message: `Navigation ${nextVisible ? "shown" : "hidden"}.`,
+      });
       return;
     }
 
@@ -94,8 +108,8 @@ export function TerminalProvider({ children }: { children: ReactNode }) {
   }, [appendOutput, clear, router, setTheme]);
 
   const value = useMemo(
-    () => ({ execute, clear, history, output }),
-    [clear, execute, history, output],
+    () => ({ execute, clear, history, navigationVisible, output }),
+    [clear, execute, history, navigationVisible, output],
   );
 
   return <TerminalContext.Provider value={value}>{children}</TerminalContext.Provider>;

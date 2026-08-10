@@ -1,5 +1,4 @@
-import { PageCommandButtons } from "@/components/page-command-buttons";
-import { PageHeading } from "@/components/page-heading";
+import { PageLayout } from "@/components/page-layout";
 import { commandHelp } from "@/lib/commands";
 import styles from "./help.module.css";
 
@@ -12,9 +11,11 @@ const shortcuts = [
 
 export default function HelpPage() {
   return (
-    <div>
-      <PageHeading command="help" title="Help" eyebrow="No terminal knowledge required" />
-
+    <PageLayout
+      command="help"
+      title="Help"
+      eyebrow="No terminal knowledge required"
+    >
       <div className={styles.columns}>
         <section aria-label="Supported commands">
           <h2 className={styles.sectionTitle}>Commands</h2>
@@ -42,8 +43,6 @@ export default function HelpPage() {
           </dl>
         </section>
       </div>
-
-      <PageCommandButtons />
-    </div>
+    </PageLayout>
   );
 }

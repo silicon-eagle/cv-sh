@@ -1,3 +1,13 @@
+import {
+  BriefcaseBusiness,
+  CircleHelp,
+  FolderCode,
+  GraduationCap,
+  House,
+  UserRound,
+  type LucideIcon,
+} from "lucide-react";
+
 export const themeNames = ["catppuccin", "tokyo-night", "gruvbox"] as const;
 
 export type ThemeName = (typeof themeNames)[number];
@@ -17,6 +27,7 @@ export type NavigationCommand = {
     label: string;
     description: string;
     color: string;
+    icon: LucideIcon;
   };
 };
 
@@ -26,7 +37,7 @@ type TerminalCommand =
       name: string;
       autocomplete: readonly string[];
       help: readonly CommandHelp[];
-      action: "clear" | "theme";
+      action: "clear" | "nav" | "theme";
     };
 
 export const terminalCommands: readonly TerminalCommand[] = [
@@ -40,6 +51,7 @@ export const terminalCommands: readonly TerminalCommand[] = [
       label: "Home",
       description: "Return to the start",
       color: "var(--home-accent)",
+      icon: House,
     },
   },
   {
@@ -52,6 +64,7 @@ export const terminalCommands: readonly TerminalCommand[] = [
       label: "About",
       description: "A short introduction",
       color: "var(--about-accent)",
+      icon: UserRound,
     },
   },
   {
@@ -64,6 +77,20 @@ export const terminalCommands: readonly TerminalCommand[] = [
       label: "Experience",
       description: "What did I do?",
       color: "var(--experience-accent)",
+      icon: BriefcaseBusiness,
+    },
+  },
+  {
+    name: "education",
+    autocomplete: ["education"],
+    help: [{ usage: "education", description: "Find out about what I studied" }],
+    action: "navigate",
+    path: "/education",
+    button: {
+      label: "Education",
+      description: "What did I study?",
+      color: "var(--education-accent)",
+      icon: GraduationCap,
     },
   },
   {
@@ -76,6 +103,7 @@ export const terminalCommands: readonly TerminalCommand[] = [
       label: "Projects",
       description: "What did I build?",
       color: "var(--projects-accent)",
+      icon: FolderCode,
     },
   },
   {
@@ -88,7 +116,14 @@ export const terminalCommands: readonly TerminalCommand[] = [
       label: "Help",
       description: "Commands and shortcuts",
       color: "var(--help-accent)",
+      icon: CircleHelp,
     },
+  },
+  {
+    name: "nav",
+    autocomplete: ["nav"],
+    help: [{ usage: "nav", description: "Show or hide page navigation" }],
+    action: "nav",
   },
   {
     name: "theme",
@@ -122,6 +157,10 @@ export const navigationCommands: readonly NavigationCommand[] = terminalCommands
 
 export function findTerminalCommand(name: string) {
   return terminalCommands.find((command) => command.name === name);
+}
+
+export function findNavigationCommand(name: string) {
+  return navigationCommands.find((command) => command.name === name);
 }
 
 export function isThemeName(value: string | undefined): value is ThemeName {

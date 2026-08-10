@@ -2,7 +2,7 @@
   width: 100%;
   min-height: 100svh;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
   padding: 0.75rem;
 }
@@ -17,34 +17,13 @@
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 1rem;
-  box-shadow: 0 1.75rem 5.625rem var(--shadow);
 }
 
 .content {
   flex: 1;
-  padding: 1.25rem;
-}
-
-.page { margin-bottom: 2rem; }
-.output { margin-bottom: 1.75rem; }
-.outputEntry + .outputEntry { margin-top: 1.25rem; }
-.outputEntry > * + * { margin-top: 0.5rem; }
-
-.executedLine {
   display: flex;
-  gap: 0.5rem;
-  font-size: 0.875rem;
-}
-
-.executedCommand {
-  color: var(--text);
-  overflow-wrap: anywhere;
-}
-
-.message {
-  color: var(--muted);
-  font-size: 0.875rem;
-  line-height: 1.5rem;
+  flex-direction: column;
+  padding: 1.25rem;
 }
 
 .footer {
@@ -56,10 +35,8 @@
 
 @media (min-width: 640px) {
   .viewport { padding: 2rem 1.5rem; }
-  .terminal { min-height: min(47.5rem, calc(100svh - 4rem)); }
+  .terminal { min-height: calc(100svh - 4rem); }
   .content { padding: 2rem; }
-  .page { margin-bottom: 2.5rem; }
-  .executedLine, .message { font-size: 1rem; }
   .footer { padding-inline: 2rem; }
 }
 

@@ -18,6 +18,8 @@ app/
 ├── layout.tsx             # Root providers and terminal shell
 ├── page.tsx               # Home page
 ├── about/                 # About route and route-specific styles
+├── education/             # Education timeline route
+├── experience/            # Work experience timeline route
 ├── help/                  # Help route generated from the command registry
 └── routes.test.tsx        # Route-level tests
 
@@ -49,11 +51,14 @@ shared test setup.
 
 1. Create the route at `app/<page>/page.tsx` and add route-specific styles beside
    it when needed.
-2. Add one `navigate` entry to `terminalCommands` in `lib/commands.ts`. The
+2. Import a relevant Lucide icon in `lib/commands.ts`, then add one `navigate`
+   entry to `terminalCommands`. The
    entry is type-checked against `NavigationCommand`, which requires the route
-   path and button metadata:
+   path, color, icon, and button metadata:
 
    ```ts
+   import { FolderCode } from "lucide-react";
+
    {
      name: "projects",
      autocomplete: ["projects"],
@@ -64,6 +69,7 @@ shared test setup.
        label: "Projects",
        description: "Selected work",
        color: "var(--projects-accent)",
+       icon: FolderCode,
      },
    }
    ```
@@ -71,8 +77,8 @@ shared test setup.
 3. Define the referenced accent variable for every theme in `app/globals.css` if
    it does not already exist. The required `button.color` field ensures a page
    command cannot be added without choosing its color.
-4. Render `<PageCommandButtons />` on the new page. It automatically lists every
-   other page command and excludes the current route.
+4. Wrap the route content in `<PageLayout>`. It provides the shared heading,
+   `nav`-controlled page buttons, terminal panel, and content spacing.
 5. Add the page behavior to `app/routes.test.tsx` and update the expected command
    list in `lib/commands.test.ts`.
 
@@ -80,6 +86,9 @@ No separate changes are required for command execution, autocomplete, or the hel
 page; they are generated from the command registry. Do not modify
 `NavigationCommand` when adding a page unless the metadata required for every
 navigation command is changing.
+
+Page navigation is hidden by default. Run `nav` in the terminal to show or hide
+the generated page buttons.
 
 ## Commands
 

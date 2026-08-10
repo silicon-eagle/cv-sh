@@ -1,0 +1,109 @@
+.card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1rem minmax(0, 1fr);
+  column-gap: 0.875rem;
+}
+
+.period {
+  grid-column: 2;
+  margin-bottom: 0.5rem;
+  color: var(--education-accent);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.marker {
+  z-index: 1;
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  width: 0.75rem;
+  height: 0.75rem;
+  margin-top: 0.125rem;
+  justify-self: center;
+  background: var(--education-accent);
+  border: 0.1875rem solid var(--panel);
+  border-radius: 0.25rem;
+  box-shadow: 0 0 0 1px var(--education-accent);
+}
+
+.content {
+  grid-column: 2;
+  min-width: 0;
+  padding: 0.875rem 1rem;
+  background: color-mix(in srgb, var(--panel) 82%, var(--education-accent) 3%);
+  border: 1px solid color-mix(in srgb, var(--education-accent) 24%, var(--border));
+  border-radius: 0.625rem;
+}
+
+.title {
+  color: var(--education-accent);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.institution {
+  color: var(--text);
+}
+
+.description {
+  margin-top: 0.375rem;
+  color: var(--muted);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.subjects {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.subjects li {
+  padding: 0.1875rem 0.5rem;
+  color: var(--education-accent);
+  font-size: 0.6875rem;
+  background: color-mix(in srgb, var(--education-accent) 9%, transparent);
+  border: 1px solid color-mix(in srgb, var(--education-accent) 22%, var(--border));
+  border-radius: 0.25rem;
+}
+
+@media (min-width: 640px) {
+  .card {
+    grid-template-columns: 7rem 1rem minmax(0, 1fr);
+    column-gap: 1rem;
+  }
+
+  .period {
+    grid-column: 1;
+    grid-row: 1;
+    margin: 0;
+    padding-top: 0.0625rem;
+    text-align: right;
+  }
+
+  .marker {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .content {
+    grid-column: 3;
+    grid-row: 1;
+    padding: 0 0 0.875rem;
+    background: transparent;
+    border: 0;
+  }
+
+  .title {
+    font-size: 1rem;
+  }
+
+  .description {
+    font-size: 0.875rem;
+  }
+}

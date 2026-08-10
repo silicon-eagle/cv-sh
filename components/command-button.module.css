@@ -2,6 +2,7 @@
   --command-color: var(--accent);
 
   width: 100%;
+  min-width: 0;
   min-height: 7rem;
   display: flex;
   flex-direction: column;
@@ -50,6 +51,12 @@
 .command {
   color: var(--command-color, var(--accent));
   font-size: 0.75rem;
+}
+
+.button .command svg {
+  width: 2.5rem;
+  height: 2.5rem;
+  stroke-width: 1.75;
 }
 
 .label {
