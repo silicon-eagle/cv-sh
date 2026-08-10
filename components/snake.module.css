@@ -1,6 +1,6 @@
 .game {
   width: 100%;
-  max-width: 52rem;
+  margin-inline: auto;
   outline: none;
 }
 
@@ -13,6 +13,7 @@
 
 .gameArea {
   position: relative;
+  width: 100%;
   display: grid;
   gap: 1.25rem;
   padding: 1rem;
@@ -23,26 +24,22 @@
   background-size: 100% 4px;
   border: 1px solid var(--border);
   border-radius: 0.625rem;
-  box-shadow:
-    inset 0 0 2.5rem rgb(0 0 0 / 24%),
-    0 0 1.5rem color-mix(in srgb, var(--snake-accent) 5%, transparent);
 }
 
 .playfield {
   position: relative;
   min-width: 0;
-  padding: 0.45rem;
-  border: 2px dashed color-mix(in srgb, var(--snake-accent) 82%, transparent);
-  box-shadow:
-    0 0 0.75rem color-mix(in srgb, var(--snake-accent) 12%, transparent),
-    inset 0 0 1.5rem rgb(0 0 0 / 28%);
+  padding: 0.5rem;
+  background: color-mix(in srgb, var(--background) 96%, black);
+  border: 1px solid var(--snake-accent);
+  border-radius: 2px;
 }
 
 .grid {
   display: grid;
   width: 100%;
   gap: 1px;
-  background: color-mix(in srgb, var(--snake-accent) 3%, transparent);
+  background: transparent;
 }
 
 .cell {
@@ -52,12 +49,28 @@
   background: transparent;
 }
 
+.cell::after {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 2px;
+  height: 2px;
+  background: color-mix(in srgb, var(--snake-accent) 16%, transparent);
+  content: "";
+  transform: translate(-50%, -50%);
+}
+
 .snake {
-  background: color-mix(in srgb, var(--snake-accent) 78%, var(--background));
-  border: 1px solid var(--snake-accent);
-  box-shadow:
-    inset 0 0 0 1px color-mix(in srgb, var(--background) 50%, transparent),
-    0 0 0.4rem color-mix(in srgb, var(--snake-accent) 42%, transparent);
+  background: color-mix(in srgb, var(--snake-accent) 72%, var(--background));
+  border: 1px solid color-mix(in srgb, var(--snake-accent) 88%, var(--background));
+}
+
+.snake[data-snake="head"] {
+  background: var(--snake-accent);
+}
+
+.snake::after,
+.food::after {
+  display: none;
 }
 
 .food {
@@ -66,14 +79,10 @@
 
 .food::before {
   position: absolute;
-  inset: 50% auto auto 50%;
-  color: var(--contact-accent);
-  content: "*";
-  font-size: clamp(0.5rem, 1.4vw, 0.9rem);
-  font-weight: 700;
-  line-height: 1;
-  text-shadow: 0 0 0.5rem currentColor;
-  transform: translate(-50%, -42%);
+  inset: 12%;
+  background: color-mix(in srgb, var(--contact-accent) 70%, var(--background));
+  border: 1px solid var(--contact-accent);
+  content: "";
 }
 
 .gameOver {
@@ -86,7 +95,6 @@
   letter-spacing: 0.14em;
   background: color-mix(in srgb, var(--background) 92%, transparent);
   border: 1px solid currentColor;
-  box-shadow: 0 0 1rem rgb(0 0 0 / 55%);
   transform: translate(-50%, -50%);
 }
 

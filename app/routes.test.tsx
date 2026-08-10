@@ -151,7 +151,7 @@ describe("portfolio routes", () => {
 
     expect(screen.getByRole("heading", { name: "Snake" })).toBeInTheDocument();
     expect(screen.getByLabelText("Snake game")).toBeInTheDocument();
-    expect(screen.getByText(/arrow keys or h\/j\/k\/l/i)).toBeInTheDocument();
+    expect(screen.getByLabelText("Movement controls")).toBeInTheDocument();
     expect(screen.getByRole("img", { name: /snake board\. score 0/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Restart" })).toBeInTheDocument();
     expect(screen.getByRole("region", { name: "Interactive terminal" })).toBeInTheDocument();
