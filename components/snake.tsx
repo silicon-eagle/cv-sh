@@ -1,7 +1,6 @@
 "use client";
 
 import {useState, useEffect} from "react";
-import { randomInt } from "@/lib/utils";
 import styles from "./snake.module.css";
 
 const GRID_SIZE_X = 30;
@@ -47,6 +46,10 @@ const KEY_DIRECTION: Partial<Record<string, Direction>> = {
   ArrowDown: "down",
   ArrowLeft: "left",
   ArrowRight: "right",
+  h: "left",
+  j: "down",
+  k: "up",
+  l: "right",
 };
 
 const INITIAL_DIRECTION: Direction = "right";
@@ -255,6 +258,12 @@ export default function Snake() {
   // keyboard interaction
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
+      if (event.key.toLowerCase() === "r") {
+        event.preventDefault();
+        setGame(createInitialGameState());
+        return;
+      }
+
       const requestedDirection = KEY_DIRECTION[event.key];
 
       if (!requestedDirection) {
@@ -289,17 +298,95 @@ export default function Snake() {
   }, []);
 
   return (
-    <div
-      className={styles.grid}
-      style={{
-        gridTemplateColumns: `repeat(${GRID_SIZE_X}, 1fr)`,
-        gridTemplateRows: `repeat(${GRID_SIZE_Y}, 1fr)`,
-        aspectRatio: `${GRID_SIZE_X} / ${GRID_SIZE_Y}`,
-      }}
-    >
-      {cellIndices.map(index =>
-        renderCell(index, game)
-      )}
-    </div>
+    <section className={styles.game} aria-label="Snake game">
+      <p className={styles.instructions}>
+        Starting game... Use arrow keys or h/j/k/l to play.
+      </p>
+
+      <div className={styles.gameArea}>
+        <div className={styles.playfield}>
+          <div className={styles.horizontalBorder} aria-hidden="true">
+            {Array.from({ length: GRID_SIZE_X + 2 }, (_, index) => (
+              <span key={index}>-</span>
+            ))}
+          </div>
+
+          <div className={styles.boardRow}>
+            <div className={styles.verticalBorder} aria-hidden="true">
+              {Array.from({ length: GRID_SIZE_Y }, (_, index) => (
+                <span key={index}>-</span>
+              ))}
+            </div>
+            <div
+              className={styles.grid}
+              role="img"
+              aria-label={`Snake board. Score ${game.score}.${game.gameOver ? " Game over." : ""}`}
+              style={{
+                gridTemplateColumns: `repeat(${GRID_SIZE_X}, 1fr)`,
+                gridTemplateRows: `repeat(${GRID_SIZE_Y}, 1fr)`,
+                aspectRatio: `${GRID_SIZE_X} / ${GRID_SIZE_Y}`,
+              }}
+            >
+              {cellIndices.map(index =>
+                renderCell(index, game)
+              )}
+            </div>
+            <div className={styles.verticalBorder} aria-hidden="true">
+              {Array.from({ length: GRID_SIZE_Y }, (_, index) => (
+                <span key={index}>-</span>
+              ))}
+            </div>
+          </div>
+
+          <div className={styles.horizontalBorder} aria-hidden="true">
+            {Array.from({ length: GRID_SIZE_X + 2 }, (_, index) => (
+              <span key={index}>-</span>
+            ))}
+          </div>
+
+          {game.gameOver ? (
+            <p className={styles.gameOver}>GAME OVER</p>
+          ) : null}
+        </div>
+
+        <aside className={styles.stats} aria-label="Game information">
+          <div className={styles.stat}>
+            <h2>Score</h2>
+            <p>{String(game.score).padStart(5, "0")}</p>
+          </div>
+
+          <div className={styles.stat}>
+            <h2>Status</h2>
+            <p>{game.gameOver ? "Stopped" : "Running"}</p>
+          </div>
+
+          <div className={styles.controls}>
+            <h2>Controls</h2>
+            <dl>
+              <div>
+                <dt>↑ ↓ ← →</dt>
+                <dd>Move</dd>
+              </div>
+              <div>
+                <dt>h j k l</dt>
+                <dd>Move</dd>
+              </div>
+              <div>
+                <dt>r</dt>
+                <dd>Restart</dd>
+              </div>
+            </dl>
+          </div>
+
+          <button
+            type="button"
+            className={styles.restart}
+            onClick={() => setGame(createInitialGameState())}
+          >
+            Restart
+          </button>
+        </aside>
+      </div>
+    </section>
   );
 }

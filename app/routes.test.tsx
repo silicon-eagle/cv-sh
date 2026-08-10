@@ -6,6 +6,7 @@ import EducationPage from "@/app/education/page";
 import ExperiencePage from "@/app/experience/page";
 import HelpPage from "@/app/help/page";
 import HomePage from "@/app/page";
+import SnakePage from "@/app/snake/page";
 import { TerminalProvider } from "@/components/terminal-provider";
 import { TerminalShell } from "@/components/terminal-shell";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -142,6 +143,21 @@ describe("portfolio routes", () => {
     expect(screen.getByRole("button", { name: /home/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /about/i })).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /help/i })).not.toBeInTheDocument();
+  });
+
+  it("embeds the snake game in the shared terminal page layout", () => {
+    pathname = "/snake";
+    renderRoute(<SnakePage />);
+
+    expect(screen.getByRole("heading", { name: "Snake" })).toBeInTheDocument();
+    expect(screen.getByLabelText("Snake game")).toBeInTheDocument();
+    expect(screen.getByText(/arrow keys or h\/j\/k\/l/i)).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: /snake board\. score 0/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Restart" })).toBeInTheDocument();
+    expect(screen.getByRole("region", { name: "Interactive terminal" })).toBeInTheDocument();
+    expect(fireEvent.keyDown(window, { key: "j" })).toBe(false);
+    expect(fireEvent.keyDown(window, { key: "r" })).toBe(false);
+    expect(fireEvent.keyDown(window, { key: "x" })).toBe(true);
   });
 
   it("hides page buttons until the nav command toggles them", () => {
