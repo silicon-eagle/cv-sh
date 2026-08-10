@@ -32,7 +32,9 @@ export function TerminalLine() {
   const [historyIndex, setHistoryIndex] = useState(history.length);
 
   useEffect(() => {
-    inputRef.current?.focus({ preventScroll: true });
+    if (pathname !== "/snake") {
+      inputRef.current?.focus({ preventScroll: true });
+    }
   }, [pathname]);
 
   return (

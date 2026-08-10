@@ -1,6 +1,6 @@
 "use client";
 
-import {useState, useEffect} from "react";
+import {useState, useEffect, useRef, type KeyboardEvent} from "react";
 import styles from "./snake.module.css";
 
 const GRID_SIZE_X = 30;
@@ -103,6 +103,7 @@ function renderCell(
 ) {
   const position = indexToPosition(index);
   const isSnake = isSnakeCell(position, game.snake);
+  const isSnakeHead = isSamePosition(position, game.snake[0]);
   const isFood = isSamePosition(position, game.food)
 
   const className = [
@@ -117,6 +118,7 @@ function renderCell(
     <div
       key={index}
       className={className}
+      data-snake={isSnakeHead ? "head" : isSnake ? "body" : undefined}
     />
   );
 }
@@ -237,6 +239,11 @@ export default function Snake() {
   // initialization
 
   const [game, setGame] = useState<GameState>(createInitialGameState);
+  const gameRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    gameRef.current?.focus({ preventScroll: true });
+  }, []);
 
   // timer
   useEffect(() => {
@@ -255,93 +262,70 @@ export default function Snake() {
     };
   }, [game.gameOver]);
 
-  // keyboard interaction
-  useEffect(() => {
-    function handleKeyDown(event: KeyboardEvent) {
-      if (event.key.toLowerCase() === "r") {
-        event.preventDefault();
-        setGame(createInitialGameState());
-        return;
-      }
-
-      const requestedDirection = KEY_DIRECTION[event.key];
-
-      if (!requestedDirection) {
-        return;
-      }
-
-      event.preventDefault();
-
-      setGame(currentGame => {
-        // A direction change is already queued for this tick.
-        if (currentGame.nextDirection !== currentGame.currentDirection) {
-          return currentGame;
-        }
-
-        // Don't allow reversing relative to the direction the snake actually moved last tick.
-        if (isOppositeDirection(currentGame.currentDirection, requestedDirection)) {
-          return currentGame;
-        }
-
-        return {
-          ...currentGame,
-          nextDirection: requestedDirection,
-        };
-      });
+  function handleKeyDown(event: KeyboardEvent<HTMLElement>) {
+    if (event.altKey || event.ctrlKey || event.metaKey) {
+      return;
     }
 
-    window.addEventListener("keydown", handleKeyDown);
+    const normalizedKey = event.key.toLowerCase();
 
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
+    if (normalizedKey === "r") {
+      event.preventDefault();
+      setGame(createInitialGameState());
+      return;
+    }
+
+    const requestedDirection =
+      KEY_DIRECTION[event.key] ??
+      KEY_DIRECTION[normalizedKey];
+
+    if (!requestedDirection) {
+      return;
+    }
+
+    event.preventDefault();
+
+    setGame(currentGame => {
+      // A direction change is already queued for this tick.
+      if (currentGame.nextDirection !== currentGame.currentDirection) {
+        return currentGame;
+      }
+
+      // Don't allow reversing relative to the direction the snake actually moved last tick.
+      if (isOppositeDirection(currentGame.currentDirection, requestedDirection)) {
+        return currentGame;
+      }
+
+      return {
+        ...currentGame,
+        nextDirection: requestedDirection,
+      };
+    });
+  }
 
   return (
-    <section className={styles.game} aria-label="Snake game">
-      <p className={styles.instructions}>
-        Starting game... Use arrow keys or h/j/k/l to play.
-      </p>
-
+    <section
+      ref={gameRef}
+      className={styles.game}
+      aria-label="Snake game"
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+    >
       <div className={styles.gameArea}>
         <div className={styles.playfield}>
-          <div className={styles.horizontalBorder} aria-hidden="true">
-            {Array.from({ length: GRID_SIZE_X + 2 }, (_, index) => (
-              <span key={index}>-</span>
-            ))}
-          </div>
-
-          <div className={styles.boardRow}>
-            <div className={styles.verticalBorder} aria-hidden="true">
-              {Array.from({ length: GRID_SIZE_Y }, (_, index) => (
-                <span key={index}>-</span>
-              ))}
-            </div>
-            <div
-              className={styles.grid}
-              role="img"
-              aria-label={`Snake board. Score ${game.score}.${game.gameOver ? " Game over." : ""}`}
-              style={{
-                gridTemplateColumns: `repeat(${GRID_SIZE_X}, 1fr)`,
-                gridTemplateRows: `repeat(${GRID_SIZE_Y}, 1fr)`,
-                aspectRatio: `${GRID_SIZE_X} / ${GRID_SIZE_Y}`,
-              }}
-            >
-              {cellIndices.map(index =>
-                renderCell(index, game)
-              )}
-            </div>
-            <div className={styles.verticalBorder} aria-hidden="true">
-              {Array.from({ length: GRID_SIZE_Y }, (_, index) => (
-                <span key={index}>-</span>
-              ))}
-            </div>
-          </div>
-
-          <div className={styles.horizontalBorder} aria-hidden="true">
-            {Array.from({ length: GRID_SIZE_X + 2 }, (_, index) => (
-              <span key={index}>-</span>
-            ))}
+          <div
+            className={styles.grid}
+            role="img"
+            aria-label={`Snake board. Score ${game.score}.${game.gameOver ? " Game over." : ""}`}
+            style={{
+              gridTemplateColumns: `repeat(${GRID_SIZE_X}, 1fr)`,
+              gridTemplateRows: `repeat(${GRID_SIZE_Y}, 1fr)`,
+              aspectRatio: `${GRID_SIZE_X} / ${GRID_SIZE_Y}`,
+            }}
+          >
+            {cellIndices.map(index =>
+              renderCell(index, game)
+            )}
           </div>
 
           {game.gameOver ? (
@@ -362,20 +346,13 @@ export default function Snake() {
 
           <div className={styles.controls}>
             <h2>Controls</h2>
-            <dl>
-              <div>
-                <dt>↑ ↓ ← →</dt>
-                <dd>Move</dd>
-              </div>
-              <div>
-                <dt>h j k l</dt>
-                <dd>Move</dd>
-              </div>
-              <div>
-                <dt>r</dt>
-                <dd>Restart</dd>
-              </div>
-            </dl>
+            <div className={styles.directionKeys} aria-label="Movement controls">
+              <span className={styles.up}>↑ k</span>
+              <span className={styles.left}>← h</span>
+              <span className={styles.right}>l →</span>
+              <span className={styles.down}>↓ j</span>
+            </div>
+            <p className={styles.restartKey}>r&nbsp;&nbsp;Restart</p>
           </div>
 
           <button

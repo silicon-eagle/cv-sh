@@ -3,7 +3,7 @@ import { PageLayout } from "@/components/page-layout";
 
 export default function SnakePage() {
   return (
-    <PageLayout command="snake" title="Snake" eyebrow="Terminal arcade">
+    <PageLayout command="snake" title="Snake" eyebrow="Play a little game!">
       <Snake />
     </PageLayout>
   );

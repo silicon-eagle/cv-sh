@@ -155,9 +155,7 @@ describe("portfolio routes", () => {
     expect(screen.getByRole("img", { name: /snake board\. score 0/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Restart" })).toBeInTheDocument();
     expect(screen.getByRole("region", { name: "Interactive terminal" })).toBeInTheDocument();
-    expect(fireEvent.keyDown(window, { key: "j" })).toBe(false);
-    expect(fireEvent.keyDown(window, { key: "r" })).toBe(false);
-    expect(fireEvent.keyDown(window, { key: "x" })).toBe(true);
+    expect(screen.getByLabelText("Snake game")).toHaveFocus();
   });
 
   it("hides page buttons until the nav command toggles them", () => {

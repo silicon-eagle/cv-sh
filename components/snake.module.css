@@ -1,6 +1,7 @@
 .game {
   width: 100%;
   max-width: 52rem;
+  outline: none;
 }
 
 .instructions {
@@ -11,39 +12,30 @@
 }
 
 .gameArea {
+  position: relative;
   display: grid;
   gap: 1.25rem;
+  padding: 1rem;
+  overflow: hidden;
+  background:
+    linear-gradient(rgb(255 255 255 / 1.5%), transparent 1px),
+    color-mix(in srgb, var(--background) 94%, black);
+  background-size: 100% 4px;
+  border: 1px solid var(--border);
+  border-radius: 0.625rem;
+  box-shadow:
+    inset 0 0 2.5rem rgb(0 0 0 / 24%),
+    0 0 1.5rem color-mix(in srgb, var(--snake-accent) 5%, transparent);
 }
 
 .playfield {
   position: relative;
   min-width: 0;
-  color: var(--snake-accent);
-}
-
-.horizontalBorder {
-  display: flex;
-  justify-content: space-between;
-  height: 1em;
-  overflow: hidden;
-  font-size: clamp(0.5rem, 1.5vw, 0.75rem);
-  line-height: 1;
-}
-
-.boardRow {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-}
-
-.verticalBorder {
-  display: flex;
-  width: 1em;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  overflow: hidden;
-  font-size: clamp(0.5rem, 1.5vw, 0.75rem);
-  line-height: 1;
+  padding: 0.45rem;
+  border: 2px dashed color-mix(in srgb, var(--snake-accent) 82%, transparent);
+  box-shadow:
+    0 0 0.75rem color-mix(in srgb, var(--snake-accent) 12%, transparent),
+    inset 0 0 1.5rem rgb(0 0 0 / 28%);
 }
 
 .grid {
@@ -63,7 +55,9 @@
 .snake {
   background: color-mix(in srgb, var(--snake-accent) 78%, var(--background));
   border: 1px solid var(--snake-accent);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--background) 50%, transparent);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--background) 50%, transparent),
+    0 0 0.4rem color-mix(in srgb, var(--snake-accent) 42%, transparent);
 }
 
 .food {
@@ -78,6 +72,7 @@
   font-size: clamp(0.5rem, 1.4vw, 0.9rem);
   font-weight: 700;
   line-height: 1;
+  text-shadow: 0 0 0.5rem currentColor;
   transform: translate(-50%, -42%);
 }
 
@@ -91,6 +86,7 @@
   letter-spacing: 0.14em;
   background: color-mix(in srgb, var(--background) 92%, transparent);
   border: 1px solid currentColor;
+  box-shadow: 0 0 1rem rgb(0 0 0 / 55%);
   transform: translate(-50%, -50%);
 }
 
@@ -111,30 +107,31 @@
 }
 
 .stat p,
-.controls dl {
+.directionKeys,
+.restartKey {
   color: var(--text);
   font-size: 0.75rem;
 }
 
-.controls dl {
-  margin: 0;
+.directionKeys {
+  display: grid;
+  grid-template-areas:
+    ". up ."
+    "left . right"
+    ". down .";
+  grid-template-columns: repeat(3, max-content);
+  justify-content: start;
+  gap: 0.25rem 0.5rem;
+  white-space: nowrap;
 }
 
-.controls dl div {
-  display: flex;
-  justify-content: space-between;
-  gap: 0.75rem;
-}
+.up { grid-area: up; }
+.left { grid-area: left; }
+.right { grid-area: right; }
+.down { grid-area: down; }
 
-.controls dl div + div {
-  margin-top: 0.25rem;
-}
-
-.controls dt {
-  color: var(--text);
-}
-
-.controls dd {
+.restartKey {
+  margin-top: 0.75rem;
   color: var(--muted);
 }
 
@@ -170,6 +167,7 @@
     grid-template-columns: minmax(0, 1fr) 7.5rem;
     align-items: start;
     gap: 1.75rem;
+    padding: 1.25rem;
   }
 
   .stats {
@@ -184,7 +182,8 @@
   }
 
   .stat p,
-  .controls dl {
+  .directionKeys,
+  .restartKey {
     font-size: 0.8125rem;
   }
 }
