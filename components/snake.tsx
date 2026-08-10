@@ -1,7 +1,7 @@
 "use client";
 
 import {useState, useEffect} from "react";
-
+import { randomInt } from "@/lib/utils";
 import styles from "./snake.module.css";
 
 const GRID_SIZE_X = 30;
@@ -56,6 +56,7 @@ const INITIAL_POSITION: Position[] = [
   { x: 1, y: 2 },
 ];
 
+const INITIAL_FOOD: Position = {x: Math.floor(GRID_SIZE_X / 2), y: Math.floor(GRID_SIZE_Y / 2)}
 
 function isOppositeDirection(
   current: Direction,
@@ -136,7 +137,6 @@ function getNextHead(
 
 }
 
-
 function isSelfCollision(
   head: Position,
   body: Position[],
@@ -146,22 +146,8 @@ function isSelfCollision(
   );
 }
 
-function moveSnake(
-  snake: Position[],
-  direction: Direction,
-): Position[] {
-  const head = snake[0];
-  const newHead = getNextHead(head, direction);
-
-  return [
-    newHead,
-    ...snake.slice(0, -1),
-  ];
-}
-
-
 function createFood(
-  snake: Position[],
+  snake: Position[]
 ): Position {
   const occupiedIndices = new Set(
     snake.map(positionToIndex),
@@ -185,7 +171,7 @@ function createInitialGameState(): GameState {
     snake,
     currentDirection: INITIAL_DIRECTION,
     nextDirection: INITIAL_DIRECTION,
-    food: createFood(snake),
+    food: INITIAL_FOOD,
     score: 0,
     gameOver: false,
   };
