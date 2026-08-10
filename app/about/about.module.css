@@ -1,5 +1,5 @@
 .about {
-  max-width: 52rem;
+  width: 100%;
 }
 
 .intro {
@@ -8,7 +8,7 @@
 }
 
 .sidebar {
-  width: min(100%, 22rem);
+  width: 100%;
   justify-self: end;
 }
 
@@ -123,7 +123,7 @@
 
 @media (min-width: 768px) {
   .intro {
-    grid-template-columns: minmax(0, 1fr) minmax(18rem, 22rem);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: start;
     gap: 2rem;
   }

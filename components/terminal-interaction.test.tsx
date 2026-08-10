@@ -1,6 +1,6 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { CommandButton } from "@/components/command-button";
 import { TerminalProvider } from "@/components/terminal-provider";
@@ -33,6 +33,11 @@ describe("terminal interaction", () => {
   beforeEach(() => {
     pathname = "/";
     push.mockReset();
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    vi.restoreAllMocks();
   });
 
   it("renders the current prompt and blinking cursor", () => {
@@ -144,5 +149,20 @@ describe("terminal interaction", () => {
       "theme matrix{Enter}",
     );
     expect(screen.getByText(/Unknown theme "matrix"/)).toBeInTheDocument();
+  });
+
+  it("prints a philosopher quote and uses Gauß as the fallback", async () => {
+    const user = userEvent.setup();
+    const consoleError = vi.spyOn(console, "error").mockImplementation(() => undefined);
+    vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new Error("offline")));
+    render(<Harness />);
+
+    await user.type(screen.getByLabelText("Terminal command"), "philosophy{Enter}");
+
+    await waitFor(() => {
+      expect(screen.getByText("— Carl Friedrich Gauß")).toBeInTheDocument();
+    });
+    expect(screen.getByText("Brief an Wolfgang Bolyai · 1808")).toBeInTheDocument();
+    expect(consoleError).toHaveBeenCalled();
   });
 });

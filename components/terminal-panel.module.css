@@ -1,5 +1,5 @@
 .panel {
-  height: 14rem;
+  height: 22rem;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -63,6 +63,32 @@
   color: var(--muted);
   font-size: 0.875rem;
   line-height: 1.5rem;
+}
+
+.quote {
+  margin: 0;
+  padding-left: 0.875rem;
+  border-left: 2px solid var(--accent);
+}
+
+.quote p {
+  color: var(--text);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  white-space: pre-line;
+}
+
+.quote footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  margin-top: 0.5rem;
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.quoteSource {
+  font-size: 0.6875rem;
 }
 
 @media (min-width: 640px) {

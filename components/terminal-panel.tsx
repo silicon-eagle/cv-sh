@@ -47,6 +47,21 @@ export function TerminalPanel() {
               <p className={styles.message}>{entry.message}</p>
             ) : null}
             {entry.kind === "themes" ? <ThemePicker /> : null}
+            {entry.kind === "quote" && entry.quote ? (
+              <blockquote className={styles.quote}>
+                <p>{entry.quote.text}</p>
+                <footer>
+                  <span>— {entry.quote.author}</span>
+                  {entry.quote.work || entry.quote.year ? (
+                    <span className={styles.quoteSource}>
+                      {[entry.quote.work, entry.quote.year]
+                        .filter(Boolean)
+                        .join(" · ")}
+                    </span>
+                  ) : null}
+                </footer>
+              </blockquote>
+            ) : null}
           </div>
         ))}
       </div>

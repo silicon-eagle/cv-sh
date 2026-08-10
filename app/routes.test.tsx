@@ -25,12 +25,6 @@ vi.mock("@/lib/philosopher-quotes", () => ({
     work: "Brief an Wolfgang Bolyai",
     year: "1808",
   },
-  getRandomQuote: vi.fn().mockResolvedValue({
-    text: "Wahrlich es ist nicht das Wissen.",
-    author: "Carl Friedrich Gauß",
-    work: "Brief an Wolfgang Bolyai",
-    year: "1808",
-  }),
 }));
 
 function renderRoute(route: React.ReactNode) {
@@ -54,8 +48,7 @@ describe("portfolio routes", () => {
     toggleNavigation();
     expect(screen.getByRole("heading", { name: /welcome/i })).toBeInTheDocument();
     expect(screen.getByText(/welcome to my little corner/i)).toBeInTheDocument();
-    expect(screen.getByText("— Carl Friedrich Gauß")).toBeInTheDocument();
-    expect(screen.getByText("Brief an Wolfgang Bolyai · 1808")).toBeInTheDocument();
+    expect(screen.queryByText("— Carl Friedrich Gauß")).not.toBeInTheDocument();
     expect(screen.getByRole("button", { name: /about/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /help/i })).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /snake/i })).not.toBeInTheDocument();
@@ -157,6 +150,7 @@ describe("portfolio routes", () => {
       "help",
       "nav",
       "theme",
+      "philosophy",
       "clear",
     ]) {
       expect(within(commands).getByText(command)).toBeInTheDocument();

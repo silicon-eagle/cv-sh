@@ -1,9 +1,10 @@
-export type PhilosopherQuote = {
-  text: string;
-  author: string;
-  work?: string;
-  year?: string;
-};
+import {
+  fallbackQuote,
+  type PhilosopherQuote,
+} from "@/lib/quote";
+
+export { fallbackQuote };
+export type { PhilosopherQuote };
 
 type ApiQuote = {
   quote: string;
@@ -17,17 +18,6 @@ type ApiQuote = {
 type ApiPhilosopher = {
   id: string;
   name: string;
-};
-
-export const fallbackQuote: PhilosopherQuote = {
-  text: `Wahrlich es ist nicht das Wissen,
-sondern das Lernen, nicht das Besitzen,
-sondern das Erwerben, nicht das
-Da-Seyn, sondern das Hinkommen, was
-den grössten Genuss gewährt.`,
-  author: "Carl Friedrich Gauß",
-  work: "Brief an Wolfgang Bolyai",
-  year: "1808",
 };
 
 function isApiQuote(value: unknown): value is ApiQuote {

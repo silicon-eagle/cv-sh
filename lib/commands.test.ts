@@ -24,6 +24,7 @@ describe("terminal command registry", () => {
       "theme gruvbox",
       "theme nord",
       "theme ayu",
+      "philosophy",
       "clear",
     ]);
   });

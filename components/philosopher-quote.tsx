@@ -1,4 +1,4 @@
-import type { PhilosopherQuote as Quote } from "@/lib/philosopher-quotes";
+import type { PhilosopherQuote as Quote } from "@/lib/quote";
 import styles from "./philosopher-quote.module.css";
 
 type PhilosopherQuoteProps = {

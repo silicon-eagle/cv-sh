@@ -16,6 +16,11 @@ import {
   isThemeName,
   themeNames,
 } from "@/lib/commands";
+import {
+  fallbackQuote,
+  isPhilosopherQuote,
+  type PhilosopherQuote,
+} from "@/lib/quote";
 import { parseCommand } from "@/lib/terminal";
 import { useTheme } from "@/components/theme-provider";
 
@@ -23,7 +28,8 @@ export type TerminalOutput = {
   id: number;
   command: string;
   message?: string;
-  kind?: "themes";
+  kind?: "quote" | "themes";
+  quote?: PhilosopherQuote;
 };
 
 type TerminalContextValue = {
@@ -98,6 +104,36 @@ export function TerminalProvider({ children }: { children: ReactNode }) {
         command: command.normalized,
         message: `Unknown theme "${command.argument}". Choose: ${themeNames.join(", ")}.`,
       });
+      return;
+    }
+
+    if (definition?.action === "philosophy" && !command.argument) {
+      void (async () => {
+        let quote = fallbackQuote;
+
+        try {
+          const response = await fetch("/api/philosophy", {
+            cache: "no-store",
+          });
+          if (!response.ok) {
+            throw new Error(`Quote endpoint returned ${response.status}`);
+          }
+
+          const result: unknown = await response.json();
+          if (!isPhilosopherQuote(result)) {
+            throw new Error("Quote endpoint returned an invalid response");
+          }
+          quote = result;
+        } catch (error) {
+          console.error("Unable to load a philosopher quote", error);
+        }
+
+        appendOutput({
+          command: command.normalized,
+          kind: "quote",
+          quote,
+        });
+      })();
       return;
     }
 
