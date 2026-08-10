@@ -18,6 +18,21 @@ vi.mock("next/navigation", () => ({
   useRouter: () => ({ push: vi.fn() }),
 }));
 
+vi.mock("@/lib/philosopher-quotes", () => ({
+  fallbackQuote: {
+    text: "Wahrlich es ist nicht das Wissen.",
+    author: "Carl Friedrich Gauß",
+    work: "Brief an Wolfgang Bolyai",
+    year: "1808",
+  },
+  getRandomQuote: vi.fn().mockResolvedValue({
+    text: "Wahrlich es ist nicht das Wissen.",
+    author: "Carl Friedrich Gauß",
+    work: "Brief an Wolfgang Bolyai",
+    year: "1808",
+  }),
+}));
+
 function renderRoute(route: React.ReactNode) {
   return render(
     <ThemeProvider>
@@ -33,21 +48,23 @@ function toggleNavigation() {
 }
 
 describe("portfolio routes", () => {
-  it("shows links to every other page command on the home page", () => {
+  it("shows links to every other page command on the home page", async () => {
     pathname = "/";
-    renderRoute(<HomePage />);
+    renderRoute(await HomePage());
     toggleNavigation();
     expect(screen.getByRole("heading", { name: /welcome/i })).toBeInTheDocument();
-    expect(screen.getByText(/software developer focused on thoughtful/i)).toBeInTheDocument();
+    expect(screen.getByText(/welcome to my little corner/i)).toBeInTheDocument();
+    expect(screen.getByText("— Carl Friedrich Gauß")).toBeInTheDocument();
+    expect(screen.getByText("Brief an Wolfgang Bolyai · 1808")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /about/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /help/i })).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /snake/i })).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /home/i })).not.toBeInTheDocument();
   });
 
-  it("assigns page commands their theme-aware colors", () => {
+  it("assigns page commands their theme-aware colors", async () => {
     pathname = "/";
-    renderRoute(<HomePage />);
+    renderRoute(await HomePage());
     toggleNavigation();
 
     expect(screen.getByRole("button", { name: /about/i })).toHaveStyle({
@@ -86,6 +103,11 @@ describe("portfolio routes", () => {
     expect(screen.getByRole("heading", { name: "About Me" })).toBeInTheDocument();
     expect(screen.getByText("Tilburg, NL")).toBeInTheDocument();
     expect(screen.getByText("Backend, DevOps, Systems")).toBeInTheDocument();
+    expect(screen.getByText("— Carl Friedrich Gauß").closest("figure")).toHaveAttribute(
+      "data-align",
+      "right",
+    );
+    expect(screen.getByText("Brief an Wolfgang Bolyai · 1808")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /home/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /help/i })).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /about/i })).not.toBeInTheDocument();
@@ -158,9 +180,9 @@ describe("portfolio routes", () => {
     expect(screen.getByLabelText("Snake game")).toHaveFocus();
   });
 
-  it("hides page buttons until the nav command toggles them", () => {
+  it("hides page buttons until the nav command toggles them", async () => {
     pathname = "/";
-    renderRoute(<HomePage />);
+    renderRoute(await HomePage());
 
     expect(screen.queryByLabelText("Page commands")).not.toBeInTheDocument();
     toggleNavigation();
@@ -171,12 +193,13 @@ describe("portfolio routes", () => {
     expect(screen.getByText("Navigation hidden.")).toBeInTheDocument();
   });
 
-  it("renders the exact footer and responsive terminal frame", () => {
+  it("renders the exact footer and responsive terminal frame", async () => {
     pathname = "/";
+    const homePage = await HomePage();
     render(
       <ThemeProvider>
         <TerminalProvider>
-          <TerminalShell><HomePage /></TerminalShell>
+          <TerminalShell>{homePage}</TerminalShell>
         </TerminalProvider>
       </ThemeProvider>,
     );

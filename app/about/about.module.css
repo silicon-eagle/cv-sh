@@ -3,15 +3,19 @@
 }
 
 .intro {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: grid;
   gap: 1.5rem;
 }
 
+.sidebar {
+  width: min(100%, 22rem);
+  justify-self: end;
+}
+
 .portrait {
-  width: 14rem;
-  max-width: 70%;
+  width: 18rem;
+  max-width: 100%;
+  margin-left: auto;
   flex: 0 0 auto;
   overflow: hidden;
   padding: 8px;
@@ -38,6 +42,10 @@
 
 .bio {
   width: 100%;
+}
+
+.sidebar figure {
+  margin-top: 1.5rem;
 }
 
 .bio p {
@@ -92,11 +100,6 @@
 }
 
 @media (min-width: 640px) {
-  .intro {
-    flex-direction: row;
-    align-items: start;
-  }
-
   .bio h2 {
     font-size: 1.125rem;
   }
@@ -115,5 +118,13 @@
 
   .detail:nth-child(2) {
     border-top: 0;
+  }
+}
+
+@media (min-width: 768px) {
+  .intro {
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 22rem);
+    align-items: start;
+    gap: 2rem;
   }
 }

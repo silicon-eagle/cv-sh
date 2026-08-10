@@ -9,6 +9,8 @@ import {
 import Image from "next/image";
 
 import { PageLayout } from "@/components/page-layout";
+import { PhilosopherQuote } from "@/components/philosopher-quote";
+import { fallbackQuote } from "@/lib/philosopher-quotes";
 import styles from "./about.module.css";
 
 const details = [
@@ -25,17 +27,6 @@ export default function AboutPage() {
     <PageLayout command="about" title="About" eyebrow="Who am I?">
       <section className={styles.about} aria-label="About Tim Kelch">
         <div className={styles.intro}>
-          <div className={styles.portrait}>
-            <Image
-              src="/profile_pictures/b2fccff4-213c-4568-9337-bc9e9aa3f93b.jpg"
-              alt="Portrait of Tim Kelch"
-              width={1228}
-              height={1614}
-              sizes="224px"
-              className={styles.image}
-            />
-          </div>
-
           <div className={styles.bio}>
             <h2>About Me</h2>
             <p>
@@ -46,6 +37,21 @@ export default function AboutPage() {
               I specialize in backend development and infrastructure, turning
               complex problems into simple, maintainable solutions.
             </p>
+          </div>
+
+          <div className={styles.sidebar}>
+            <div className={styles.portrait}>
+              <Image
+                src="/profile_pictures/b2fccff4-213c-4568-9337-bc9e9aa3f93b.jpg"
+                alt="Portrait of Tim Kelch"
+                width={1228}
+                height={1614}
+                sizes="224px"
+                className={styles.image}
+              />
+            </div>
+
+            <PhilosopherQuote quote={fallbackQuote} align="right" />
           </div>
         </div>
 
