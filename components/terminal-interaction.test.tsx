@@ -67,6 +67,17 @@ describe("terminal interaction", () => {
     expect(cursor).toHaveAttribute("data-blinking", "true");
   });
 
+  it("focuses the command input when the terminal panel is clicked", () => {
+    render(<Harness />);
+    const input = screen.getByLabelText("Terminal command");
+    const panel = screen.getByRole("region", { name: "Interactive terminal" });
+
+    screen.getByRole("button", { name: /about read more/i }).focus();
+    expect(input).not.toHaveFocus();
+    fireEvent.click(panel);
+    expect(input).toHaveFocus();
+  });
+
   it("returns focus to the terminal input after navigation", () => {
     const { rerender } = render(<Harness />);
     const input = screen.getByLabelText("Terminal command");

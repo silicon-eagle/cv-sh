@@ -9,6 +9,28 @@
   border-block: 1px solid var(--border);
 }
 
+.heading {
+  width: fit-content;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.875rem;
+  padding: 0.25rem 0.45rem;
+  color: var(--muted);
+  font-size: 0.6875rem;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  background: color-mix(in srgb, var(--panel) 68%, transparent);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+}
+
+.headingPrompt {
+  color: var(--accent);
+  font-weight: 700;
+}
+
 .output {
   min-height: 0;
   flex: 1;

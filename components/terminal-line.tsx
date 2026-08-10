@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState, type RefObject } from "react";
 
 import { useTerminal } from "@/components/terminal-provider";
 import { autocompleteCommand, promptPath } from "@/lib/terminal";
@@ -22,10 +22,13 @@ export function Prompt({ path }: { path: string }) {
   );
 }
 
-export function TerminalLine() {
+type TerminalLineProps = {
+  inputRef: RefObject<HTMLInputElement | null>;
+};
+
+export function TerminalLine({ inputRef }: TerminalLineProps) {
   const pathname = usePathname();
   const { clear, execute, history } = useTerminal();
-  const inputRef = useRef<HTMLInputElement>(null);
   const [value, setValue] = useState("");
   const [cursorIndex, setCursorIndex] = useState(0);
   const [isFocused, setIsFocused] = useState(false);
@@ -35,7 +38,7 @@ export function TerminalLine() {
     if (pathname !== "/snake") {
       inputRef.current?.focus({ preventScroll: true });
     }
-  }, [pathname]);
+  }, [inputRef, pathname]);
 
   return (
     <div className={styles.line}>

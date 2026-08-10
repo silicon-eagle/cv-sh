@@ -310,6 +310,7 @@ export default function Snake() {
       aria-label="Snake game"
       tabIndex={0}
       onKeyDown={handleKeyDown}
+      onClick={() => gameRef.current?.focus({ preventScroll: true })}
     >
       <div className={styles.gameArea}>
         <div className={styles.playfield}>
