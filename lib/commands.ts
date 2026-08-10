@@ -9,7 +9,14 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-export const themeNames = ["catppuccin", "tokyo-night", "gruvbox"] as const;
+export const themeNames = [
+  "catppuccin",
+  "catppuccin-light",
+  "tokyo-night",
+  "gruvbox",
+  "nord",
+  "ayu",
+] as const;
 
 export type ThemeName = (typeof themeNames)[number];
 

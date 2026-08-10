@@ -19,8 +19,11 @@ describe("terminal command registry", () => {
       "nav",
       "theme",
       "theme catppuccin",
+      "theme catppuccin-light",
       "theme tokyo-night",
       "theme gruvbox",
+      "theme nord",
+      "theme ayu",
       "clear",
     ]);
   });

@@ -20,6 +20,27 @@
   --contact-accent: #f38ba8;
 }
 
+:root[data-theme="catppuccin-light"] {
+  --background: #eff1f5;
+  --panel: #e6e9ef;
+  --text: #4c4f69;
+  --muted: #6c6f85;
+  --accent: #40a02b;
+  --border: #ccd0da;
+  --shadow: rgb(76 79 105 / 18%);
+  --path-accent: #1e66f5;
+  --home-accent: #40a02b;
+  --about-accent: #1e66f5;
+  --help-accent: #8839ef;
+  --themes-accent: #df8e1d;
+  --experience-accent: #d20f39;
+  --education-accent: #fe640b;
+  --projects-accent: #04a5e5;
+  --snake-accent: #40a02b;
+  --skills-accent: #df8e1d;
+  --contact-accent: #d20f39;
+}
+
 :root[data-theme="tokyo-night"] {
   --background: #16161e;
   --panel: #1a1b26;
@@ -60,6 +81,48 @@
   --snake-accent: #b8bb26;
   --skills-accent: #fabd2f;
   --contact-accent: #fb4934;
+}
+
+:root[data-theme="nord"] {
+  --background: #2e3440;
+  --panel: #3b4252;
+  --text: #eceff4;
+  --muted: #d8dee9;
+  --accent: #a3be8c;
+  --border: #4c566a;
+  --shadow: rgb(19 23 30 / 45%);
+  --path-accent: #88c0d0;
+  --home-accent: #a3be8c;
+  --about-accent: #81a1c1;
+  --help-accent: #b48ead;
+  --themes-accent: #ebcb8b;
+  --experience-accent: #bf616a;
+  --education-accent: #d08770;
+  --projects-accent: #8fbcbb;
+  --snake-accent: #a3be8c;
+  --skills-accent: #ebcb8b;
+  --contact-accent: #bf616a;
+}
+
+:root[data-theme="ayu"] {
+  --background: #0d1017;
+  --panel: #141821;
+  --text: #bfbdb6;
+  --muted: #6c7380;
+  --accent: #e6b450;
+  --border: #1b1f29;
+  --shadow: rgb(0 0 0 / 48%);
+  --path-accent: #59c2ff;
+  --home-accent: #aad94c;
+  --about-accent: #39bae6;
+  --help-accent: #d2a6ff;
+  --themes-accent: #e6b450;
+  --experience-accent: #f07178;
+  --education-accent: #ff8f40;
+  --projects-accent: #95e6cb;
+  --snake-accent: #aad94c;
+  --skills-accent: #ffb454;
+  --contact-accent: #f07178;
 }
 
 * {
