@@ -2,6 +2,7 @@ import { fireEvent, render, screen, within } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
 import AboutPage from "@/app/about/page";
+import EducationPage from "@/app/education/page";
 import ExperiencePage from "@/app/experience/page";
 import HelpPage from "@/app/help/page";
 import HomePage from "@/app/page";
@@ -53,6 +54,9 @@ describe("portfolio routes", () => {
     expect(screen.getByRole("button", { name: /experience/i })).toHaveStyle({
       "--command-color": "var(--experience-accent)",
     });
+    expect(screen.getByRole("button", { name: /education/i })).toHaveStyle({
+      "--command-color": "var(--education-accent)",
+    });
     expect(screen.getByRole("button", { name: /help/i })).toHaveStyle({
       "--command-color": "var(--help-accent)",
     });
@@ -99,6 +103,21 @@ describe("portfolio routes", () => {
     expect(screen.queryByRole("button", { name: /experience/i })).not.toBeInTheDocument();
   });
 
+  it("renders the education timeline and subject cards", () => {
+    pathname = "/education";
+    renderRoute(<EducationPage />);
+    toggleNavigation();
+
+    expect(
+      screen.getByRole("region", { name: "Education timeline" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /education history/i }),
+    ).toBeInTheDocument();
+    expect(screen.getByLabelText("Subjects")).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /education/i })).not.toBeInTheDocument();
+  });
+
   it("documents only implemented commands and keyboard controls", () => {
     pathname = "/help";
     renderRoute(<HelpPage />);
@@ -108,6 +127,7 @@ describe("portfolio routes", () => {
       "home",
       "about",
       "experience",
+      "education",
       "projects",
       "help",
       "nav",

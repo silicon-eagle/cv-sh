@@ -2,6 +2,7 @@
   --command-color: var(--accent);
 
   width: 100%;
+  min-width: 0;
   min-height: 7rem;
   display: flex;
   flex-direction: column;

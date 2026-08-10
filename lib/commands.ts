@@ -2,6 +2,7 @@ import {
   BriefcaseBusiness,
   CircleHelp,
   FolderCode,
+  GraduationCap,
   House,
   UserRound,
   type LucideIcon,
@@ -77,6 +78,19 @@ export const terminalCommands: readonly TerminalCommand[] = [
       description: "What did I do?",
       color: "var(--experience-accent)",
       icon: BriefcaseBusiness,
+    },
+  },
+  {
+    name: "education",
+    autocomplete: ["education"],
+    help: [{ usage: "education", description: "Find out about what I studied" }],
+    action: "navigate",
+    path: "/education",
+    button: {
+      label: "Education",
+      description: "What did I study?",
+      color: "var(--education-accent)",
+      icon: GraduationCap,
     },
   },
   {

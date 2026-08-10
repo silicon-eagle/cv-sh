@@ -12,6 +12,7 @@ describe("terminal command registry", () => {
       "home",
       "about",
       "experience",
+      "education",
       "projects",
       "help",
       "nav",

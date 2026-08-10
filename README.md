@@ -18,6 +18,8 @@ app/
 ├── layout.tsx             # Root providers and terminal shell
 ├── page.tsx               # Home page
 ├── about/                 # About route and route-specific styles
+├── education/             # Education timeline route
+├── experience/            # Work experience timeline route
 ├── help/                  # Help route generated from the command registry
 └── routes.test.tsx        # Route-level tests
 
