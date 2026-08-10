@@ -152,6 +152,7 @@ describe("portfolio routes", () => {
       "theme",
       "cowsay [message]",
       "philosophy",
+      "ls",
       "clear",
     ]) {
       expect(within(commands).getByText(command)).toBeInTheDocument();

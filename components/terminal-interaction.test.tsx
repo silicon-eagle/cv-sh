@@ -180,4 +180,15 @@ describe("terminal interaction", () => {
     await user.type(input, "cowsay{Enter}");
     expect(screen.getByText(/< Moo! >/)).toBeInTheDocument();
   });
+
+  it("lists every available command with ls", async () => {
+    const user = userEvent.setup();
+    render(<Harness />);
+
+    await user.type(screen.getByLabelText("Terminal command"), "ls{Enter}");
+
+    expect(screen.getByText(/home\s+Return to the welcome screen/)).toBeInTheDocument();
+    expect(screen.getByText(/cowsay \[message\]\s+Let a custom cow speak/)).toBeInTheDocument();
+    expect(screen.getByText(/philosophy\s+Print a random philosopher quote/)).toBeInTheDocument();
+  });
 });

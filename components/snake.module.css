@@ -2,6 +2,7 @@
   width: 100%;
   margin-inline: auto;
   outline: none;
+  font-family: inherit;
 }
 
 .instructions {
@@ -112,12 +113,14 @@
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  font-family: inherit;
 }
 
 .stat p,
 .directionKeys,
 .restartKey {
   color: var(--text);
+  font-family: inherit;
   font-size: 0.75rem;
 }
 
@@ -149,6 +152,7 @@
   color: var(--snake-accent);
   background: transparent;
   border: 0;
+  font-family: inherit;
 }
 
 .restart::before {

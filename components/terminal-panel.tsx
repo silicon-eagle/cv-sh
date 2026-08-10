@@ -31,11 +31,6 @@ export function TerminalPanel() {
         inputRef.current?.focus({ preventScroll: true });
       }}
     >
-      <div className={styles.heading} aria-hidden="true">
-        <span className={styles.headingPrompt}>&gt;_</span>
-        <span>terminal</span>
-      </div>
-
       <div ref={outputRef} className={styles.output} aria-live="polite">
         {output.map((entry) => (
           <div key={entry.id} className={styles.outputEntry}>

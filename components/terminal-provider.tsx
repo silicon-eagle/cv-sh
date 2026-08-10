@@ -12,6 +12,7 @@ import {
 } from "react";
 
 import {
+  commandHelp,
   findTerminalCommand,
   isThemeName,
   themeNames,
@@ -43,6 +44,16 @@ type TerminalContextValue = {
 };
 
 const TerminalContext = createContext<TerminalContextValue | null>(null);
+
+function commandListing(): string {
+  const usageWidth = Math.max(...commandHelp.map((entry) => entry.usage.length));
+  return commandHelp
+    .map(
+      (entry) =>
+        `${entry.usage.padEnd(usageWidth)}  ${entry.description}`,
+    )
+    .join("\n");
+}
 
 export function TerminalProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
@@ -146,6 +157,14 @@ export function TerminalProvider({ children }: { children: ReactNode }) {
           : "cowsay",
         kind: "cow",
         cow: cowsay(command.rawArgument),
+      });
+      return;
+    }
+
+    if (definition?.action === "ls" && !command.argument) {
+      appendOutput({
+        command: command.normalized,
+        message: commandListing(),
       });
       return;
     }
