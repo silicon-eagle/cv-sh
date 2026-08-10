@@ -38,6 +38,7 @@ describe("terminal interaction", () => {
   it("renders the current prompt and blinking cursor", () => {
     render(<Harness />);
     expect(screen.getByTestId("terminal-prompt")).toHaveTextContent("tim@kelch:~$");
+    expect(screen.getByLabelText("Terminal command")).toHaveFocus();
     const cursor = screen.getByTestId("terminal-cursor");
     expect(cursor).toHaveClass("terminal-cursor");
     expect(screen.getByTestId("terminal-cursor-text")).toHaveTextContent("");
@@ -59,11 +60,23 @@ describe("terminal interaction", () => {
     const input = screen.getByLabelText("Terminal command");
     const cursor = screen.getByTestId("terminal-cursor");
 
-    expect(cursor).toHaveAttribute("data-blinking", "false");
-    fireEvent.focus(input);
     expect(cursor).toHaveAttribute("data-blinking", "true");
     fireEvent.blur(input);
     expect(cursor).toHaveAttribute("data-blinking", "false");
+    fireEvent.focus(input);
+    expect(cursor).toHaveAttribute("data-blinking", "true");
+  });
+
+  it("returns focus to the terminal input after navigation", () => {
+    const { rerender } = render(<Harness />);
+    const input = screen.getByLabelText("Terminal command");
+    screen.getByRole("button", { name: /about read more/i }).focus();
+    expect(input).not.toHaveFocus();
+
+    pathname = "/about";
+    rerender(<Harness />);
+
+    expect(input).toHaveFocus();
   });
 
   it("routes clicked and typed navigation commands through the executor", async () => {

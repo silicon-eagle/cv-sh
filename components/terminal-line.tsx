@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useTerminal } from "@/components/terminal-provider";
 import { autocompleteCommand, promptPath } from "@/lib/terminal";
@@ -25,16 +25,22 @@ export function Prompt({ path }: { path: string }) {
 export function TerminalLine() {
   const pathname = usePathname();
   const { clear, execute, history } = useTerminal();
+  const inputRef = useRef<HTMLInputElement>(null);
   const [value, setValue] = useState("");
   const [cursorIndex, setCursorIndex] = useState(0);
   const [isFocused, setIsFocused] = useState(false);
   const [historyIndex, setHistoryIndex] = useState(history.length);
+
+  useEffect(() => {
+    inputRef.current?.focus({ preventScroll: true });
+  }, [pathname]);
 
   return (
     <div className={styles.line}>
       <Prompt path={promptPath(pathname)} />
       <div className={styles.inputWrap}>
         <input
+          ref={inputRef}
           value={value}
           onChange={(event) => {
             setValue(event.target.value);
