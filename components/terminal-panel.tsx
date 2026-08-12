@@ -41,6 +41,12 @@ export function TerminalPanel() {
             {entry.message ? (
               <p className={styles.message}>{entry.message}</p>
             ) : null}
+            {entry.kind === "contact" && entry.email ? (
+              <p className={styles.contact}>
+                My inbox is open - feel free to email me at{" "}
+                <a href={`mailto:${entry.email}`}>{entry.email}</a>.
+              </p>
+            ) : null}
             {entry.kind === "themes" ? <ThemePicker /> : null}
             {entry.kind === "quote" && entry.quote ? (
               <blockquote className={styles.quote}>

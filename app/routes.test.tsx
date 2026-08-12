@@ -26,6 +26,7 @@ vi.mock("@/lib/philosopher-quotes", () => ({
     work: "Brief an Wolfgang Bolyai",
     year: "1808",
   },
+  getRandomQuote: vi.fn(),
 }));
 
 function renderRoute(route: React.ReactNode) {
@@ -129,8 +130,18 @@ describe("portfolio routes", () => {
     expect(
       screen.getByRole("region", { name: "Work experience timeline" }),
     ).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: /lead python developer/i })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: /software engineer/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /digital innovation developer/i }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /data scientist.*infofolio/i }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", {
+        name: /project lead.*statistics netherlands/i,
+      }),
+    ).toBeInTheDocument();
+    expect(screen.getByText("Gas leak detection using drones", { exact: false })).toBeInTheDocument();
     expect(screen.getAllByLabelText("Technologies")).toHaveLength(4);
     expect(screen.queryByRole("button", { name: /experience/i })).not.toBeInTheDocument();
   });
@@ -144,9 +155,21 @@ describe("portfolio routes", () => {
       screen.getByRole("region", { name: "Education timeline" }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: /education history/i }),
+      screen.getByRole("heading", {
+        name: /business analytics.*tilburg university/i,
+      }),
     ).toBeInTheDocument();
-    expect(screen.getByLabelText("Subjects")).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /b\.sc\. mathematics.*radboud/i }),
+    ).toBeInTheDocument();
+    expect(screen.getByText(/the language of the natural numbers/i)).toBeInTheDocument();
+    expect(screen.getByText(/the capability approach/i)).toBeInTheDocument();
+    expect(
+      screen.getByRole("region", { name: "Extracurricular timeline" }),
+    ).toBeInTheDocument();
+    expect(screen.getByText(/fourth out of 278 participating teams/i)).toBeInTheDocument();
+    expect(screen.getByText(/a framework for common knowledge/i)).toBeInTheDocument();
+    expect(screen.getAllByLabelText("Subjects")).toHaveLength(7);
     expect(screen.queryByRole("button", { name: /education/i })).not.toBeInTheDocument();
   });
 
@@ -166,6 +189,7 @@ describe("portfolio routes", () => {
       "help",
       "nav",
       "theme",
+      "contact",
       "cowsay [message]",
       "philosophy",
       "ls",

@@ -52,6 +52,22 @@
   white-space: pre-wrap;
 }
 
+.contact {
+  color: var(--muted);
+  line-height: 1.5rem;
+}
+
+.contact a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.contact a:hover,
+.contact a:focus-visible {
+  color: var(--text);
+}
+
 .quote {
   margin: 0;
 }

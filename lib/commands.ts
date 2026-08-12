@@ -50,7 +50,7 @@ type TerminalCommand =
       name: string;
       autocomplete: readonly string[];
       help: readonly CommandHelp[];
-      action: "clear" | "cowsay" | "ls" | "nav" | "philosophy" | "theme";
+      action: "clear" | "contact" | "cowsay" | "ls" | "nav" | "philosophy" | "theme";
     };
 
 export const terminalCommands: readonly TerminalCommand[] = [
@@ -171,6 +171,12 @@ export const terminalCommands: readonly TerminalCommand[] = [
       },
     ],
     action: "theme",
+  },
+  {
+    name: "contact",
+    autocomplete: ["contact"],
+    help: [{ usage: "contact", description: "Show my email address" }],
+    action: "contact",
   },
   {
     name: "cowsay",

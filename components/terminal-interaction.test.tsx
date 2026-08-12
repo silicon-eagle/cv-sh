@@ -186,6 +186,19 @@ describe("terminal interaction", () => {
     expect(screen.getByText(/< Moo! >/)).toBeInTheDocument();
   });
 
+  it("shows a clickable email address for the contact command", async () => {
+    const user = userEvent.setup();
+    render(<Harness />);
+
+    await user.type(screen.getByLabelText("Terminal command"), "contact{Enter}");
+
+    expect(screen.getByText(/feel free to email me/i)).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "tim.kelch@pm.me" })).toHaveAttribute(
+      "href",
+      "mailto:tim.kelch@pm.me",
+    );
+  });
+
   it("lists every available command with ls", async () => {
     const user = userEvent.setup();
     render(<Harness />);

@@ -11,6 +11,7 @@ import {
   useState,
 } from "react";
 
+import { getPhilosopherQuote } from "@/app/actions";
 import {
   commandHelp,
   findTerminalCommand,
@@ -20,7 +21,6 @@ import {
 import { cowsay } from "@/lib/cowsay";
 import {
   fallbackQuote,
-  isPhilosopherQuote,
   type PhilosopherQuote,
 } from "@/lib/quote";
 import { parseCommand } from "@/lib/terminal";
@@ -30,7 +30,8 @@ export type TerminalOutput = {
   id: number;
   command: string;
   message?: string;
-  kind?: "cow" | "quote" | "themes";
+  kind?: "contact" | "cow" | "quote" | "themes";
+  email?: string;
   quote?: PhilosopherQuote;
   cow?: string;
 };
@@ -125,18 +126,7 @@ export function TerminalProvider({ children }: { children: ReactNode }) {
         let quote = fallbackQuote;
 
         try {
-          const response = await fetch("/api/philosophy", {
-            cache: "no-store",
-          });
-          if (!response.ok) {
-            throw new Error(`Quote endpoint returned ${response.status}`);
-          }
-
-          const result: unknown = await response.json();
-          if (!isPhilosopherQuote(result)) {
-            throw new Error("Quote endpoint returned an invalid response");
-          }
-          quote = result;
+          quote = await getPhilosopherQuote();
         } catch (error) {
           console.error("Unable to load a philosopher quote", error);
         }
@@ -147,6 +137,15 @@ export function TerminalProvider({ children }: { children: ReactNode }) {
           quote,
         });
       })();
+      return;
+    }
+
+    if (definition?.action === "contact" && !command.argument) {
+      appendOutput({
+        command: command.normalized,
+        kind: "contact",
+        email: "tim.kelch@pm.me",
+      });
       return;
     }
 

@@ -47,11 +47,31 @@
   color: var(--text);
 }
 
-.description {
+.location {
   margin-top: 0.375rem;
+  color: var(--text);
+  font-size: 0.75rem;
+}
+
+.highlights {
+  margin: 0.75rem 0 0;
+  padding-left: 1.125rem;
   color: var(--muted);
   font-size: 0.8125rem;
   line-height: 1.5;
+}
+
+.highlights > li + li {
+  margin-top: 0.625rem;
+}
+
+.highlights ul {
+  margin-top: 0.375rem;
+  padding-left: 1.125rem;
+}
+
+.highlights ul li + li {
+  margin-top: 0.25rem;
 }
 
 .technologies {
@@ -103,7 +123,7 @@
     font-size: 1rem;
   }
 
-  .description {
+  .highlights {
     font-size: 0.875rem;
   }
 }
