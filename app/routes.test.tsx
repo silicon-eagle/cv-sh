@@ -167,12 +167,17 @@ describe("portfolio routes", () => {
     pathname = "/snake";
     renderRoute(<SnakePage />);
 
-    expect(screen.getByRole("heading", { name: "Snake" })).toBeInTheDocument();
+    const heading = screen.getByRole("heading", { name: "Snake" });
+    expect(heading).toBeInTheDocument();
     expect(screen.getByLabelText("Snake game")).toBeInTheDocument();
     expect(screen.getByLabelText("Movement controls")).toBeInTheDocument();
     expect(screen.getByRole("img", { name: /snake board\. score 0/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Restart" })).toBeInTheDocument();
-    expect(screen.getByRole("region", { name: "Interactive terminal" })).toBeInTheDocument();
+    const terminal = screen.getByRole("region", { name: "Interactive terminal" });
+    expect(terminal).toBeInTheDocument();
+    expect(
+      heading.compareDocumentPosition(terminal) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
     expect(screen.getByLabelText("Snake game")).toHaveFocus();
   });
 

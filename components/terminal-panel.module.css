@@ -1,10 +1,10 @@
 .panel {
-  height: 22rem;
+  height: 20rem;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   margin: 0 -1.25rem -1.25rem;
-  padding: 1.75rem 1.25rem 1.25rem;
+  padding: 1.25rem;
   background: var(--background);
   border-block: 1px solid var(--border);
   font-size: 0.875rem;
@@ -22,6 +22,15 @@
 
 .panel > :last-child {
   flex-shrink: 0;
+}
+
+.welcome {
+  color: var(--muted);
+  line-height: 1.5rem;
+}
+
+.welcome + .outputEntry {
+  margin-top: 1.25rem;
 }
 
 .outputEntry + .outputEntry { margin-top: 1.25rem; }

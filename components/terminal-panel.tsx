@@ -32,6 +32,10 @@ export function TerminalPanel() {
       }}
     >
       <div ref={outputRef} className={styles.output} aria-live="polite">
+        <p className={styles.welcome}>
+          Type ls to list every command, nav to show navigation buttons or help
+          for more info.
+        </p>
         {output.map((entry) => (
           <div key={entry.id} className={styles.outputEntry}>
             <div className={styles.executedLine}>
