@@ -189,6 +189,11 @@ describe("portfolio routes", () => {
       "href",
       "/projects/plan-your-chaos",
     );
+    expect(screen.getByRole("heading", { name: "cv.sh" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /cv\.sh/i })).toHaveAttribute(
+      "href",
+      "/projects/cvsh",
+    );
   });
 
   it("documents only implemented commands and keyboard controls", () => {
