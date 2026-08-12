@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+import { StatusBar } from "@/components/status-bar";
 import styles from "./terminal-shell.module.css";
 
 export function TerminalShell({ children }: { children: ReactNode }) {
@@ -12,9 +13,7 @@ export function TerminalShell({ children }: { children: ReactNode }) {
       >
         <div className={styles.content}>{children}</div>
 
-        <footer className={styles.footer}>
-          Copyright Tim Kelch
-        </footer>
+        <StatusBar />
       </section>
     </main>
   );

@@ -48,13 +48,16 @@ describe("portfolio routes", () => {
     pathname = "/";
     renderRoute(await HomePage());
     toggleNavigation();
-    expect(screen.getByRole("heading", { name: /welcome/i })).toBeInTheDocument();
-    expect(screen.getByText(/welcome to my little corner/i)).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /hello, i'm tim/i })).toBeInTheDocument();
+    expect(screen.getByText(/developer by profession/i)).toBeInTheDocument();
     expect(screen.queryByText("— Carl Friedrich Gauß")).not.toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /about/i })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /help/i })).toBeInTheDocument();
-    expect(screen.queryByRole("button", { name: /snake/i })).not.toBeInTheDocument();
-    expect(screen.queryByRole("button", { name: /home/i })).not.toBeInTheDocument();
+    const pageCommands = screen.getByLabelText("Page commands");
+    expect(within(pageCommands).getByRole("button", { name: /about/i })).toBeInTheDocument();
+    expect(within(pageCommands).getByRole("button", { name: /help/i })).toBeInTheDocument();
+    expect(within(pageCommands).queryByRole("button", { name: /snake/i })).not.toBeInTheDocument();
+    expect(within(pageCommands).queryByRole("button", { name: /home/i })).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "[ ABOUT ]" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "[ CONTACT ]" })).toBeInTheDocument();
   });
 
   it("renders strengths, skills, hobbies, and languages", () => {
@@ -75,17 +78,18 @@ describe("portfolio routes", () => {
     pathname = "/";
     renderRoute(await HomePage());
     toggleNavigation();
+    const pageCommands = screen.getByLabelText("Page commands");
 
-    expect(screen.getByRole("button", { name: /about/i })).toHaveStyle({
+    expect(within(pageCommands).getByRole("button", { name: /about/i })).toHaveStyle({
       "--command-color": "var(--about-accent)",
     });
-    expect(screen.getByRole("button", { name: /experience/i })).toHaveStyle({
+    expect(within(pageCommands).getByRole("button", { name: /experience/i })).toHaveStyle({
       "--command-color": "var(--experience-accent)",
     });
-    expect(screen.getByRole("button", { name: /education/i })).toHaveStyle({
+    expect(within(pageCommands).getByRole("button", { name: /education/i })).toHaveStyle({
       "--command-color": "var(--education-accent)",
     });
-    expect(screen.getByRole("button", { name: /help/i })).toHaveStyle({
+    expect(within(pageCommands).getByRole("button", { name: /help/i })).toHaveStyle({
       "--command-color": "var(--help-accent)",
     });
   });
@@ -112,11 +116,6 @@ describe("portfolio routes", () => {
     expect(screen.getByRole("heading", { name: "About Me" })).toBeInTheDocument();
     expect(screen.getByText("Tilburg, NL")).toBeInTheDocument();
     expect(screen.getByText("Backend, DevOps, Systems")).toBeInTheDocument();
-    expect(screen.getByText("— Carl Friedrich Gauß").closest("figure")).toHaveAttribute(
-      "data-align",
-      "right",
-    );
-    expect(screen.getByText("Brief an Wolfgang Bolyai · 1808")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /home/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /help/i })).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /about/i })).not.toBeInTheDocument();
@@ -234,7 +233,7 @@ describe("portfolio routes", () => {
     expect(screen.getByText("Navigation hidden.")).toBeInTheDocument();
   });
 
-  it("renders the exact footer and responsive terminal frame", async () => {
+  it("renders the responsive terminal frame and status bar", async () => {
     pathname = "/";
     const homePage = await HomePage();
     render(
@@ -244,7 +243,10 @@ describe("portfolio routes", () => {
         </TerminalProvider>
       </ThemeProvider>,
     );
-    expect(screen.getByText("Copyright Tim Kelch")).toBeInTheDocument();
+    expect(screen.getByLabelText("Terminal status")).toBeInTheDocument();
+    expect(screen.getByText("HOME")).toBeInTheDocument();
+    expect(screen.getByText("Tilburg, NL")).toBeInTheDocument();
+    expect(screen.getByText("ONLINE")).toBeInTheDocument();
     expect(screen.getByLabelText("Tim Kelch portfolio terminal")).toHaveAttribute(
       "data-responsive-terminal",
       "true",
