@@ -1,13 +1,11 @@
-import {
-  BriefcaseBusiness,
-  CircleHelp,
-  FolderCode,
-  Gamepad2,
-  GraduationCap,
-  House,
-  UserRound,
-  type LucideIcon,
-} from "lucide-react";
+import { BracketsContent } from "pixelarticons/react/BracketsContent";
+import { Briefcase } from "pixelarticons/react/Briefcase";
+import { Gamepad } from "pixelarticons/react/Gamepad";
+import { Home } from "pixelarticons/react/Home";
+import { InfoBox } from "pixelarticons/react/InfoBox";
+import { University } from "pixelarticons/react/University";
+import { User } from "pixelarticons/react/User";
+import type { ComponentType, SVGProps } from "react";
 
 export const themeNames = [
   "catppuccin",
@@ -20,6 +18,8 @@ export const themeNames = [
 
 export type ThemeName = (typeof themeNames)[number];
 
+type PixelArtIcon = ComponentType<SVGProps<SVGSVGElement>>;
+
 type CommandHelp = {
   usage: string;
   description: string;
@@ -31,7 +31,7 @@ export type NavigationCommand = {
   help: readonly CommandHelp[];
   action: "navigate";
   path: string;
-  icon: LucideIcon;
+  icon: PixelArtIcon;
   color: string;
   button?: {
     label: string;
@@ -59,7 +59,7 @@ export const terminalCommands: readonly TerminalCommand[] = [
     help: [{ usage: "home", description: "Return to the welcome screen" }],
     action: "navigate",
     path: "/",
-    icon: House,
+    icon: Home,
     color: "var(--home-accent)",
     button: {
       label: "Home",
@@ -72,7 +72,7 @@ export const terminalCommands: readonly TerminalCommand[] = [
     help: [{ usage: "about", description: "Find out about who am I" }],
     action: "navigate",
     path: "/about",
-    icon: UserRound,
+    icon: User,
     color: "var(--about-accent)",
     button: {
       label: "About",
@@ -85,7 +85,7 @@ export const terminalCommands: readonly TerminalCommand[] = [
     help: [{ usage: "experience", description: "Find out about the things I do" }],
     action: "navigate",
     path: "/experience",
-    icon: BriefcaseBusiness,
+    icon: Briefcase,
     color: "var(--experience-accent)",
     button: {
       label: "Experience",
@@ -98,7 +98,7 @@ export const terminalCommands: readonly TerminalCommand[] = [
     help: [{ usage: "education", description: "Find out about what I studied" }],
     action: "navigate",
     path: "/education",
-    icon: GraduationCap,
+    icon: University,
     color: "var(--education-accent)",
     button: {
       label: "Education",
@@ -111,7 +111,7 @@ export const terminalCommands: readonly TerminalCommand[] = [
     help: [{ usage: "projects", description: "Find out about the things I make" }],
     action: "navigate",
     path: "/projects",
-    icon: FolderCode,
+    icon: BracketsContent,
     color: "var(--projects-accent)",
     button: {
       label: "Projects",
@@ -124,7 +124,7 @@ export const terminalCommands: readonly TerminalCommand[] = [
     help: [{ usage: "snake", description: "Play a little game" }],
     action: "navigate",
     path: "/snake",
-    icon: Gamepad2,
+    icon: Gamepad,
     color: "var(--snake-accent)",
   },
   {
@@ -133,7 +133,7 @@ export const terminalCommands: readonly TerminalCommand[] = [
     help: [{ usage: "help", description: "Show commands and keyboard controls" }],
     action: "navigate",
     path: "/help",
-    icon: CircleHelp,
+    icon: InfoBox,
     color: "var(--help-accent)",
     button: {
       label: "Help",

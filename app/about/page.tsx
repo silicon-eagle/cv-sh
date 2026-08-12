@@ -1,12 +1,10 @@
-import {
-  BriefcaseBusiness,
-  Cake,
-  MapPin,
-  Rocket,
-  Target,
-  UserRound,
-} from "lucide-react";
 import Image from "next/image";
+import { Briefcase } from "pixelarticons/react/Briefcase";
+import { Cake } from "pixelarticons/react/Cake";
+import { MapPin } from "pixelarticons/react/MapPin";
+import { Target } from "pixelarticons/react/Target";
+import { ToolCase } from "pixelarticons/react/ToolCase";
+import { User } from "pixelarticons/react/User";
 
 import { PageLayout } from "@/components/page-layout";
 import { PhilosopherQuote } from "@/components/philosopher-quote";
@@ -14,12 +12,12 @@ import { fallbackQuote } from "@/lib/philosopher-quotes";
 import styles from "./about.module.css";
 
 const details = [
-  { label: "Name", value: "Tim Kelch", icon: UserRound },
+  { label: "Name", value: "Tim Kelch", icon: User },
   { label: "Age", value: "31", icon: Cake },
   { label: "Location", value: "Tilburg, NL", icon: MapPin },
-  { label: "Experience", value: "8+ years", icon: BriefcaseBusiness },
+  { label: "Experience", value: "8+ years", icon: Briefcase },
   { label: "Focus", value: "Backend, DevOps, Systems", icon: Target },
-  { label: "Currently", value: "Building, learning, automating", icon: Rocket },
+  { label: "Currently", value: "Building, learning, automating", icon: ToolCase },
 ] as const;
 
 export default function AboutPage() {

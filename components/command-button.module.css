@@ -54,9 +54,8 @@
 }
 
 .button .command svg {
-  width: 2.5rem;
-  height: 2.5rem;
-  stroke-width: 1.75;
+  width: 3rem;
+  height: 3rem;
 }
 
 .label {
