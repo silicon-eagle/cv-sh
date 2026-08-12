@@ -6,6 +6,7 @@ import EducationPage from "@/app/education/page";
 import ExperiencePage from "@/app/experience/page";
 import HelpPage from "@/app/help/page";
 import HomePage from "@/app/page";
+import SkillsPage from "@/app/skills/page";
 import SnakePage from "@/app/snake/page";
 import { TerminalProvider } from "@/components/terminal-provider";
 import { TerminalShell } from "@/components/terminal-shell";
@@ -53,6 +54,20 @@ describe("portfolio routes", () => {
     expect(screen.getByRole("button", { name: /help/i })).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /snake/i })).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /home/i })).not.toBeInTheDocument();
+  });
+
+  it("renders strengths, skills, hobbies, and languages", () => {
+    pathname = "/skills";
+    renderRoute(<SkillsPage />);
+
+    expect(screen.getByRole("heading", { name: /strengths/i })).toBeInTheDocument();
+    expect(screen.getAllByRole("heading", { name: /skills/i })).toHaveLength(2);
+    expect(screen.getByRole("heading", { name: /hobbies/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /languages/i })).toBeInTheDocument();
+    expect(screen.getByText("Python")).toBeInTheDocument();
+    expect(screen.getByText("Docker")).toBeInTheDocument();
+    expect(screen.getByText("Dutch")).toBeInTheDocument();
+    expect(screen.getByLabelText("4 out of 5")).toBeInTheDocument();
   });
 
   it("assigns page commands their theme-aware colors", async () => {
@@ -145,6 +160,7 @@ describe("portfolio routes", () => {
       "about",
       "experience",
       "education",
+      "skills",
       "projects",
       "snake",
       "help",

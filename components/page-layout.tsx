@@ -20,9 +20,13 @@ export function PageLayout({
 }: PageLayoutProps) {
   return (
     <div className={styles.layout}>
-      <PageHeading command={command} title={title} eyebrow={eyebrow} />
-      <PageCommandButtons />
-      <div className={styles.content}>{children}</div>
+      <div className={styles.header}>
+        <PageHeading command={command} title={title} eyebrow={eyebrow} />
+        <PageCommandButtons />
+      </div>
+      <div className={styles.page}>
+        <div className={styles.content}>{children}</div>
+      </div>
       <div className={styles.terminal}>
         <TerminalPanel />
       </div>

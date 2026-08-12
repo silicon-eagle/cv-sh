@@ -3,6 +3,7 @@ import { Briefcase } from "pixelarticons/react/Briefcase";
 import { Gamepad } from "pixelarticons/react/Gamepad";
 import { Home } from "pixelarticons/react/Home";
 import { InfoBox } from "pixelarticons/react/InfoBox";
+import { Sparkles } from "pixelarticons/react/Sparkles";
 import { University } from "pixelarticons/react/University";
 import { User } from "pixelarticons/react/User";
 import type { ComponentType, SVGProps } from "react";
@@ -103,6 +104,19 @@ export const terminalCommands: readonly TerminalCommand[] = [
     button: {
       label: "Education",
       description: "What did I study?",
+    },
+  },
+  {
+    name: "skills",
+    autocomplete: ["skills"],
+    help: [{ usage: "skills", description: "Explore skills and interests" }],
+    action: "navigate",
+    path: "/skills",
+    icon: Sparkles,
+    color: "var(--skills-accent)",
+    button: {
+      label: "Skills",
+      description: "Strengths and interests",
     },
   },
   {

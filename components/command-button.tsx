@@ -44,11 +44,11 @@ export function CommandButton({
       </span>
       <span>
         <span className={styles.label}>{label}</span>
-        {description ? (
-          <span className={styles.description}>
-            {description}
-          </span>
-        ) : null}
+        {/* {description ? ( */}
+        {/*   <span className={styles.description}> */}
+        {/*     {description} */}
+        {/*   </span> */}
+        {/* ) : null} */}
       </span>
     </button>
   );

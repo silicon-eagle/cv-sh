@@ -8,9 +8,15 @@ describe("terminal shell styles", () => {
     "utf8",
   );
 
-  it("fills the available viewport height", () => {
+  it("stays fixed to the available viewport height", () => {
     expect(css).toMatch(
-      /\.terminal\s*{[\s\S]*?min-height:\s*calc\(100svh - 1\.5rem\);/,
+      /\.terminal\s*{[\s\S]*?height:\s*calc\(100svh - 1\.5rem\);/,
+    );
+  });
+
+  it("keeps overflow inside the shell content", () => {
+    expect(css).toMatch(
+      /\.content\s*{[\s\S]*?min-height:\s*0;[\s\S]*?overflow:\s*hidden;/,
     );
   });
 });

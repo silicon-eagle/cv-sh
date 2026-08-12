@@ -1,16 +1,18 @@
 .viewport {
   width: 100%;
-  min-height: 100svh;
+  height: 100svh;
   display: flex;
   align-items: stretch;
   justify-content: center;
+  overflow: hidden;
   padding: 0.75rem;
 }
 
 .terminal {
   width: 100%;
   max-width: 64rem;
-  min-height: calc(100svh - 1.5rem);
+  height: calc(100svh - 1.5rem);
+  min-height: 0;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -20,13 +22,16 @@
 }
 
 .content {
+  min-height: 0;
   flex: 1;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   padding: 1.25rem;
 }
 
 .footer {
+  flex: 0 0 auto;
   padding: 1rem 1.25rem;
   color: var(--muted);
   font-size: 0.75rem;
@@ -35,7 +40,7 @@
 
 @media (min-width: 640px) {
   .viewport { padding: 2rem 1.5rem; }
-  .terminal { min-height: calc(100svh - 4rem); }
+  .terminal { height: calc(100svh - 4rem); }
   .content { padding: 2rem; }
   .footer { padding-inline: 2rem; }
 }

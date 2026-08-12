@@ -1,7 +1,13 @@
+.header {
+  position: relative;
+  min-height: 3rem;
+  padding-right: 4rem;
+}
+
 .prompt {
-  margin-bottom: 1.25rem;
   color: var(--muted);
   font-size: 0.875rem;
+  line-height: 1.5rem;
 }
 
 .user {
@@ -14,25 +20,22 @@
 }
 
 .icon {
+  position: absolute;
+  top: 0;
+  right: 0;
   width: 3rem;
   height: 3rem;
-  margin-bottom: 1rem;
 }
 
-.eyebrow {
-  margin-bottom: 0.5rem;
-  color: var(--path-accent);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-.title {
-  color: var(--text);
-  font-size: clamp(1.875rem, 5vw, 3rem);
-  font-weight: 600;
-  letter-spacing: -0.025em;
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 @media (min-width: 640px) {

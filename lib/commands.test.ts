@@ -13,6 +13,7 @@ describe("terminal command registry", () => {
       "about",
       "experience",
       "education",
+      "skills",
       "projects",
       "snake",
       "help",
