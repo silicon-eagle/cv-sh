@@ -110,6 +110,34 @@ describe("terminal interaction", () => {
     expect(push).toHaveBeenCalledWith("/help");
   });
 
+  it("routes project slugs from the projects page", async () => {
+    const user = userEvent.setup();
+    pathname = "/projects";
+    render(<Harness />);
+
+    await user.type(
+      screen.getByLabelText("Terminal command"),
+      "plan-your-chaos{Enter}",
+    );
+
+    expect(push).toHaveBeenCalledWith("/projects/plan-your-chaos");
+  });
+
+  it("does not route project slugs outside the projects page", async () => {
+    const user = userEvent.setup();
+    render(<Harness />);
+
+    await user.type(
+      screen.getByLabelText("Terminal command"),
+      "plan-your-chaos{Enter}",
+    );
+
+    expect(push).not.toHaveBeenCalled();
+    expect(
+      screen.getByText("plan-your-chaos: command not found"),
+    ).toBeInTheDocument();
+  });
+
   it("autocompletes commands and traverses history", async () => {
     const user = userEvent.setup();
     render(<Harness />);

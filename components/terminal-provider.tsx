@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   createContext,
   type ReactNode,
@@ -14,6 +14,7 @@ import {
 import { getPhilosopherQuote } from "@/app/actions";
 import {
   commandHelp,
+  findProjectCommand,
   findTerminalCommand,
   isThemeName,
   themeNames,
@@ -58,6 +59,7 @@ function commandListing(): string {
 
 export function TerminalProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
+  const pathname = usePathname();
   const { setTheme } = useTheme();
   const [history, setHistory] = useState<string[]>([]);
   const [navigationVisible, setNavigationVisible] = useState(false);
@@ -78,7 +80,9 @@ export function TerminalProvider({ children }: { children: ReactNode }) {
 
     setHistory((current) => [...current, command.normalized]);
 
-    const definition = findTerminalCommand(command.name);
+    const definition =
+      findTerminalCommand(command.name) ??
+      (pathname === "/projects" ? findProjectCommand(command.name) : undefined);
 
     if (definition?.action === "navigate" && !command.argument) {
       router.push(definition.path);
@@ -172,7 +176,7 @@ export function TerminalProvider({ children }: { children: ReactNode }) {
       command: command.normalized,
       message: `${command.normalized}: command not found`,
     });
-  }, [appendOutput, clear, router, setTheme]);
+  }, [appendOutput, clear, pathname, router, setTheme]);
 
   const value = useMemo(
     () => ({ execute, clear, history, navigationVisible, output }),

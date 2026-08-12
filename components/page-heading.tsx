@@ -8,7 +8,7 @@ type PageHeadingProps = {
 };
 
 export function PageHeading({ command, title }: PageHeadingProps) {
-  const navigationCommand = findNavigationCommand(command);
+  const navigationCommand = findNavigationCommand(command.split("/")[0]);
   const Icon = navigationCommand?.icon;
 
   return (

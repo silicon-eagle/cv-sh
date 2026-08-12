@@ -8,6 +8,8 @@ import { University } from "pixelarticons/react/University";
 import { User } from "pixelarticons/react/User";
 import type { ComponentType, SVGProps } from "react";
 
+import { projects } from "@/lib/projects";
+
 export const themeNames = [
   "catppuccin",
   "catppuccin-light",
@@ -52,6 +54,16 @@ type TerminalCommand =
       help: readonly CommandHelp[];
       action: "clear" | "contact" | "cowsay" | "ls" | "nav" | "philosophy" | "theme";
     };
+
+const projectCommands: readonly NavigationCommand[] = projects.map((project) => ({
+  name: project.slug,
+  autocomplete: [project.slug],
+  help: [],
+  action: "navigate",
+  path: `/projects/${project.slug}`,
+  icon: BracketsContent,
+  color: "var(--projects-accent)",
+}));
 
 export const terminalCommands: readonly TerminalCommand[] = [
   {
@@ -122,7 +134,13 @@ export const terminalCommands: readonly TerminalCommand[] = [
   {
     name: "projects",
     autocomplete: ["projects"],
-    help: [{ usage: "projects", description: "Find out about the things I make" }],
+    help: [
+      { usage: "projects", description: "Find out about the things I make" },
+      {
+        usage: "projects/<project>",
+        description: "Open a specific project from the projects page",
+      },
+    ],
     action: "navigate",
     path: "/projects",
     icon: BracketsContent,
@@ -221,6 +239,18 @@ export const navigationButtonCommands: readonly NavigationButtonCommand[] =
 
 export function findTerminalCommand(name: string) {
   return terminalCommands.find((command) => command.name === name);
+}
+
+export function findProjectCommand(name: string) {
+  return projectCommands.find((command) => command.name === name);
+}
+
+export function autocompleteCommands(pathname: string): readonly string[] {
+  if (pathname !== "/projects") return supportedCommands;
+  return [
+    ...supportedCommands,
+    ...projectCommands.flatMap((command) => command.autocomplete),
+  ];
 }
 
 export function findNavigationCommand(name: string) {

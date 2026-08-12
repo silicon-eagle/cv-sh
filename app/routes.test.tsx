@@ -6,6 +6,7 @@ import EducationPage from "@/app/education/page";
 import ExperiencePage from "@/app/experience/page";
 import HelpPage from "@/app/help/page";
 import HomePage from "@/app/page";
+import ProjectsPage from "@/app/projects/page";
 import SkillsPage from "@/app/skills/page";
 import SnakePage from "@/app/snake/page";
 import { TerminalProvider } from "@/components/terminal-provider";
@@ -172,6 +173,24 @@ describe("portfolio routes", () => {
     expect(screen.queryByRole("button", { name: /education/i })).not.toBeInTheDocument();
   });
 
+  it("lists projects with their main image and detail link", () => {
+    pathname = "/projects";
+    renderRoute(<ProjectsPage />);
+
+    expect(
+      screen.getByRole("heading", { name: "plan-your-chaos" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("img", {
+        name: "Plan Your Chaos desktop calendar and upcoming events view",
+      }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /plan-your-chaos/i })).toHaveAttribute(
+      "href",
+      "/projects/plan-your-chaos",
+    );
+  });
+
   it("documents only implemented commands and keyboard controls", () => {
     pathname = "/help";
     renderRoute(<HelpPage />);
@@ -184,6 +203,7 @@ describe("portfolio routes", () => {
       "education",
       "skills",
       "projects",
+      "projects/<project>",
       "snake",
       "help",
       "nav",
@@ -196,7 +216,11 @@ describe("portfolio routes", () => {
     ]) {
       expect(within(commands).getByText(command)).toBeInTheDocument();
     }
-    expect(screen.getByText("Ctrl+L")).toBeInTheDocument();
+    const keyboard = screen.getByLabelText("Keyboard controls");
+    expect(within(keyboard).getByText("Ctrl+L")).toBeInTheDocument();
+    expect(
+      keyboard.compareDocumentPosition(commands) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
     expect(screen.getByRole("button", { name: /home/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /about/i })).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /help/i })).not.toBeInTheDocument();

@@ -1,4 +1,4 @@
-import { supportedCommands } from "@/lib/commands";
+import { autocompleteCommands } from "@/lib/commands";
 
 export type ParsedCommand = {
   name: string;
@@ -32,9 +32,11 @@ function commonPrefix(values: readonly string[]): string {
   }, values[0]);
 }
 
-export function autocompleteCommand(input: string): string {
+export function autocompleteCommand(input: string, pathname = "/"): string {
   const normalized = input.toLowerCase();
-  const matches = supportedCommands.filter((command) => command.startsWith(normalized));
+  const matches = autocompleteCommands(pathname).filter((command) =>
+    command.startsWith(normalized),
+  );
 
   if (matches.length === 0) return input;
   if (matches.length === 1) return matches[0];

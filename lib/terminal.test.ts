@@ -44,4 +44,9 @@ describe("terminal utilities", () => {
   it("leaves unknown input unchanged", () => {
     expect(autocompleteCommand("projects")).toBe("projects");
   });
+
+  it("only completes project routes from the projects page", () => {
+    expect(autocompleteCommand("plan-y", "/")).toBe("plan-y");
+    expect(autocompleteCommand("plan-y", "/projects")).toBe("plan-your-chaos");
+  });
 });

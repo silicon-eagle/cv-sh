@@ -65,7 +65,7 @@ export function TerminalLine({ inputRef }: TerminalLineProps) {
               setHistoryIndex(history.length + (value.trim() ? 1 : 0));
             } else if (event.key === "Tab") {
               event.preventDefault();
-              const completedValue = autocompleteCommand(value);
+              const completedValue = autocompleteCommand(value, pathname);
               setValue(completedValue);
               setCursorIndex(completedValue.length);
             } else if (event.key === "ArrowUp") {
