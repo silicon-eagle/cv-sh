@@ -2,6 +2,8 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 1.25rem;
+  padding: 1rem;
+  margin: -1rem;
 }
 
 .project {
@@ -18,7 +20,7 @@
 .project:hover {
   transform: translateY(-0.125rem);
   border-color: var(--projects-accent);
-  box-shadow: 0 0.75rem 1.875rem color-mix(in srgb, var(--projects-accent) 10%, transparent);
+  box-shadow: 0 0 1.875rem color-mix(in srgb, var(--projects-accent) 18%, transparent);
 }
 
 .project:focus-visible {
@@ -89,4 +91,5 @@
   .list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
 }

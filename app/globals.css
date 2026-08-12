@@ -148,7 +148,7 @@ body {
   overflow-x: hidden;
   background: var(--background);
   color: var(--text);
-  font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-family: var(--font-ibm-plex-mono), ui-monospace, SFMono-Regular, Consolas, monospace;
   transition: background-color 180ms ease, color 180ms ease;
 }
 
