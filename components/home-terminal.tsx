@@ -12,13 +12,6 @@ const bootLines = [
   ["Starting terminal...........", "OK"],
 ] as const;
 
-const shortcuts = [
-  ["ABOUT", "about"],
-  ["WORK", "experience"],
-  ["PROJECTS", "projects"],
-  ["CONTACT", "contact"],
-] as const;
-
 export function HomeTerminal() {
   const { execute } = useTerminal();
 
@@ -57,28 +50,16 @@ export function HomeTerminal() {
           and asking whether they should work that way in the first place.
         </p>
 
-        <nav className={styles.shortcuts} aria-label="Homepage shortcuts">
-          {shortcuts.map(([label, command]) => (
-            <button
-              key={command}
-              type="button"
-              onClick={() => execute(command)}
-            >
-              [ {label} ]
-            </button>
-          ))}
-        </nav>
-
         <p className={styles.hint}>
           Type{" "}
           <button type="button" onClick={() => execute("help")}>
-            [help]
+            help
           </button>{" "}
           for more information, or type{" "}
-          <button type="button" onClick={() => execute("ls")}>
-            [ls]
+          <button type="button" onClick={() => execute("nav")}>
+            nav
           </button>{" "}
-          to view all available commands.
+          to navigate with buttons (but you might miss something!).
         </p>
       </section>
     </div>

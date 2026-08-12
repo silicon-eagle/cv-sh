@@ -233,6 +233,27 @@ describe("portfolio routes", () => {
     expect(screen.getByText("Navigation hidden.")).toBeInTheDocument();
   });
 
+  it("toggles page commands from the mobile menu button", async () => {
+    pathname = "/";
+    renderRoute(await HomePage());
+    toggleNavigation();
+
+    const openMenu = screen.getByRole("button", {
+      name: "Open page navigation",
+    });
+    expect(openMenu).toHaveAttribute("aria-expanded", "false");
+
+    fireEvent.click(openMenu);
+    const closeMenu = screen.getByRole("button", {
+      name: "Close page navigation",
+    });
+    expect(closeMenu).toHaveAttribute("aria-expanded", "true");
+    expect(document.getElementById("page-command-list")).toHaveAttribute(
+      "data-open",
+      "true",
+    );
+  });
+
   it("renders the responsive terminal frame and status bar", async () => {
     pathname = "/";
     const homePage = await HomePage();
