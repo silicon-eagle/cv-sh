@@ -7,6 +7,7 @@ import { TerminalProvider } from "@/components/terminal-provider";
 import { TerminalPanel } from "@/components/terminal-panel";
 import { TerminalShell } from "@/components/terminal-shell";
 import { ThemeProvider } from "@/components/theme-provider";
+import catPhoto from "@/public/cats/compressed/22639b96-d596-4f5d-9619-549043a5a597.webp";
 
 const push = vi.fn();
 let pathname = "/";
@@ -19,7 +20,7 @@ vi.mock("next/navigation", () => ({
 function Harness() {
   return (
     <ThemeProvider>
-      <TerminalProvider>
+      <TerminalProvider catImages={[{ src: catPhoto, alt: "Cat photo" }]}>
         <TerminalShell>
           <CommandButton command="about" label="About" description="Read more" />
           <TerminalPanel />

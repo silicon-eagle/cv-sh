@@ -20,7 +20,7 @@ import {
   isThemeName,
   themeNames,
 } from "@/lib/commands";
-import { catImages, type CatImage } from "@/lib/cats";
+import type { CatImage } from "@/lib/cats";
 import { cowsay } from "@/lib/cowsay";
 import {
   fallbackQuote,
@@ -60,7 +60,15 @@ function commandListing(): string {
     .join("\n");
 }
 
-export function TerminalProvider({ children }: { children: ReactNode }) {
+type TerminalProviderProps = {
+  children: ReactNode;
+  catImages?: readonly CatImage[];
+};
+
+export function TerminalProvider({
+  children,
+  catImages = [],
+}: TerminalProviderProps) {
   const router = useRouter();
   const pathname = usePathname();
   const { setTheme } = useTheme();
@@ -166,8 +174,17 @@ export function TerminalProvider({ children }: { children: ReactNode }) {
     }
 
     if (definition?.action === "cat" && !command.argument) {
+      const image = catImages[Math.floor(Math.random() * catImages.length)];
+      if (!image) {
+        appendOutput({
+          command: command.normalized,
+          message: "cat: no images found",
+        });
+        return;
+      }
+
       if (catTimeoutRef.current) clearTimeout(catTimeoutRef.current);
-      setCatImage(catImages[Math.floor(Math.random() * catImages.length)]);
+      setCatImage(image);
       catTimeoutRef.current = setTimeout(() => {
         setCatImage(null);
         catTimeoutRef.current = null;
@@ -198,7 +215,7 @@ export function TerminalProvider({ children }: { children: ReactNode }) {
       command: command.normalized,
       message: `${command.normalized}: command not found`,
     });
-  }, [appendOutput, clear, pathname, router, setTheme]);
+  }, [appendOutput, catImages, clear, pathname, router, setTheme]);
 
   const value = useMemo(
     () => ({ execute, clear, history, catImage, navigationVisible, output }),

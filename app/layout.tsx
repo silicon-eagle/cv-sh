@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 import { TerminalProvider } from "@/components/terminal-provider";
 import { TerminalShell } from "@/components/terminal-shell";
 import { ThemeProvider } from "@/components/theme-provider";
+import { getCatImages } from "@/lib/cats";
 
 import "./globals.css";
 
@@ -19,7 +20,9 @@ export const metadata: Metadata = {
   description: "The terminal portfolio of Tim Kelch.",
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  const catImages = await getCatImages();
+
   return (
     <html
       lang="en"
@@ -28,7 +31,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     >
       <body>
         <ThemeProvider>
-          <TerminalProvider>
+          <TerminalProvider catImages={catImages}>
             <TerminalShell>{children}</TerminalShell>
           </TerminalProvider>
         </ThemeProvider>
