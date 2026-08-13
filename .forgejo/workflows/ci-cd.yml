@@ -124,7 +124,7 @@ jobs:
             -i ~/.ssh/deploy_key \
             "${DEPLOY_USER}@${DEPLOY_HOST}" \
             "cd '${DEPLOY_PATH}' \
-              && docker compose pull cv"
+              && docker compose -f compose.yml pull cv"
 
       - name: Deploy application
         env:
@@ -136,7 +136,7 @@ jobs:
             -i ~/.ssh/deploy_key \
             "${DEPLOY_USER}@${DEPLOY_HOST}" \
             "cd '${DEPLOY_PATH}' \
-              && docker compose up -d --no-deps --force-recreate cv"
+              && docker compose -f compose.yml up -d --no-deps --force-recreate cv"
 
       - name: Verify deployment
         env:
@@ -148,12 +148,12 @@ jobs:
             -i ~/.ssh/deploy_key \
             "${DEPLOY_USER}@${DEPLOY_HOST}" \
             "cd '${DEPLOY_PATH}' \
-              && timeout 90 sh -c \
-                'until [ \"\$(docker inspect \
-                  --format=\"{{if .State.Health}}{{.State.Health.Status}}{{else}}none{{end}}\" \
-                  cv-sh 2>/dev/null)\" = \"healthy\" ]; do
-                    sleep 3
-                done'"
+              && docker compose -f compose.yml up \
+                -d \
+                --no-deps \
+                --wait \
+                --wait-timeout 90 \
+                cv"
 
       - name: Show deployed containers
         if: always()
@@ -165,7 +165,8 @@ jobs:
           ssh \
             -i ~/.ssh/deploy_key \
             "${DEPLOY_USER}@${DEPLOY_HOST}" \
-            "cd '${DEPLOY_PATH}' && docker compose ps --all"
+            "cd '${DEPLOY_PATH}' \
+              && docker compose -f compose.yml ps --all"
 
       - name: Remove unused images
         if: success()
