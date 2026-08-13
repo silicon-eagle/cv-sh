@@ -1,5 +1,6 @@
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import type { StaticImageData } from "next/image";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { CommandButton } from "@/components/command-button";
@@ -7,10 +8,14 @@ import { TerminalProvider } from "@/components/terminal-provider";
 import { TerminalPanel } from "@/components/terminal-panel";
 import { TerminalShell } from "@/components/terminal-shell";
 import { ThemeProvider } from "@/components/theme-provider";
-import catPhoto from "@/public/cats/compressed/22639b96-d596-4f5d-9619-549043a5a597.webp";
 
 const push = vi.fn();
 let pathname = "/";
+const catPhoto: StaticImageData = {
+  src: "/test-cat.webp",
+  width: 640,
+  height: 480,
+};
 
 vi.mock("next/navigation", () => ({
   usePathname: () => pathname,
@@ -223,7 +228,7 @@ describe("terminal interaction", () => {
     const avatar = screen.getByRole("img", { name: "Cat photo" });
     expect(avatar).toHaveAttribute(
       "src",
-      expect.stringContaining("22639b96-d596-4f5d-9619-549043a5a597.webp"),
+      expect.stringContaining("test-cat.webp"),
     );
     expect(
       screen.getByRole("region", { name: "Interactive terminal" }),
