@@ -57,8 +57,8 @@ describe("portfolio routes", () => {
     expect(within(pageCommands).getByRole("button", { name: /help/i })).toBeInTheDocument();
     expect(within(pageCommands).queryByRole("button", { name: /snake/i })).not.toBeInTheDocument();
     expect(within(pageCommands).queryByRole("button", { name: /home/i })).not.toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "[ ABOUT ]" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "[ CONTACT ]" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "help" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "nav" })).toBeInTheDocument();
   });
 
   it("renders strengths, skills, hobbies, and languages", () => {

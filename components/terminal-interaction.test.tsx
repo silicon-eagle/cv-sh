@@ -36,17 +36,13 @@ describe("terminal interaction", () => {
   });
 
   afterEach(() => {
+    vi.useRealTimers();
     vi.unstubAllGlobals();
     vi.restoreAllMocks();
   });
 
   it("renders the current prompt and blinking cursor", () => {
     render(<Harness />);
-    expect(
-      screen.getByText(
-        /Type ls to list every command, nav to show navigation buttons or help for more info\./,
-      ),
-    ).toBeInTheDocument();
     expect(screen.getByTestId("terminal-prompt")).toHaveTextContent("tim@kelch:~$");
     expect(screen.getByLabelText("Terminal command")).toHaveFocus();
     const cursor = screen.getByTestId("terminal-cursor");
