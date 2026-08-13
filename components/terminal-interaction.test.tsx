@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -212,6 +212,31 @@ describe("terminal interaction", () => {
 
     await user.type(input, "cowsay{Enter}");
     expect(screen.getByText(/< Moo! >/)).toBeInTheDocument();
+  });
+
+  it("floats a random cat photo outside the terminal output for four seconds", () => {
+    vi.useFakeTimers();
+    vi.spyOn(Math, "random").mockReturnValue(0);
+    render(<Harness />);
+    const input = screen.getByLabelText("Terminal command");
+
+    fireEvent.change(input, { target: { value: "cat" } });
+    fireEvent.keyDown(input, { key: "Enter" });
+
+    const avatar = screen.getByRole("img", { name: "Cat photo" });
+    expect(avatar).toHaveAttribute(
+      "src",
+      expect.stringContaining("22639b96-d596-4f5d-9619-549043a5a597.webp"),
+    );
+    expect(
+      screen.getByRole("region", { name: "Interactive terminal" }),
+    ).not.toContainElement(avatar);
+    expect(screen.queryByText("cat", { selector: "span" })).not.toBeInTheDocument();
+
+    act(() => vi.advanceTimersByTime(4000));
+    expect(
+      screen.queryByRole("img", { name: "Cat photo" }),
+    ).not.toBeInTheDocument();
   });
 
   it("shows a clickable email address for the contact command", async () => {

@@ -52,7 +52,7 @@ type TerminalCommand =
       name: string;
       autocomplete: readonly string[];
       help: readonly CommandHelp[];
-      action: "clear" | "contact" | "cowsay" | "ls" | "nav" | "philosophy" | "theme";
+      action: "cat" | "clear" | "contact" | "cowsay" | "ls" | "nav" | "philosophy" | "theme";
     };
 
 const projectCommands: readonly NavigationCommand[] = projects.map((project) => ({
@@ -195,6 +195,12 @@ export const terminalCommands: readonly TerminalCommand[] = [
     autocomplete: ["contact"],
     help: [{ usage: "contact", description: "Show my email address" }],
     action: "contact",
+  },
+  {
+    name: "cat",
+    autocomplete: ["cat"],
+    help: [{ usage: "cat", description: "Show my cat avatar" }],
+    action: "cat",
   },
   {
     name: "cowsay",

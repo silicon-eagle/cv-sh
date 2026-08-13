@@ -26,6 +26,7 @@ describe("terminal command registry", () => {
       "theme nord",
       "theme ayu",
       "contact",
+      "cat",
       "cowsay",
       "philosophy",
       "ls",

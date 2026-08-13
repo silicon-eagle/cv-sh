@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+import { CatOverlay } from "@/components/cat-overlay";
 import { StatusBar } from "@/components/status-bar";
 import styles from "./terminal-shell.module.css";
 
@@ -13,6 +14,7 @@ export function TerminalShell({ children }: { children: ReactNode }) {
       >
         <div className={styles.content}>{children}</div>
 
+        <CatOverlay />
         <StatusBar />
       </section>
     </main>

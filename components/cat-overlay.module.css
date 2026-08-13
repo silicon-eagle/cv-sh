@@ -1,0 +1,69 @@
+.overlay {
+  position: absolute;
+  right: 1.25rem;
+  bottom: 3.5rem;
+  z-index: 10;
+  width: clamp(8rem, 28vw, 16rem);
+  max-height: min(50vh, 22rem);
+  pointer-events: none;
+  animation: catHover 4s ease-in-out forwards;
+}
+
+.overlay img {
+  width: 100%;
+  max-height: min(50vh, 22rem);
+  height: auto;
+  display: block;
+  object-fit: contain;
+  object-position: right bottom;
+}
+
+@keyframes catHover {
+  0% {
+    opacity: 0;
+    transform: translateY(1rem) scale(0.95);
+  }
+
+  10%,
+  80% {
+    opacity: 1;
+  }
+
+  35% {
+    transform: translateY(-0.5rem) scale(1);
+  }
+
+  65% {
+    transform: translateY(0) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-1rem) scale(0.98);
+  }
+}
+
+@media (min-width: 640px) {
+  .overlay {
+    right: 2rem;
+    bottom: 4.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overlay {
+    animation-name: catFade;
+  }
+}
+
+@keyframes catFade {
+  0%,
+  100% {
+    opacity: 0;
+  }
+
+  10%,
+  80% {
+    opacity: 1;
+  }
+}

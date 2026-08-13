@@ -6,6 +6,7 @@ import {
   type ReactNode,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -19,6 +20,7 @@ import {
   isThemeName,
   themeNames,
 } from "@/lib/commands";
+import { catImages, type CatImage } from "@/lib/cats";
 import { cowsay } from "@/lib/cowsay";
 import {
   fallbackQuote,
@@ -41,6 +43,7 @@ type TerminalContextValue = {
   execute: (input: string) => void;
   clear: () => void;
   history: readonly string[];
+  catImage: CatImage | null;
   navigationVisible: boolean;
   output: readonly TerminalOutput[];
 };
@@ -62,10 +65,19 @@ export function TerminalProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const { setTheme } = useTheme();
   const [history, setHistory] = useState<string[]>([]);
+  const [catImage, setCatImage] = useState<CatImage | null>(null);
   const [navigationVisible, setNavigationVisible] = useState(false);
   const [output, setOutput] = useState<TerminalOutput[]>([]);
   const navigationVisibleRef = useRef(false);
+  const catTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const outputId = useRef(0);
+
+  useEffect(
+    () => () => {
+      if (catTimeoutRef.current) clearTimeout(catTimeoutRef.current);
+    },
+    [],
+  );
 
   const appendOutput = useCallback((entry: Omit<TerminalOutput, "id">) => {
     outputId.current += 1;
@@ -153,6 +165,16 @@ export function TerminalProvider({ children }: { children: ReactNode }) {
       return;
     }
 
+    if (definition?.action === "cat" && !command.argument) {
+      if (catTimeoutRef.current) clearTimeout(catTimeoutRef.current);
+      setCatImage(catImages[Math.floor(Math.random() * catImages.length)]);
+      catTimeoutRef.current = setTimeout(() => {
+        setCatImage(null);
+        catTimeoutRef.current = null;
+      }, 4000);
+      return;
+    }
+
     if (definition?.action === "cowsay") {
       appendOutput({
         command: command.rawArgument
@@ -179,8 +201,8 @@ export function TerminalProvider({ children }: { children: ReactNode }) {
   }, [appendOutput, clear, pathname, router, setTheme]);
 
   const value = useMemo(
-    () => ({ execute, clear, history, navigationVisible, output }),
-    [clear, execute, history, navigationVisible, output],
+    () => ({ execute, clear, history, catImage, navigationVisible, output }),
+    [catImage, clear, execute, history, navigationVisible, output],
   );
 
   return <TerminalContext.Provider value={value}>{children}</TerminalContext.Provider>;

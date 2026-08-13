@@ -214,6 +214,7 @@ describe("portfolio routes", () => {
       "nav",
       "theme",
       "contact",
+      "cat",
       "cowsay [message]",
       "philosophy",
       "ls",
