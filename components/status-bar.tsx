@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 
+import packageJson from "@/package.json";
 import styles from "./status-bar.module.css";
 
 const pageLabels: Record<string, string> = {
@@ -25,6 +26,7 @@ export function StatusBar() {
       <span className={styles.page}>{page || "HOME"}</span>
       <span className={styles.location}>Tilburg, NL</span>
       <span className={styles.role}>Developer / Philosopher</span>
+      <span className={styles.version}>v{packageJson.version}</span>
       <span className={styles.status}>
         <span className={styles.dot} aria-hidden="true" />
         ONLINE
