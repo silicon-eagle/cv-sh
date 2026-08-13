@@ -4,9 +4,10 @@
   flex-direction: column;
   overflow: hidden;
   margin: 0 -1.25rem -1.25rem;
-  padding: 1.75rem 1.25rem 1.25rem;
+  padding: 1.25rem;
   background: var(--background);
   border-block: 1px solid var(--border);
+  font-size: 0.875rem;
 }
 
 .output {
@@ -23,13 +24,21 @@
   flex-shrink: 0;
 }
 
+.welcome {
+  color: var(--muted);
+  line-height: 1.5rem;
+}
+
+.welcome + .outputEntry {
+  margin-top: 1.25rem;
+}
+
 .outputEntry + .outputEntry { margin-top: 1.25rem; }
 .outputEntry > * + * { margin-top: 0.5rem; }
 
 .executedLine {
   display: flex;
   gap: 0.5rem;
-  font-size: 0.875rem;
 }
 
 .executedCommand {
@@ -39,8 +48,52 @@
 
 .message {
   color: var(--muted);
-  font-size: 0.875rem;
   line-height: 1.5rem;
+  white-space: pre-wrap;
+}
+
+.contact {
+  color: var(--muted);
+  line-height: 1.5rem;
+}
+
+.contact a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.contact a:hover,
+.contact a:focus-visible {
+  color: var(--text);
+}
+
+.quote {
+  margin: 0;
+}
+
+.quote p,
+.quote footer {
+  color: var(--text);
+  font-size: inherit;
+  line-height: 1.5;
+}
+
+.quote p {
+  white-space: pre-line;
+}
+
+.quote footer {
+  margin-top: 0;
+}
+
+.cow {
+  margin: 0;
+  overflow-x: auto;
+  color: var(--text);
+  font: inherit;
+  line-height: 1.25;
+  white-space: pre;
 }
 
 @media (min-width: 640px) {
@@ -48,10 +101,6 @@
     margin-inline: -2rem;
     margin-bottom: -2rem;
     padding-inline: 2rem;
-  }
-
-  .executedLine,
-  .message {
     font-size: 1rem;
   }
 }

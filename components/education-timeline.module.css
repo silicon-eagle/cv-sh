@@ -1,3 +1,17 @@
+.sections {
+  display: grid;
+  gap: 2.5rem;
+}
+
+.sectionTitle {
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  color: var(--education-accent);
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-bottom: 1px solid var(--border);
+}
+
 .timeline {
   position: relative;
   display: grid;

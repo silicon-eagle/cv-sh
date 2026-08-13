@@ -54,7 +54,8 @@ shared test setup.
 2. Import a relevant Lucide icon in `lib/commands.ts`, then add one `navigate`
    entry to `terminalCommands`. The
    entry is type-checked against `NavigationCommand`, which requires the route
-   path, color, icon, and button metadata:
+   path, color, and icon. Add optional `button` metadata when the command should
+   appear in the `nav` menu:
 
    ```ts
    import { FolderCode } from "lucide-react";
@@ -65,18 +66,18 @@ shared test setup.
      help: [{ usage: "projects", description: "View selected projects" }],
      action: "navigate",
      path: "/projects",
+     icon: FolderCode,
+     color: "var(--projects-accent)",
      button: {
        label: "Projects",
        description: "Selected work",
-       color: "var(--projects-accent)",
-       icon: FolderCode,
      },
    }
    ```
 
 3. Define the referenced accent variable for every theme in `app/globals.css` if
-   it does not already exist. The required `button.color` field ensures a page
-   command cannot be added without choosing its color.
+   it does not already exist. Omit `button` for routes that should remain
+   terminal commands without appearing in page navigation.
 4. Wrap the route content in `<PageLayout>`. It provides the shared heading,
    `nav`-controlled page buttons, terminal panel, and content spacing.
 5. Add the page behavior to `app/routes.test.tsx` and update the expected command

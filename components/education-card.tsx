@@ -4,7 +4,8 @@ export type Education = {
   period: string;
   qualification: string;
   institution: string;
-  description: string;
+  location: string;
+  highlights: readonly string[];
   subjects: readonly string[];
 };
 
@@ -18,7 +19,12 @@ export function EducationCard({ education }: { education: Education }) {
           {education.qualification}
           <span className={styles.institution}> @ {education.institution}</span>
         </h2>
-        <p className={styles.description}>{education.description}</p>
+        <p className={styles.location}>{education.location}</p>
+        <ul className={styles.highlights}>
+          {education.highlights.map((highlight) => (
+            <li key={highlight}>{highlight}</li>
+          ))}
+        </ul>
         <ul className={styles.subjects} aria-label="Subjects">
           {education.subjects.map((subject) => (
             <li key={subject}>{subject}</li>

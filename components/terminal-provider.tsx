@@ -1,21 +1,31 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   createContext,
   type ReactNode,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useRef,
   useState,
 } from "react";
 
+import { getPhilosopherQuote } from "@/app/actions";
 import {
+  commandHelp,
+  findProjectCommand,
   findTerminalCommand,
   isThemeName,
   themeNames,
 } from "@/lib/commands";
+import { catImages, type CatImage } from "@/lib/cats";
+import { cowsay } from "@/lib/cowsay";
+import {
+  fallbackQuote,
+  type PhilosopherQuote,
+} from "@/lib/quote";
 import { parseCommand } from "@/lib/terminal";
 import { useTheme } from "@/components/theme-provider";
 
@@ -23,27 +33,51 @@ export type TerminalOutput = {
   id: number;
   command: string;
   message?: string;
-  kind?: "themes";
+  kind?: "contact" | "cow" | "quote" | "themes";
+  email?: string;
+  quote?: PhilosopherQuote;
+  cow?: string;
 };
 
 type TerminalContextValue = {
   execute: (input: string) => void;
   clear: () => void;
   history: readonly string[];
+  catImage: CatImage | null;
   navigationVisible: boolean;
   output: readonly TerminalOutput[];
 };
 
 const TerminalContext = createContext<TerminalContextValue | null>(null);
 
+function commandListing(): string {
+  const usageWidth = Math.max(...commandHelp.map((entry) => entry.usage.length));
+  return commandHelp
+    .map(
+      (entry) =>
+        `${entry.usage.padEnd(usageWidth)}  ${entry.description}`,
+    )
+    .join("\n");
+}
+
 export function TerminalProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
+  const pathname = usePathname();
   const { setTheme } = useTheme();
   const [history, setHistory] = useState<string[]>([]);
+  const [catImage, setCatImage] = useState<CatImage | null>(null);
   const [navigationVisible, setNavigationVisible] = useState(false);
   const [output, setOutput] = useState<TerminalOutput[]>([]);
   const navigationVisibleRef = useRef(false);
+  const catTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const outputId = useRef(0);
+
+  useEffect(
+    () => () => {
+      if (catTimeoutRef.current) clearTimeout(catTimeoutRef.current);
+    },
+    [],
+  );
 
   const appendOutput = useCallback((entry: Omit<TerminalOutput, "id">) => {
     outputId.current += 1;
@@ -58,7 +92,9 @@ export function TerminalProvider({ children }: { children: ReactNode }) {
 
     setHistory((current) => [...current, command.normalized]);
 
-    const definition = findTerminalCommand(command.name);
+    const definition =
+      findTerminalCommand(command.name) ??
+      (pathname === "/projects" ? findProjectCommand(command.name) : undefined);
 
     if (definition?.action === "navigate" && !command.argument) {
       router.push(definition.path);
@@ -101,15 +137,72 @@ export function TerminalProvider({ children }: { children: ReactNode }) {
       return;
     }
 
+    if (definition?.action === "philosophy" && !command.argument) {
+      void (async () => {
+        let quote = fallbackQuote;
+
+        try {
+          quote = await getPhilosopherQuote();
+        } catch (error) {
+          console.error("Unable to load a philosopher quote", error);
+        }
+
+        appendOutput({
+          command: command.normalized,
+          kind: "quote",
+          quote,
+        });
+      })();
+      return;
+    }
+
+    if (definition?.action === "contact" && !command.argument) {
+      appendOutput({
+        command: command.normalized,
+        kind: "contact",
+        email: "tim.kelch@pm.me",
+      });
+      return;
+    }
+
+    if (definition?.action === "cat" && !command.argument) {
+      if (catTimeoutRef.current) clearTimeout(catTimeoutRef.current);
+      setCatImage(catImages[Math.floor(Math.random() * catImages.length)]);
+      catTimeoutRef.current = setTimeout(() => {
+        setCatImage(null);
+        catTimeoutRef.current = null;
+      }, 4000);
+      return;
+    }
+
+    if (definition?.action === "cowsay") {
+      appendOutput({
+        command: command.rawArgument
+          ? `cowsay ${command.rawArgument}`
+          : "cowsay",
+        kind: "cow",
+        cow: cowsay(command.rawArgument),
+      });
+      return;
+    }
+
+    if (definition?.action === "ls" && !command.argument) {
+      appendOutput({
+        command: command.normalized,
+        message: commandListing(),
+      });
+      return;
+    }
+
     appendOutput({
       command: command.normalized,
       message: `${command.normalized}: command not found`,
     });
-  }, [appendOutput, clear, router, setTheme]);
+  }, [appendOutput, clear, pathname, router, setTheme]);
 
   const value = useMemo(
-    () => ({ execute, clear, history, navigationVisible, output }),
-    [clear, execute, history, navigationVisible, output],
+    () => ({ execute, clear, history, catImage, navigationVisible, output }),
+    [catImage, clear, execute, history, navigationVisible, output],
   );
 
   return <TerminalContext.Provider value={value}>{children}</TerminalContext.Provider>;

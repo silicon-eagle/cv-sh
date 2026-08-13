@@ -1,0 +1,51 @@
+.quote {
+  max-width: 42rem;
+  margin: 1.75rem 0 0;
+  padding-left: 1rem;
+  border-left: 2px solid var(--accent);
+}
+
+.quote blockquote {
+  margin: 0;
+}
+
+.quote p {
+  color: var(--text);
+  font-size: 0.8125rem;
+  line-height: 1.65;
+  white-space: pre-line;
+}
+
+.quote figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-top: 0.75rem;
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.quoteSource {
+  color: color-mix(in srgb, var(--muted) 72%, transparent);
+  font-size: 0.6875rem;
+}
+
+.right {
+  margin-left: auto;
+  padding-right: 1rem;
+  padding-left: 0;
+  text-align: right;
+  border-right: 2px solid var(--accent);
+  border-left: 0;
+}
+
+.right figcaption {
+  align-items: flex-end;
+  text-align: right;
+}
+
+@media (min-width: 640px) {
+  .quote p {
+    font-size: 0.875rem;
+  }
+}

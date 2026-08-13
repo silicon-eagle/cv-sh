@@ -1,16 +1,27 @@
-import {
-  BriefcaseBusiness,
-  CircleHelp,
-  FolderCode,
-  GraduationCap,
-  House,
-  UserRound,
-  type LucideIcon,
-} from "lucide-react";
+import { BracketsContent } from "pixelarticons/react/BracketsContent";
+import { Briefcase } from "pixelarticons/react/Briefcase";
+import { Gamepad } from "pixelarticons/react/Gamepad";
+import { Home } from "pixelarticons/react/Home";
+import { InfoBox } from "pixelarticons/react/InfoBox";
+import { Sparkles } from "pixelarticons/react/Sparkles";
+import { University } from "pixelarticons/react/University";
+import { User } from "pixelarticons/react/User";
+import type { ComponentType, SVGProps } from "react";
 
-export const themeNames = ["catppuccin", "tokyo-night", "gruvbox"] as const;
+import { projects } from "@/lib/projects";
+
+export const themeNames = [
+  "catppuccin",
+  "catppuccin-light",
+  "tokyo-night",
+  "gruvbox",
+  "nord",
+  "ayu",
+] as const;
 
 export type ThemeName = (typeof themeNames)[number];
+
+type PixelArtIcon = ComponentType<SVGProps<SVGSVGElement>>;
 
 type CommandHelp = {
   usage: string;
@@ -23,12 +34,16 @@ export type NavigationCommand = {
   help: readonly CommandHelp[];
   action: "navigate";
   path: string;
-  button: {
+  icon: PixelArtIcon;
+  color: string;
+  button?: {
     label: string;
     description: string;
-    color: string;
-    icon: LucideIcon;
   };
+};
+
+export type NavigationButtonCommand = NavigationCommand & {
+  button: NonNullable<NavigationCommand["button"]>;
 };
 
 type TerminalCommand =
@@ -37,8 +52,18 @@ type TerminalCommand =
       name: string;
       autocomplete: readonly string[];
       help: readonly CommandHelp[];
-      action: "clear" | "nav" | "theme";
+      action: "cat" | "clear" | "contact" | "cowsay" | "ls" | "nav" | "philosophy" | "theme";
     };
+
+const projectCommands: readonly NavigationCommand[] = projects.map((project) => ({
+  name: project.slug,
+  autocomplete: [project.slug],
+  help: [],
+  action: "navigate",
+  path: `/projects/${project.slug}`,
+  icon: BracketsContent,
+  color: "var(--projects-accent)",
+}));
 
 export const terminalCommands: readonly TerminalCommand[] = [
   {
@@ -47,11 +72,11 @@ export const terminalCommands: readonly TerminalCommand[] = [
     help: [{ usage: "home", description: "Return to the welcome screen" }],
     action: "navigate",
     path: "/",
+    icon: Home,
+    color: "var(--home-accent)",
     button: {
       label: "Home",
       description: "Return to the start",
-      color: "var(--home-accent)",
-      icon: House,
     },
   },
   {
@@ -60,11 +85,11 @@ export const terminalCommands: readonly TerminalCommand[] = [
     help: [{ usage: "about", description: "Find out about who am I" }],
     action: "navigate",
     path: "/about",
+    icon: User,
+    color: "var(--about-accent)",
     button: {
       label: "About",
       description: "A short introduction",
-      color: "var(--about-accent)",
-      icon: UserRound,
     },
   },
   {
@@ -73,11 +98,11 @@ export const terminalCommands: readonly TerminalCommand[] = [
     help: [{ usage: "experience", description: "Find out about the things I do" }],
     action: "navigate",
     path: "/experience",
+    icon: Briefcase,
+    color: "var(--experience-accent)",
     button: {
       label: "Experience",
       description: "What did I do?",
-      color: "var(--experience-accent)",
-      icon: BriefcaseBusiness,
     },
   },
   {
@@ -86,25 +111,53 @@ export const terminalCommands: readonly TerminalCommand[] = [
     help: [{ usage: "education", description: "Find out about what I studied" }],
     action: "navigate",
     path: "/education",
+    icon: University,
+    color: "var(--education-accent)",
     button: {
       label: "Education",
       description: "What did I study?",
-      color: "var(--education-accent)",
-      icon: GraduationCap,
+    },
+  },
+  {
+    name: "skills",
+    autocomplete: ["skills"],
+    help: [{ usage: "skills", description: "Explore skills and interests" }],
+    action: "navigate",
+    path: "/skills",
+    icon: Sparkles,
+    color: "var(--skills-accent)",
+    button: {
+      label: "Skills",
+      description: "Strengths and interests",
     },
   },
   {
     name: "projects",
     autocomplete: ["projects"],
-    help: [{ usage: "projects", description: "Find out about the things I make" }],
+    help: [
+      { usage: "projects", description: "Find out about the things I make" },
+      {
+        usage: "projects/<project>",
+        description: "Open a specific project from the projects page",
+      },
+    ],
     action: "navigate",
     path: "/projects",
+    icon: BracketsContent,
+    color: "var(--projects-accent)",
     button: {
       label: "Projects",
       description: "What did I build?",
-      color: "var(--projects-accent)",
-      icon: FolderCode,
     },
+  },
+  {
+    name: "snake",
+    autocomplete: ["snake"],
+    help: [{ usage: "snake", description: "Play a little game" }],
+    action: "navigate",
+    path: "/snake",
+    icon: Gamepad,
+    color: "var(--snake-accent)",
   },
   {
     name: "help",
@@ -112,11 +165,11 @@ export const terminalCommands: readonly TerminalCommand[] = [
     help: [{ usage: "help", description: "Show commands and keyboard controls" }],
     action: "navigate",
     path: "/help",
+    icon: InfoBox,
+    color: "var(--help-accent)",
     button: {
       label: "Help",
       description: "Commands and shortcuts",
-      color: "var(--help-accent)",
-      icon: CircleHelp,
     },
   },
   {
@@ -138,6 +191,36 @@ export const terminalCommands: readonly TerminalCommand[] = [
     action: "theme",
   },
   {
+    name: "contact",
+    autocomplete: ["contact"],
+    help: [{ usage: "contact", description: "Show my email address" }],
+    action: "contact",
+  },
+  {
+    name: "cat",
+    autocomplete: ["cat"],
+    help: [{ usage: "cat", description: "Show my cat avatar" }],
+    action: "cat",
+  },
+  {
+    name: "cowsay",
+    autocomplete: ["cowsay"],
+    help: [{ usage: "cowsay [message]", description: "Let a custom cow speak" }],
+    action: "cowsay",
+  },
+  {
+    name: "philosophy",
+    autocomplete: ["philosophy"],
+    help: [{ usage: "philosophy", description: "Print a random philosopher quote" }],
+    action: "philosophy",
+  },
+  {
+    name: "ls",
+    autocomplete: ["ls"],
+    help: [{ usage: "ls", description: "List all available commands" }],
+    action: "ls",
+  },
+  {
     name: "clear",
     autocomplete: ["clear"],
     help: [{ usage: "clear", description: "Clear command output" }],
@@ -155,8 +238,25 @@ export const navigationCommands: readonly NavigationCommand[] = terminalCommands
   (command): command is NavigationCommand => command.action === "navigate",
 );
 
+export const navigationButtonCommands: readonly NavigationButtonCommand[] =
+  navigationCommands.filter(
+    (command): command is NavigationButtonCommand => Boolean(command.button),
+  );
+
 export function findTerminalCommand(name: string) {
   return terminalCommands.find((command) => command.name === name);
+}
+
+export function findProjectCommand(name: string) {
+  return projectCommands.find((command) => command.name === name);
+}
+
+export function autocompleteCommands(pathname: string): readonly string[] {
+  if (pathname !== "/projects") return supportedCommands;
+  return [
+    ...supportedCommands,
+    ...projectCommands.flatMap((command) => command.autocomplete),
+  ];
 }
 
 export function findNavigationCommand(name: string) {

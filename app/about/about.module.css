@@ -1,18 +1,16 @@
 .about {
-  max-width: 52rem;
+  width: 100%;
 }
 
 .intro {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
+  margin-top: 1.5rem;
+  display: flow-root;
 }
 
 .portrait {
-  width: 14rem;
-  max-width: 70%;
-  flex: 0 0 auto;
+  width: 12rem;
+  max-width: 100%;
+  margin: 0 auto 1.5rem;
   overflow: hidden;
   padding: 8px;
   background: var(--background);
@@ -53,7 +51,6 @@
 .details {
   display: grid;
   gap: 0;
-  margin-top: 1.5rem;
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: 0.625rem;
@@ -75,33 +72,33 @@
   align-items: center;
   gap: 0.5rem;
   color: var(--about-accent);
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   font-weight: 600;
 }
 
 .detail dt svg {
-  width: 0.875rem;
-  height: 0.875rem;
+  width: 1rem;
+  height: 1rem;
   flex: 0 0 auto;
 }
 
 .detail dd {
   color: var(--text);
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   line-height: 1.5;
 }
 
 @media (min-width: 640px) {
-  .intro {
-    flex-direction: row;
-    align-items: start;
-  }
-
   .bio h2 {
     font-size: 1.125rem;
   }
 
   .bio p {
+    font-size: 0.9375rem;
+  }
+
+  .detail dt,
+  .detail dd {
     font-size: 0.9375rem;
   }
 
@@ -115,5 +112,13 @@
 
   .detail:nth-child(2) {
     border-top: 0;
+  }
+}
+
+@media (min-width: 768px) {
+  .portrait {
+    width: 40%;
+    margin: 0 0 1.5rem 2rem;
+    float: right;
   }
 }

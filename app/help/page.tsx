@@ -17,18 +17,6 @@ export default function HelpPage() {
       eyebrow="No terminal knowledge required"
     >
       <div className={styles.columns}>
-        <section aria-label="Supported commands">
-          <h2 className={styles.sectionTitle}>Commands</h2>
-          <dl className={styles.commandList}>
-            {commandHelp.map(({ usage, description }) => (
-              <div key={usage} className={styles.commandRow}>
-                <dt className={styles.commandName}>{usage}</dt>
-                <dd className={styles.description}>{description}</dd>
-              </div>
-            ))}
-          </dl>
-        </section>
-
         <section aria-label="Keyboard controls">
           <h2 className={styles.sectionTitle}>Keyboard</h2>
           <dl className={styles.shortcutList}>
@@ -37,6 +25,18 @@ export default function HelpPage() {
                 <dt className={styles.key}>
                   {key}
                 </dt>
+                <dd className={styles.description}>{description}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+
+        <section aria-label="Supported commands">
+          <h2 className={styles.sectionTitle}>Commands</h2>
+          <dl className={styles.commandList}>
+            {commandHelp.map(({ usage, description }) => (
+              <div key={usage} className={styles.commandRow}>
+                <dt className={styles.commandName}>{usage}</dt>
                 <dd className={styles.description}>{description}</dd>
               </div>
             ))}

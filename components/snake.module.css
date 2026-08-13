@@ -1,0 +1,201 @@
+.game {
+  width: 100%;
+  margin-inline: auto;
+  outline: none;
+  font-family: inherit;
+}
+
+.instructions {
+  margin-bottom: 1rem;
+  color: var(--help-accent);
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.gameArea {
+  position: relative;
+  width: 100%;
+  display: grid;
+  gap: 1.25rem;
+  padding: 1rem;
+  overflow: hidden;
+  background:
+    linear-gradient(rgb(255 255 255 / 1.5%), transparent 1px),
+    color-mix(in srgb, var(--background) 94%, black);
+  background-size: 100% 4px;
+  border: 1px solid var(--border);
+  border-radius: 0;
+}
+
+.playfield {
+  position: relative;
+  min-width: 0;
+  padding: 0.5rem;
+  background: color-mix(in srgb, var(--background) 96%, black);
+  border: 1px solid var(--snake-accent);
+  border-radius: 0;
+}
+
+.grid {
+  display: grid;
+  width: 100%;
+  gap: 1px;
+  background: transparent;
+}
+
+.cell {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  background: transparent;
+}
+
+.cell::after {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 2px;
+  height: 2px;
+  background: color-mix(in srgb, var(--snake-accent) 16%, transparent);
+  content: "";
+  transform: translate(-50%, -50%);
+}
+
+.snake {
+  background: color-mix(in srgb, var(--snake-accent) 72%, var(--background));
+  border: 1px solid color-mix(in srgb, var(--snake-accent) 88%, var(--background));
+}
+
+.snake[data-snake="head"] {
+  background: var(--snake-accent);
+}
+
+.snake::after,
+.food::after {
+  display: none;
+}
+
+.food {
+  background: transparent;
+}
+
+.food::before {
+  position: absolute;
+  inset: 12%;
+  background: color-mix(in srgb, var(--contact-accent) 70%, var(--background));
+  border: 1px solid var(--contact-accent);
+  content: "";
+}
+
+.gameOver {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  padding: 0.5rem 0.75rem;
+  color: var(--contact-accent);
+  font-size: clamp(0.875rem, 3vw, 1.25rem);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  background: color-mix(in srgb, var(--background) 92%, transparent);
+  border: 1px solid currentColor;
+  transform: translate(-50%, -50%);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.stat h2,
+.controls h2 {
+  margin: 0 0 0.25rem;
+  color: var(--snake-accent);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: inherit;
+}
+
+.stat p,
+.directionKeys,
+.restartKey {
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.75rem;
+}
+
+.directionKeys {
+  display: grid;
+  grid-template-areas:
+    ". up ."
+    "left . right"
+    ". down .";
+  grid-template-columns: repeat(3, max-content);
+  justify-content: start;
+  gap: 0.25rem 0.5rem;
+  white-space: nowrap;
+}
+
+.up { grid-area: up; }
+.left { grid-area: left; }
+.right { grid-area: right; }
+.down { grid-area: down; }
+
+.restartKey {
+  margin-top: 0.75rem;
+  color: var(--muted);
+}
+
+.restart {
+  width: fit-content;
+  padding: 0;
+  color: var(--snake-accent);
+  background: transparent;
+  border: 0;
+  font-family: inherit;
+}
+
+.restart::before {
+  content: "[ ";
+}
+
+.restart::after {
+  content: " ]";
+}
+
+.restart:hover,
+.restart:focus-visible {
+  color: var(--background);
+  background: var(--snake-accent);
+  outline: none;
+}
+
+@media (min-width: 640px) {
+  .instructions {
+    font-size: 0.875rem;
+  }
+
+  .gameArea {
+    grid-template-columns: minmax(0, 1fr) 7.5rem;
+    align-items: start;
+    gap: 1.75rem;
+    padding: 1.25rem;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding-top: 1rem;
+  }
+
+  .stat h2,
+  .controls h2 {
+    font-size: 0.75rem;
+  }
+
+  .stat p,
+  .directionKeys,
+  .restartKey {
+    font-size: 0.8125rem;
+  }
+}

@@ -28,10 +28,10 @@ describe("ThemeProvider", () => {
   });
 
   it("restores a saved supported theme", () => {
-    window.localStorage.setItem("cv-sh-theme", "tokyo-night");
+    window.localStorage.setItem("cv-sh-theme", "catppuccin-light");
     render(<ThemeProvider><ThemeProbe /></ThemeProvider>);
-    expect(screen.getByRole("button")).toHaveTextContent("tokyo-night");
-    expect(document.documentElement).toHaveAttribute("data-theme", "tokyo-night");
+    expect(screen.getByRole("button")).toHaveTextContent("catppuccin-light");
+    expect(document.documentElement).toHaveAttribute("data-theme", "catppuccin-light");
   });
 
   it("persists theme changes", () => {

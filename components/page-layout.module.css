@@ -1,8 +1,26 @@
 .layout {
-  min-height: 100%;
+  min-height: 0;
   display: flex;
   flex: 1;
   flex-direction: column;
+}
+
+.header,
+.terminal {
+  flex: 0 0 auto;
+}
+
+.header {
+  padding-bottom: 1.5rem;
+}
+
+.page {
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-color: var(--border) transparent;
+  scrollbar-width: thin;
 }
 
 .content {
@@ -10,7 +28,6 @@
 }
 
 .terminal {
-  margin-top: auto;
   padding-top: 2rem;
 }
 

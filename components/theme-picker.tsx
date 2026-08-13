@@ -1,13 +1,16 @@
 "use client";
 
 import { CommandButton } from "@/components/command-button";
-import { themeNames } from "@/lib/commands";
+import { themeNames, type ThemeName } from "@/lib/commands";
 import styles from "./theme-picker.module.css";
 
-const labels = {
-  catppuccin: "Catppuccin",
+const labels: Record<ThemeName, string> = {
+  catppuccin: "Catppuccin Dark",
+  "catppuccin-light": "Catppuccin Light",
   "tokyo-night": "Tokyo Night",
   gruvbox: "Gruvbox",
+  nord: "Nord",
+  ayu: "Ayu",
 };
 
 export function ThemePicker() {

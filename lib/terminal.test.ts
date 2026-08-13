@@ -11,7 +11,16 @@ describe("terminal utilities", () => {
     expect(parseCommand("  theme   tokyo-night ")).toEqual({
       name: "theme",
       argument: "tokyo-night",
+      rawArgument: "tokyo-night",
       normalized: "theme tokyo-night",
+    });
+  });
+
+  it("preserves argument capitalization for commands that print user input", () => {
+    expect(parseCommand("cowsay Hello There")).toMatchObject({
+      name: "cowsay",
+      argument: "hello there",
+      rawArgument: "Hello There",
     });
   });
 
@@ -34,5 +43,11 @@ describe("terminal utilities", () => {
 
   it("leaves unknown input unchanged", () => {
     expect(autocompleteCommand("projects")).toBe("projects");
+  });
+
+  it("only completes project routes from the projects page", () => {
+    expect(autocompleteCommand("plan-y", "/")).toBe("plan-y");
+    expect(autocompleteCommand("plan-y", "/projects")).toBe("plan-your-chaos");
+    expect(autocompleteCommand("cvs", "/projects")).toBe("cvsh");
   });
 });

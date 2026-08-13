@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist_Mono } from "next/font/google";
+import { IBM_Plex_Mono } from "next/font/google";
 import type { ReactNode } from "react";
 
 import { TerminalProvider } from "@/components/terminal-provider";
@@ -8,9 +8,10 @@ import { ThemeProvider } from "@/components/theme-provider";
 
 import "./globals.css";
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const ibmPlexMono = IBM_Plex_Mono({
+  variable: "--font-ibm-plex-mono",
   subsets: ["latin"],
+  weight: ["400", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -20,7 +21,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={geistMono.variable} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={ibmPlexMono.variable}
+      suppressHydrationWarning
+    >
       <body>
         <ThemeProvider>
           <TerminalProvider>

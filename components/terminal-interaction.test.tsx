@@ -1,6 +1,6 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { CommandButton } from "@/components/command-button";
 import { TerminalProvider } from "@/components/terminal-provider";
@@ -35,6 +35,12 @@ describe("terminal interaction", () => {
     push.mockReset();
   });
 
+  afterEach(() => {
+    vi.useRealTimers();
+    vi.unstubAllGlobals();
+    vi.restoreAllMocks();
+  });
+
   it("renders the current prompt and blinking cursor", () => {
     render(<Harness />);
     expect(screen.getByTestId("terminal-prompt")).toHaveTextContent("tim@kelch:~$");
@@ -67,6 +73,17 @@ describe("terminal interaction", () => {
     expect(cursor).toHaveAttribute("data-blinking", "true");
   });
 
+  it("focuses the command input when the terminal panel is clicked", () => {
+    render(<Harness />);
+    const input = screen.getByLabelText("Terminal command");
+    const panel = screen.getByRole("region", { name: "Interactive terminal" });
+
+    screen.getByRole("button", { name: /about read more/i }).focus();
+    expect(input).not.toHaveFocus();
+    fireEvent.click(panel);
+    expect(input).toHaveFocus();
+  });
+
   it("returns focus to the terminal input after navigation", () => {
     const { rerender } = render(<Harness />);
     const input = screen.getByLabelText("Terminal command");
@@ -87,6 +104,34 @@ describe("terminal interaction", () => {
 
     await user.type(screen.getByLabelText("Terminal command"), "help{Enter}");
     expect(push).toHaveBeenCalledWith("/help");
+  });
+
+  it("routes project slugs from the projects page", async () => {
+    const user = userEvent.setup();
+    pathname = "/projects";
+    render(<Harness />);
+
+    await user.type(
+      screen.getByLabelText("Terminal command"),
+      "plan-your-chaos{Enter}",
+    );
+
+    expect(push).toHaveBeenCalledWith("/projects/plan-your-chaos");
+  });
+
+  it("does not route project slugs outside the projects page", async () => {
+    const user = userEvent.setup();
+    render(<Harness />);
+
+    await user.type(
+      screen.getByLabelText("Terminal command"),
+      "plan-your-chaos{Enter}",
+    );
+
+    expect(push).not.toHaveBeenCalled();
+    expect(
+      screen.getByText("plan-your-chaos: command not found"),
+    ).toBeInTheDocument();
   });
 
   it("autocompletes commands and traverses history", async () => {
@@ -133,5 +178,84 @@ describe("terminal interaction", () => {
       "theme matrix{Enter}",
     );
     expect(screen.getByText(/Unknown theme "matrix"/)).toBeInTheDocument();
+  });
+
+  it("prints a philosopher quote and uses Gauß as the fallback", async () => {
+    const user = userEvent.setup();
+    const consoleError = vi.spyOn(console, "error").mockImplementation(() => undefined);
+    vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new Error("offline")));
+    render(<Harness />);
+
+    await user.type(screen.getByLabelText("Terminal command"), "philosophy{Enter}");
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(
+          "-- Carl Friedrich Gauß, Brief an Wolfgang Bolyai (1808)",
+        ),
+      ).toBeInTheDocument();
+    });
+    expect(consoleError).toHaveBeenCalled();
+  });
+
+  it("prints custom cows with supplied and default messages", async () => {
+    const user = userEvent.setup();
+    render(<Harness />);
+    const input = screen.getByLabelText("Terminal command");
+
+    await user.type(input, "cowsay Hello There{Enter}");
+    expect(screen.getByText(/< Hello There >/)).toBeInTheDocument();
+
+    await user.type(input, "cowsay{Enter}");
+    expect(screen.getByText(/< Moo! >/)).toBeInTheDocument();
+  });
+
+  it("floats a random cat photo outside the terminal output for four seconds", () => {
+    vi.useFakeTimers();
+    vi.spyOn(Math, "random").mockReturnValue(0);
+    render(<Harness />);
+    const input = screen.getByLabelText("Terminal command");
+
+    fireEvent.change(input, { target: { value: "cat" } });
+    fireEvent.keyDown(input, { key: "Enter" });
+
+    const avatar = screen.getByRole("img", { name: "Cat photo" });
+    expect(avatar).toHaveAttribute(
+      "src",
+      expect.stringContaining("22639b96-d596-4f5d-9619-549043a5a597.webp"),
+    );
+    expect(
+      screen.getByRole("region", { name: "Interactive terminal" }),
+    ).not.toContainElement(avatar);
+    expect(screen.queryByText("cat", { selector: "span" })).not.toBeInTheDocument();
+
+    act(() => vi.advanceTimersByTime(4000));
+    expect(
+      screen.queryByRole("img", { name: "Cat photo" }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("shows a clickable email address for the contact command", async () => {
+    const user = userEvent.setup();
+    render(<Harness />);
+
+    await user.type(screen.getByLabelText("Terminal command"), "contact{Enter}");
+
+    expect(screen.getByText(/feel free to email me/i)).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "tim.kelch@pm.me" })).toHaveAttribute(
+      "href",
+      "mailto:tim.kelch@pm.me",
+    );
+  });
+
+  it("lists every available command with ls", async () => {
+    const user = userEvent.setup();
+    render(<Harness />);
+
+    await user.type(screen.getByLabelText("Terminal command"), "ls{Enter}");
+
+    expect(screen.getByText(/home\s+Return to the welcome screen/)).toBeInTheDocument();
+    expect(screen.getByText(/cowsay \[message\]\s+Let a custom cow speak/)).toBeInTheDocument();
+    expect(screen.getByText(/philosophy\s+Print a random philosopher quote/)).toBeInTheDocument();
   });
 });

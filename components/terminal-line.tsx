@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState, type RefObject } from "react";
 
 import { useTerminal } from "@/components/terminal-provider";
 import { autocompleteCommand, promptPath } from "@/lib/terminal";
@@ -22,18 +22,23 @@ export function Prompt({ path }: { path: string }) {
   );
 }
 
-export function TerminalLine() {
+type TerminalLineProps = {
+  inputRef: RefObject<HTMLInputElement | null>;
+};
+
+export function TerminalLine({ inputRef }: TerminalLineProps) {
   const pathname = usePathname();
   const { clear, execute, history } = useTerminal();
-  const inputRef = useRef<HTMLInputElement>(null);
   const [value, setValue] = useState("");
   const [cursorIndex, setCursorIndex] = useState(0);
   const [isFocused, setIsFocused] = useState(false);
   const [historyIndex, setHistoryIndex] = useState(history.length);
 
   useEffect(() => {
-    inputRef.current?.focus({ preventScroll: true });
-  }, [pathname]);
+    if (pathname !== "/snake") {
+      inputRef.current?.focus({ preventScroll: true });
+    }
+  }, [inputRef, pathname]);
 
   return (
     <div className={styles.line}>
@@ -60,7 +65,7 @@ export function TerminalLine() {
               setHistoryIndex(history.length + (value.trim() ? 1 : 0));
             } else if (event.key === "Tab") {
               event.preventDefault();
-              const completedValue = autocompleteCommand(value);
+              const completedValue = autocompleteCommand(value, pathname);
               setValue(completedValue);
               setCursorIndex(completedValue.length);
             } else if (event.key === "ArrowUp") {

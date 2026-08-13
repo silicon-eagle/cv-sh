@@ -7,12 +7,12 @@ type PageHeadingProps = {
   eyebrow?: string;
 };
 
-export function PageHeading({ command, title, eyebrow }: PageHeadingProps) {
-  const navigationCommand = findNavigationCommand(command);
-  const Icon = navigationCommand?.button.icon;
+export function PageHeading({ command, title }: PageHeadingProps) {
+  const navigationCommand = findNavigationCommand(command.split("/")[0]);
+  const Icon = navigationCommand?.icon;
 
   return (
-    <header>
+    <header className={styles.header}>
       <p className={styles.prompt}>
         <span className={styles.user}>tim@kelch</span>
         <span>:~$ </span>
@@ -22,17 +22,10 @@ export function PageHeading({ command, title, eyebrow }: PageHeadingProps) {
         <Icon
           aria-hidden="true"
           className={styles.icon}
-          style={{ color: navigationCommand.button.color }}
+          style={{ color: navigationCommand.color }}
         />
       ) : null}
-      {eyebrow ? (
-        <p className={styles.eyebrow}>
-          {eyebrow}
-        </p>
-      ) : null}
-      <h1 className={styles.title}>
-        {title}
-      </h1>
+      <h1 className={styles.srOnly}>{title}</h1>
     </header>
   );
 }

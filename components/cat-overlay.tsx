@@ -1,0 +1,24 @@
+"use client";
+
+import Image from "next/image";
+
+import { useTerminal } from "@/components/terminal-provider";
+import styles from "./cat-overlay.module.css";
+
+export function CatOverlay() {
+  const { catImage } = useTerminal();
+
+  if (!catImage) return null;
+
+  return (
+    <div className={styles.overlay} aria-live="polite">
+      <Image
+        src={catImage.src}
+        alt={catImage.alt}
+        width={catImage.width}
+        height={catImage.height}
+        priority
+      />
+    </div>
+  );
+}

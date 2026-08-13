@@ -13,13 +13,23 @@ describe("terminal command registry", () => {
       "about",
       "experience",
       "education",
+      "skills",
       "projects",
+      "snake",
       "help",
       "nav",
       "theme",
       "theme catppuccin",
+      "theme catppuccin-light",
       "theme tokyo-night",
       "theme gruvbox",
+      "theme nord",
+      "theme ayu",
+      "contact",
+      "cat",
+      "cowsay",
+      "philosophy",
+      "ls",
       "clear",
     ]);
   });
@@ -30,6 +40,14 @@ describe("terminal command registry", () => {
     );
     expect(commandHelp).toEqual(
       terminalCommands.flatMap((command) => command.help),
+    );
+  });
+
+  it("keeps command-only routes out of button navigation", async () => {
+    const { navigationButtonCommands } = await import("@/lib/commands");
+
+    expect(navigationButtonCommands.map((command) => command.name)).not.toContain(
+      "snake",
     );
   });
 });
