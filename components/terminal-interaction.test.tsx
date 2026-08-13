@@ -211,7 +211,7 @@ describe("terminal interaction", () => {
     expect(screen.getByText(/< Moo! >/)).toBeInTheDocument();
   });
 
-  it("floats a random cat photo outside the terminal output for four seconds", () => {
+  it("floats a random cat photo and restarts it for repeated commands", () => {
     vi.useFakeTimers();
     vi.spyOn(Math, "random").mockReturnValue(0);
     render(<Harness />);
@@ -230,7 +230,21 @@ describe("terminal interaction", () => {
     ).not.toContainElement(avatar);
     expect(screen.queryByText("cat", { selector: "span" })).not.toBeInTheDocument();
 
-    act(() => vi.advanceTimersByTime(4000));
+    const firstOverlay = avatar.parentElement;
+    act(() => vi.advanceTimersByTime(3000));
+
+    fireEvent.change(input, { target: { value: "cat" } });
+    fireEvent.keyDown(input, { key: "Enter" });
+
+    const repeatedAvatar = screen.getByRole("img", { name: "Cat photo" });
+    expect(repeatedAvatar.parentElement).not.toBe(firstOverlay);
+
+    act(() => vi.advanceTimersByTime(1000));
+    expect(
+      screen.getByRole("img", { name: "Cat photo" }),
+    ).toBeInTheDocument();
+
+    act(() => vi.advanceTimersByTime(3000));
     expect(
       screen.queryByRole("img", { name: "Cat photo" }),
     ).not.toBeInTheDocument();

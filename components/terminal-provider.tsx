@@ -39,11 +39,15 @@ export type TerminalOutput = {
   cow?: string;
 };
 
+type DisplayedCatImage = CatImage & {
+  displayId: number;
+};
+
 type TerminalContextValue = {
   execute: (input: string) => void;
   clear: () => void;
   history: readonly string[];
-  catImage: CatImage | null;
+  catImage: DisplayedCatImage | null;
   navigationVisible: boolean;
   output: readonly TerminalOutput[];
 };
@@ -73,11 +77,12 @@ export function TerminalProvider({
   const pathname = usePathname();
   const { setTheme } = useTheme();
   const [history, setHistory] = useState<string[]>([]);
-  const [catImage, setCatImage] = useState<CatImage | null>(null);
+  const [catImage, setCatImage] = useState<DisplayedCatImage | null>(null);
   const [navigationVisible, setNavigationVisible] = useState(false);
   const [output, setOutput] = useState<TerminalOutput[]>([]);
   const navigationVisibleRef = useRef(false);
   const catTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const catDisplayIdRef = useRef(0);
   const outputId = useRef(0);
 
   useEffect(
@@ -184,7 +189,8 @@ export function TerminalProvider({
       }
 
       if (catTimeoutRef.current) clearTimeout(catTimeoutRef.current);
-      setCatImage(image);
+      catDisplayIdRef.current += 1;
+      setCatImage({ ...image, displayId: catDisplayIdRef.current });
       catTimeoutRef.current = setTimeout(() => {
         setCatImage(null);
         catTimeoutRef.current = null;

@@ -11,7 +11,11 @@ export function CatOverlay() {
   if (!catImage) return null;
 
   return (
-    <div className={styles.overlay} aria-live="polite">
+    <div
+      key={catImage.displayId}
+      className={styles.overlay}
+      aria-live="polite"
+    >
       <Image
         src={catImage.src}
         alt={catImage.alt}
