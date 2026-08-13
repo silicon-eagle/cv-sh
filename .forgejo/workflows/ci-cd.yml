@@ -1,0 +1,179 @@
+name: CI/CD
+
+on:
+  pull_request:
+    branches:
+      - main
+
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+env:
+  REGISTRY: forgejo.arda:3000
+  IMAGE_NAME: tkelch/cv-sh
+
+jobs:
+  validate:
+    name: Validate
+    runs-on: node-22
+
+    steps:
+      - name: Check out repository
+        uses: https://data.forgejo.org/actions/checkout@v6
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Type check
+        run: pnpm exec tsc --noEmit
+
+      - name: Run tests
+        run: pnpm test:run
+
+      - name: Build application
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"
+        run: pnpm build
+
+  build-images:
+    name: Build and publish image
+    runs-on: node-22
+    needs:
+      - validate
+
+    if: forgejo.event_name == 'push' && forgejo.ref == 'refs/heads/main'
+
+    steps:
+      - name: Check out repository
+        uses: https://data.forgejo.org/actions/checkout@v6
+
+      - name: Install Docker CLI
+        run: |
+          apt-get update
+          apt-get install --yes docker.io
+
+      - name: Verify Docker
+        run: docker info
+
+      - name: Log in to Forgejo registry
+        env:
+          REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
+          REGISTRY_TOKEN: ${{ secrets.REGISTRY_TOKEN }}
+        run: |
+          echo "${REGISTRY_TOKEN}" |
+            docker login "${REGISTRY}" \
+              --username "${REGISTRY_USERNAME}" \
+              --password-stdin
+
+      - name: Build application image
+        run: |
+          docker build \
+            --target runner \
+            --tag "${REGISTRY}/${IMAGE_NAME}:${{ forgejo.sha }}" \
+            --tag "${REGISTRY}/${IMAGE_NAME}:latest" \
+            .
+
+      - name: Push application images
+        run: |
+          docker push "${REGISTRY}/${IMAGE_NAME}:${{ forgejo.sha }}"
+          docker push "${REGISTRY}/${IMAGE_NAME}:latest"
+
+  deploy:
+    name: Deploy
+    runs-on: node-22
+    needs:
+      - build-images
+
+    if: forgejo.event_name == 'push' && forgejo.ref == 'refs/heads/main'
+
+    steps:
+      - name: Install SSH client
+        run: |
+          apt-get update
+          apt-get install --yes openssh-client
+
+      - name: Configure SSH
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+        run: |
+          install -m 700 -d ~/.ssh
+
+          printf '%s\n' "${DEPLOY_SSH_KEY}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+
+          ssh-keyscan -H "${DEPLOY_HOST}" >> ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Pull deployment image
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          ssh \
+            -i ~/.ssh/deploy_key \
+            "${DEPLOY_USER}@${DEPLOY_HOST}" \
+            "cd '${DEPLOY_PATH}' \
+              && docker compose pull app"
+
+      - name: Deploy application
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          ssh \
+            -i ~/.ssh/deploy_key \
+            "${DEPLOY_USER}@${DEPLOY_HOST}" \
+            "cd '${DEPLOY_PATH}' \
+              && docker compose up -d --no-deps --force-recreate app"
+
+      - name: Verify deployment
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          ssh \
+            -i ~/.ssh/deploy_key \
+            "${DEPLOY_USER}@${DEPLOY_HOST}" \
+            "cd '${DEPLOY_PATH}' \
+              && timeout 90 sh -c \
+                'until [ \"\$(docker inspect \
+                  --format=\"{{if .State.Health}}{{.State.Health.Status}}{{else}}none{{end}}\" \
+                  cv-sh 2>/dev/null)\" = \"healthy\" ]; do
+                    sleep 3
+                done'"
+
+      - name: Show deployed containers
+        if: always()
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          ssh \
+            -i ~/.ssh/deploy_key \
+            "${DEPLOY_USER}@${DEPLOY_HOST}" \
+            "cd '${DEPLOY_PATH}' && docker compose ps --all"
+
+      - name: Remove unused images
+        if: success()
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+        run: |
+          ssh \
+            -i ~/.ssh/deploy_key \
+            "${DEPLOY_USER}@${DEPLOY_HOST}" \
+            "docker image prune --force"
