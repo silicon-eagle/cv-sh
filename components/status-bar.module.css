@@ -35,9 +35,15 @@
 }
 
 .location,
-.role {
+.role,
+.version {
   color: var(--text);
   background: color-mix(in srgb, var(--panel) 88%, var(--accent));
+}
+
+.version {
+  flex: 0 0 auto;
+  color: var(--accent);
 }
 
 .role {
@@ -63,7 +69,8 @@
 }
 
 @media (max-width: 520px) {
-  .location {
+  .location,
+  .version {
     display: none !important;
   }
 

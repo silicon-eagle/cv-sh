@@ -12,6 +12,7 @@ import SnakePage from "@/app/snake/page";
 import { TerminalProvider } from "@/components/terminal-provider";
 import { TerminalShell } from "@/components/terminal-shell";
 import { ThemeProvider } from "@/components/theme-provider";
+import packageJson from "@/package.json";
 
 let pathname = "/";
 
@@ -297,6 +298,7 @@ describe("portfolio routes", () => {
     expect(screen.getByLabelText("Terminal status")).toBeInTheDocument();
     expect(screen.getByText("HOME")).toBeInTheDocument();
     expect(screen.getByText("Tilburg, NL")).toBeInTheDocument();
+    expect(screen.getByText(`v${packageJson.version}`)).toBeInTheDocument();
     expect(screen.getByText("ONLINE")).toBeInTheDocument();
     expect(screen.getByLabelText("Tim Kelch portfolio terminal")).toHaveAttribute(
       "data-responsive-terminal",
