@@ -4,16 +4,12 @@
   bottom: 3.5rem;
   z-index: 10;
   width: clamp(8rem, 28vw, 16rem);
-  max-height: min(50vh, 22rem);
+  aspect-ratio: 1;
   pointer-events: none;
   animation: catHover 4s ease-in-out forwards;
 }
 
 .overlay img {
-  width: 100%;
-  max-height: min(50vh, 22rem);
-  height: auto;
-  display: block;
   object-fit: contain;
   object-position: right bottom;
 }

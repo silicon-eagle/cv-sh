@@ -11,12 +11,16 @@ export function CatOverlay() {
   if (!catImage) return null;
 
   return (
-    <div className={styles.overlay} aria-live="polite">
+    <div
+      key={catImage.displayId}
+      className={styles.overlay}
+      aria-live="polite"
+    >
       <Image
         src={catImage.src}
         alt={catImage.alt}
-        width={catImage.width}
-        height={catImage.height}
+        fill
+        sizes="(min-width: 640px) 16rem, 28vw"
         priority
       />
     </div>

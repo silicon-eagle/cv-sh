@@ -9,7 +9,7 @@ const pageLabels: Record<string, string> = {
   "/": "HOME",
   "/about": "ABOUT",
   "/education": "EDUCATION",
-  "/experience": "WORK",
+  "/experience": "EXPERIENCE",
   "/help": "HELP",
   "/projects": "PROJECTS",
   "/skills": "SKILLS",
