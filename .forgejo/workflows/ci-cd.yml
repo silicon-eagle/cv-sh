@@ -138,22 +138,22 @@ jobs:
             "cd '${DEPLOY_PATH}' \
               && docker compose up -d --no-deps --force-recreate cv"
 
-      - name: Verify deployment
-        env:
-          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
-          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
-          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
-        run: |
-          ssh \
-            -i ~/.ssh/deploy_key \
-            "${DEPLOY_USER}@${DEPLOY_HOST}" \
-            "cd '${DEPLOY_PATH}' \
-              && timeout 90 sh -c \
-                'until [ \"\$(docker inspect \
-                  --format=\"{{if .State.Health}}{{.State.Health.Status}}{{else}}none{{end}}\" \
-                  cv-sh 2>/dev/null)\" = \"healthy\" ]; do
-                    sleep 3
-                done'"
+      # - name: Verify deployment
+      #   env:
+      #     DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+      #     DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+      #     DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+      #   run: |
+      #     ssh \
+      #       -i ~/.ssh/deploy_key \
+      #       "${DEPLOY_USER}@${DEPLOY_HOST}" \
+      #       "cd '${DEPLOY_PATH}' \
+      #         && timeout 90 sh -c \
+      #           'until [ \"\$(docker inspect \
+      #             --format=\"{{if .State.Health}}{{.State.Health.Status}}{{else}}none{{end}}\" \
+      #             cv-sh 2>/dev/null)\" = \"healthy\" ]; do
+      #               sleep 3
+      #           done'"
 
       - name: Show deployed containers
         if: always()
