@@ -81,7 +81,7 @@ export default function AboutPage() {
 
             <h2>About Me</h2>
             <p>
-              My name is Tim Kelch, I'm currently living in the beautiful city of
+              My name is Tim Kelch, I&apos;m currently living in the beautiful city of
               Tilburg (Noord Brabant) with my girlfriend and two cats.
               I&apos;m a developer, data scientist, engineer, and philosopher with
               a background in mathematics, operations research, and philosophy. I
