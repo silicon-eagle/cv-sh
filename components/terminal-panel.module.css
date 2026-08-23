@@ -1,4 +1,5 @@
 .panel {
+  position: relative;
   height: 14rem;
   display: flex;
   flex-direction: column;
@@ -8,6 +9,13 @@
   background: var(--background);
   border-block: 1px solid var(--border);
   font-size: 0.875rem;
+}
+
+.terminalContent {
+  min-height: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .output {
@@ -20,7 +28,7 @@
   scrollbar-width: thin;
 }
 
-.panel > :last-child {
+.terminalContent > :last-child {
   flex-shrink: 0;
 }
 
@@ -103,6 +111,7 @@
     padding-inline: 2rem;
     font-size: 1rem;
   }
+
 }
 
 @media (min-width: 1024px) {

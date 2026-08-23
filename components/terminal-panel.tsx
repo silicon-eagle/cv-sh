@@ -31,41 +31,43 @@ export function TerminalPanel() {
         inputRef.current?.focus({ preventScroll: true });
       }}
     >
-      <div ref={outputRef} className={styles.output} aria-live="polite">
-        {output.map((entry) => (
-          <div key={entry.id} className={styles.outputEntry}>
-            <div className={styles.executedLine}>
-              <Prompt path="~" />
-              <span className={styles.executedCommand}>{entry.command}</span>
+      <div className={styles.terminalContent}>
+        <div ref={outputRef} className={styles.output} aria-live="polite">
+          {output.map((entry) => (
+            <div key={entry.id} className={styles.outputEntry}>
+              <div className={styles.executedLine}>
+                <Prompt path="~" />
+                <span className={styles.executedCommand}>{entry.command}</span>
+              </div>
+              {entry.message ? (
+                <p className={styles.message}>{entry.message}</p>
+              ) : null}
+              {entry.kind === "contact" && entry.email ? (
+                <p className={styles.contact}>
+                  My inbox is open - feel free to email me at{" "}
+                  <a href={`mailto:${entry.email}`}>{entry.email}</a>.
+                </p>
+              ) : null}
+              {entry.kind === "themes" ? <ThemePicker /> : null}
+              {entry.kind === "quote" && entry.quote ? (
+                <blockquote className={styles.quote}>
+                  <p>{entry.quote.text}</p>
+                  <footer>
+                    -- {entry.quote.author}
+                    {entry.quote.work ? `, ${entry.quote.work}` : ""}
+                    {entry.quote.year ? ` (${entry.quote.year})` : ""}
+                  </footer>
+                </blockquote>
+              ) : null}
+              {entry.kind === "cow" && entry.cow ? (
+                <pre className={styles.cow}>{entry.cow}</pre>
+              ) : null}
             </div>
-            {entry.message ? (
-              <p className={styles.message}>{entry.message}</p>
-            ) : null}
-            {entry.kind === "contact" && entry.email ? (
-              <p className={styles.contact}>
-                My inbox is open - feel free to email me at{" "}
-                <a href={`mailto:${entry.email}`}>{entry.email}</a>.
-              </p>
-            ) : null}
-            {entry.kind === "themes" ? <ThemePicker /> : null}
-            {entry.kind === "quote" && entry.quote ? (
-              <blockquote className={styles.quote}>
-                <p>{entry.quote.text}</p>
-                <footer>
-                  -- {entry.quote.author}
-                  {entry.quote.work ? `, ${entry.quote.work}` : ""}
-                  {entry.quote.year ? ` (${entry.quote.year})` : ""}
-                </footer>
-              </blockquote>
-            ) : null}
-            {entry.kind === "cow" && entry.cow ? (
-              <pre className={styles.cow}>{entry.cow}</pre>
-            ) : null}
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
 
-      <TerminalLine inputRef={inputRef} />
+        <TerminalLine inputRef={inputRef} />
+      </div>
     </section>
   );
 }

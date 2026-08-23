@@ -117,7 +117,9 @@ describe("portfolio routes", () => {
     ).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "About Me" })).toBeInTheDocument();
     expect(screen.getByText("Tilburg, NL")).toBeInTheDocument();
-    expect(screen.getByText("Backend, DevOps, Systems")).toBeInTheDocument();
+    expect(
+      screen.getByText("Data Engineering, ML, AI, Backend, DevOps"),
+    ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /home/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /help/i })).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /about/i })).not.toBeInTheDocument();

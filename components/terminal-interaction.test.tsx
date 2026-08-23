@@ -4,8 +4,8 @@ import type { StaticImageData } from "next/image";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { CommandButton } from "@/components/command-button";
+import { HideableTerminal } from "@/components/hideable-terminal";
 import { TerminalProvider } from "@/components/terminal-provider";
-import { TerminalPanel } from "@/components/terminal-panel";
 import { TerminalShell } from "@/components/terminal-shell";
 import { ThemeProvider } from "@/components/theme-provider";
 
@@ -28,7 +28,7 @@ function Harness() {
       <TerminalProvider catImages={[{ src: catPhoto, alt: "Cat photo" }]}>
         <TerminalShell>
           <CommandButton command="about" label="About" description="Read more" />
-          <TerminalPanel />
+          <HideableTerminal />
         </TerminalShell>
       </TerminalProvider>
     </ThemeProvider>
@@ -49,11 +49,39 @@ describe("terminal interaction", () => {
 
   it("renders the current prompt and blinking cursor", () => {
     render(<Harness />);
+    expect(screen.getByRole("link", { name: "timkelch.dev" })).toHaveAttribute(
+      "href",
+      "/",
+    );
     expect(screen.getByTestId("terminal-prompt")).toHaveTextContent("tim@kelch:~$");
     expect(screen.getByLabelText("Terminal command")).toHaveFocus();
     const cursor = screen.getByTestId("terminal-cursor");
     expect(cursor).toHaveClass("terminal-cursor");
     expect(screen.getByTestId("terminal-cursor-text")).toHaveTextContent("");
+  });
+
+  it("removes the entire terminal panel when hidden", async () => {
+    const user = userEvent.setup();
+    render(<Harness />);
+
+    await user.click(screen.getByRole("button", { name: "Hide terminal" }));
+
+    expect(
+      screen.queryByRole("region", { name: "Interactive terminal" }),
+    ).not.toBeInTheDocument();
+    expect(screen.queryByLabelText("Terminal command")).not.toBeInTheDocument();
+    const showButton = screen.getByRole("button", { name: "Show terminal" });
+    expect(showButton).toHaveAttribute("data-visible", "false");
+
+    await user.click(showButton);
+
+    expect(
+      screen.getByRole("region", { name: "Interactive terminal" }),
+    ).toBeInTheDocument();
+    expect(screen.getByLabelText("Terminal command")).toBeInTheDocument();
+    const hideButton = screen.getByRole("button", { name: "Hide terminal" });
+    expect(hideButton).toHaveAttribute("data-visible", "true");
+    expect(hideButton.querySelector("svg")).toBeInTheDocument();
   });
 
   it("moves the block cursor after the typed command", async () => {
