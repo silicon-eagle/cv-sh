@@ -1,26 +1,37 @@
 import Image from "next/image";
 import { Briefcase } from "pixelarticons/react/Briefcase";
 import { Cake } from "pixelarticons/react/Cake";
+import { Contact } from "pixelarticons/react/Contact";
+import { GitBranch } from "pixelarticons/react/GitBranch";
+import { Globe } from "pixelarticons/react/Globe";
+import { Mail } from "pixelarticons/react/Mail";
 import { MapPin } from "pixelarticons/react/MapPin";
 import { Target } from "pixelarticons/react/Target";
 import { ToolCase } from "pixelarticons/react/ToolCase";
 import { User } from "pixelarticons/react/User";
 
-import { getAge } from "@/lib/utils";
+import { getAge, getDaysSince, formatDays } from "@/lib/utils";
 import { PageLayout } from "@/components/page-layout";
-import { PhilosopherQuote } from "@/components/philosopher-quote";
-import { fallbackQuote } from "@/lib/philosopher-quotes";
 import styles from "./about.module.css";
 
 const age: number = getAge()
+const start_experience = new Date(2021, 1, 1);
+const experience: number = getDaysSince(start_experience)
 
 const details = [
   { label: "Name", value: "Tim Kelch", icon: User },
   { label: "Age", value: age, icon: Cake },
   { label: "Location", value: "Tilburg, NL", icon: MapPin },
-  { label: "Experience", value: "8+ years", icon: Briefcase },
-  { label: "Focus", value: "Backend, DevOps, Systems", icon: Target },
-  { label: "Currently", value: "Building, learning, automating", icon: ToolCase },
+  { label: "Experience", value: formatDays(experience), icon: Briefcase },
+  { label: "Focus", value: "Data Engineering, ML, AI, Backend, DevOps", icon: Target },
+  { label: "Currently", value: "Building, learning, innovating, automating", icon: ToolCase },
+] as const;
+
+const links = [
+  { label: "GitHub", href: "https://github.com/silicon-eagle", icon: GitBranch },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/tim-kelch/", icon: Contact },
+  { label: "Email", href: "mailto:tim.kelch@proton.me", icon: Mail },
+  { label: "Website", href: "https://timkelch.dev", icon: Globe },
 ] as const;
 
 export default function AboutPage() {
@@ -52,12 +63,28 @@ export default function AboutPage() {
               />
             </div>
 
+            <ul className={styles.links} aria-label="Links">
+              {links.map(({ label, href, icon: Icon }) => (
+                <li key={label}>
+                  <a
+                    href={href}
+                    className={styles.link}
+                    target={href.startsWith("http") ? "_blank" : undefined}
+                    rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+                  >
+                    <Icon aria-hidden="true" />
+                    <span>{label}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+
             <h2>About Me</h2>
             <p>
               I&apos;m a developer, data scientist, engineer, and philosopher with
               a background in mathematics, operations research, and philosophy. I
               studied both Mathematics and Philosophy at Radboud University before
-              specialising further in Business Analytics &amp; Operations Research.
+              specialising further in Econometrics (Business Analytics &amp; Operations Research).
               Philosophy has stuck with me as much more than something I once
               studied: it remains one of my main interests and strongly influences
               the way I like to think about problems, technology, and the
@@ -74,7 +101,7 @@ export default function AboutPage() {
               computing, and sensor systems.
             </p>
             <p>
-              These days I increasingly gravitate towards software engineering,
+              These days I increasingly gravitate towards data/ software engineering,
               architecture, and DevOps. I like understanding systems end-to-end
               rather than treating code as an isolated piece of the puzzle, and
               I&apos;m happiest when I can combine technical depth with
@@ -86,8 +113,7 @@ export default function AboutPage() {
               obsession. I run and host my own services, experiment with
               networking, containers, CI/CD, and infrastructure, and generally
               enjoy figuring out how all the pieces fit together. It&apos;s partly a
-              hobby, partly a playground, and usually an excuse to build something
-              I probably could have just paid someone else to host.
+              hobby, partly a playground, and usually an excuse to build something.
             </p>
             <p>
               When I&apos;m not behind a keyboard, I like making and listening to
