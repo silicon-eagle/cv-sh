@@ -81,6 +81,8 @@ export default function AboutPage() {
 
             <h2>About Me</h2>
             <p>
+              My name is Tim Kelch, I'm currently living in the beautiful city of
+              Tilburg (Noord Brabant) with my girlfriend and two cats.
               I&apos;m a developer, data scientist, engineer, and philosopher with
               a background in mathematics, operations research, and philosophy. I
               studied both Mathematics and Philosophy at Radboud University before
@@ -120,8 +122,9 @@ export default function AboutPage() {
               music - mostly guitar and drums - and doing things with my hands.
               Sewing, painting, drawing, cooking, or just making something from
               scratch are a nice counterbalance to spending so much time in the
-              digital world. And when I&apos;m not making something, there&apos;s a
-              good chance I&apos;m reading or thinking about philosophy.
+              digital world. I also love hiking, biking, bouldering and running for 
+              getting some exercise. And when I&apos;m not making something, 
+              there&apos;s a good chance I&apos;m reading or thinking about philosophy.
             </p>
           </div>
         </div>
