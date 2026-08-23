@@ -12,7 +12,9 @@
   border-top: 1px solid var(--border);
 }
 
-.bar > span {
+.bar > a,
+.bar > span,
+.bar > button {
   min-width: 0;
   display: flex;
   align-items: center;
@@ -20,13 +22,27 @@
   white-space: nowrap;
 }
 
-.bar > span + span {
+.bar > * + * {
   border-left: 1px solid color-mix(in srgb, var(--background) 35%, transparent);
 }
 
 .site,
 .page {
   flex: 0 0 auto;
+}
+
+.site {
+  color: inherit;
+  text-decoration: none;
+}
+
+.site:hover {
+  filter: brightness(1.12);
+}
+
+.site:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: -3px;
 }
 
 .page {
@@ -56,6 +72,35 @@
   gap: 0.5rem;
 }
 
+.terminalToggle {
+  flex: 0 0 auto;
+  justify-content: center;
+  gap: 0.375rem;
+  color: var(--background);
+  font-weight: 700;
+  background: var(--contact-accent);
+  border: 0;
+}
+
+.terminalToggle svg {
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 auto;
+}
+
+.terminalToggle[data-visible="true"] {
+  background: var(--snake-accent);
+}
+
+.terminalToggle:hover {
+  filter: brightness(1.12);
+}
+
+.terminalToggle:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: -3px;
+}
+
 .dot {
   width: 0.625rem;
   height: 0.625rem;
@@ -74,7 +119,9 @@
     display: none !important;
   }
 
-  .bar > span {
+  .bar > a,
+  .bar > span,
+  .bar > button {
     padding-inline: 0.625rem;
   }
 }

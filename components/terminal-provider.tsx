@@ -49,6 +49,8 @@ type TerminalContextValue = {
   history: readonly string[];
   catImage: DisplayedCatImage | null;
   navigationVisible: boolean;
+  terminalVisible: boolean;
+  toggleTerminal: () => void;
   output: readonly TerminalOutput[];
 };
 
@@ -79,6 +81,7 @@ export function TerminalProvider({
   const [history, setHistory] = useState<string[]>([]);
   const [catImage, setCatImage] = useState<DisplayedCatImage | null>(null);
   const [navigationVisible, setNavigationVisible] = useState(false);
+  const [terminalVisible, setTerminalVisible] = useState(true);
   const [output, setOutput] = useState<TerminalOutput[]>([]);
   const navigationVisibleRef = useRef(false);
   const catTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -98,6 +101,10 @@ export function TerminalProvider({
   }, []);
 
   const clear = useCallback(() => setOutput([]), []);
+  const toggleTerminal = useCallback(
+    () => setTerminalVisible((visible) => !visible),
+    [],
+  );
 
   const execute = useCallback((input: string) => {
     const command = parseCommand(input);
@@ -224,8 +231,26 @@ export function TerminalProvider({
   }, [appendOutput, catImages, clear, pathname, router, setTheme]);
 
   const value = useMemo(
-    () => ({ execute, clear, history, catImage, navigationVisible, output }),
-    [catImage, clear, execute, history, navigationVisible, output],
+    () => ({
+      execute,
+      clear,
+      history,
+      catImage,
+      navigationVisible,
+      terminalVisible,
+      toggleTerminal,
+      output,
+    }),
+    [
+      catImage,
+      clear,
+      execute,
+      history,
+      navigationVisible,
+      output,
+      terminalVisible,
+      toggleTerminal,
+    ],
   );
 
   return <TerminalContext.Provider value={value}>{children}</TerminalContext.Provider>;

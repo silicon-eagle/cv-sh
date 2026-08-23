@@ -15,14 +15,14 @@ import { PageLayout } from "@/components/page-layout";
 import styles from "./about.module.css";
 
 const age: number = getAge()
-const start_experience = new Date(2021, 1, 1);
+const start_experience = new Date(2020, 11, 1);
 const experience: number = getDaysSince(start_experience)
 
 const details = [
   { label: "Name", value: "Tim Kelch", icon: User },
   { label: "Age", value: age, icon: Cake },
   { label: "Location", value: "Tilburg, NL", icon: MapPin },
-  { label: "Experience", value: formatDays(experience), icon: Briefcase },
+  { label: "Working Experience", value: formatDays(experience), icon: Briefcase },
   { label: "Focus", value: "Data Engineering, ML, AI, Backend, DevOps", icon: Target },
   { label: "Currently", value: "Building, learning, innovating, automating", icon: ToolCase },
 ] as const;

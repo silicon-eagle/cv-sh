@@ -1,8 +1,8 @@
 import type { ReactNode } from "react";
 
+import { HideableTerminal } from "@/components/hideable-terminal";
 import { PageCommandButtons } from "@/components/page-command-buttons";
 import { PageHeading } from "@/components/page-heading";
-import { TerminalPanel } from "@/components/terminal-panel";
 import styles from "./page-layout.module.css";
 
 type PageLayoutProps = {
@@ -27,9 +27,7 @@ export function PageLayout({
       <div className={styles.page}>
         <div className={styles.content}>{children}</div>
       </div>
-      <div className={styles.terminal}>
-        <TerminalPanel />
-      </div>
+      <HideableTerminal className={styles.terminal} />
     </div>
   );
 }
