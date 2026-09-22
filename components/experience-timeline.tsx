@@ -22,7 +22,7 @@ const experiences: readonly Experience[] = [
         ],
       },
     ],
-    technologies: ["Agentic AI", "Data Science", "Edge Computing", "AR/XR", "Drones"],
+    technologies: ["AI", "CI/CD", "K8s", "Terraform", "Data Engineering", "Data Science", "Edge Computing", "AR/XR", "Drones"],
   },
   {
     period: "Oct 2022 - May 2025",
@@ -48,7 +48,7 @@ const experiences: readonly Experience[] = [
   },
   {
     period: "Nov 2020 - Sep 2022",
-    role: "Data Scientist Integrated Capacity Management",
+    role: "Data Scientist Integral Capacity Management",
     company: "Erasmus MC",
     location: "Rotterdam",
     highlights: [
